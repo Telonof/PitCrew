@@ -28,7 +28,16 @@ namespace PitCrewCompiler
 
         private void GetConfig()
         {
+            //Set default config options
+            if (!File.Exists("config.txt"))
+            {
+                config["unpacker"] = "tools\\Gibbed.Dunia2.Unpack.exe";
+                config["packer"] = "tools\\Gibbed.Dunia2.Pack.exe";
+                return;
+            }
+
             string[] lines = File.ReadAllLines("config.txt");
+
             foreach (string line in lines)
             {
                 if (string.IsNullOrWhiteSpace(line))
