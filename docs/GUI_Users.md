@@ -7,10 +7,9 @@ If you don't plan on making your own mods and just want to use other mods, this 
 PitCrew relies on custom manifests to know what mods to apply to the game and what priority each file in the mod uses. 
 
 If this is your first time, boot up PitCrew.exe and head to `Manifest -> Create` and select the exe of your game. 
-(This is knowing your game has a data_win32 folder in where the manifest will be stored.)
+(This is knowing your game has a data_win32 folder where the manifest will be stored.)
 
 To then open the manifest on next boot, head to `Manifest -> Open` and select the .txt created inside data_win32 (should be named pitcrewmanifest.txt)
-
 
 ## Importing Mods
 The GUI will then prompt you to double click on the box or click `Mod -> Import` on the menu bar to get prompted for a .mdata file.
@@ -24,9 +23,12 @@ A typical mod should like this in a directory:
 Each mod should contain an .mdata as well as one or multiple .dat/.fat pairs. Select the .mdata to import it into the GUI.
 
 ## Editing Mods
-The mod provided should have everything configured and ready to go for you. If you want to disable/enable certain mods on next boot of your game, click the checkbox to the right of each mod.
+The mod provided should have everything configured and ready to go for you. If you want to disable/enable certain mods on the next boot of your game, click the checkbox to the right of each mod.
 
 If you want to delete a mod, right click on the mod then choose `Delete Mod`.
+
+## Applying mods
+Once all your mods are setup, click the `Compile` button to apply all files in the mods to your game.
 
 ## Conflicts
 
