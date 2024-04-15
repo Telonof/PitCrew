@@ -11,8 +11,8 @@ PitCrew is designed to handle all custom mods that will be applied to the game b
 >PitCrewCompiler is a standalone CLI application that PitCrew relies on to compile. This reads a basic manifest file generated either manually or by the GUI and applies the data to the file it needs to.
 
 # Usage
-For GUI Users: Check GUI_Users(docs/GUI_Users.md)
+For GUI Users: Check [GUI_Users](docs/GUI_Users.md)
 
-For GUI Mod Creators: Check GUI_Modders(docs/GUI_Modders.md)
+For GUI Mod Creators: Check [GUI_Modders](docs/GUI_Modders.md)
 
-For CLI Usage: Check here(docs/CLI_Usage.md)
+For CLI Usage: Check [here](docs/CLI_Usage.md)
