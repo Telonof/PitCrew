@@ -130,6 +130,8 @@ namespace PitCrew.GUI.MainWindow.Components
             form.dataGridView.Visible = false;
             form.modifiedFiles.Remove(modName);
 
+            Utils.SaveFile();
+
             MessageBox.Show("Mod successfully deleted.");
         }
 
