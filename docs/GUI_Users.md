@@ -14,11 +14,11 @@ To then open the manifest on next boot, head to `Manifest -> Open` and select th
 ## Importing Mods
 The GUI will then prompt you to double click on the box or click `Mod -> Import` on the menu bar to get prompted for a .mdata file.
 
-A typical mod should like this in a directory:
+A typical mod should look like this in a directory:
 
 - ModId.mdata
 - modfile1.dat
-- modfile.fat
+- modfile1.fat
 
 Each mod should contain an .mdata as well as one or multiple .dat/.fat pairs. Select the .mdata to import it into the GUI.
 
