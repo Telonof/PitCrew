@@ -50,9 +50,6 @@ namespace PitCrew.GUI.MainWindow.Components.MenuBar
             form.save.Visible = true;
             form.compile.Visible = true;
             form.modMenuItem.Visible = true;
-            Buttons buttons = new Buttons();
-            form.compile.Click += buttons.CompileButton_Click;
-            form.save.Click += buttons.SaveButton_Click;
 
             string[] lines = File.ReadAllLines(openFileDialog.FileName);
 

@@ -1,6 +1,7 @@
 using PitCrew.GUI.MainWindow;
 using PitCrew.GUI.MainWindow.Components;
 using PitCrew.GUI.MainWindow.Components.MenuBar;
+using System.Windows.Forms;
 
 namespace PitCrew
 {
@@ -49,6 +50,11 @@ namespace PitCrew
 
             //Initialize Right click box
             rightClickComboBox = new RightClickComboBox(this);
+
+            //Initalize Buttons
+            Buttons buttons = new Buttons();
+            compile.Click += buttons.CompileButton_Click;
+            save.Click += buttons.SaveButton_Click;
         }
 
         private void DetectKeyPresses(object sender, KeyEventArgs e)
