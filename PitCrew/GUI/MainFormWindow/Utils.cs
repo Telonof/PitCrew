@@ -37,6 +37,7 @@
             MainForm form = GetForm();
 
             string manifestLoc = form.manifestLoc;
+            string mainFolder = Path.GetDirectoryName(manifestLoc);
 
             if (string.IsNullOrWhiteSpace(manifestLoc))
                 return;
@@ -56,7 +57,7 @@
             foreach (string line in lines.Skip(3))
             {
                 string[] separator = line.Split(' ');
-                newFilePath = Path.Combine(Path.GetDirectoryName(manifestLoc), "mods", separator[1] + ".fat");
+                newFilePath = Path.Combine(mainFolder, "mods", separator[1] + ".fat");
 
                 //Skip checking for .dat assuming both .fat and .dat would be in the same folder.
                 if (File.Exists(newFilePath))
@@ -65,8 +66,12 @@
                         "Duplicate Mod File", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+
+                if (!Directory.Exists(Path.Combine(mainFolder, "mods")))
+                    Directory.CreateDirectory(Path.Combine(mainFolder, "mods"));
+
                 File.Move(Path.Combine(Path.GetDirectoryName(openFileDialog.FileName), separator[1] + ".fat"), newFilePath);
-                File.Move(Path.Combine(Path.GetDirectoryName(openFileDialog.FileName), separator[1] + ".dat"), newFilePath);
+                File.Move(Path.Combine(Path.GetDirectoryName(openFileDialog.FileName), separator[1] + ".dat"), newFilePath.Replace(".fat", ".dat"));
 
                 FileEntry entry = new FileEntry
                 {
@@ -75,8 +80,11 @@
                 };
                 form.modList[fileName].Add(entry);
             }
-            
-            newFilePath = Path.Combine(Path.GetDirectoryName(manifestLoc), "pitcrewmetadata", Path.GetFileName(openFileDialog.FileName));
+
+            if (!Directory.Exists(Path.Combine(mainFolder, "pitcrewmetadata")))
+                Directory.CreateDirectory(Path.Combine(mainFolder, "pitcrewmetadata"));
+
+            newFilePath = Path.Combine(mainFolder, "pitcrewmetadata", Path.GetFileName(openFileDialog.FileName));
             File.Move(openFileDialog.FileName, newFilePath, true);
 
             form.listBox.Items.Add(fileName);
