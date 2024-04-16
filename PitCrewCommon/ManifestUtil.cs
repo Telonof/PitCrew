@@ -2,10 +2,12 @@
 {
     public class ManifestUtil
     {
-        static Dictionary<string, string> scannedFiles = new Dictionary<string, string>();
+        static Dictionary<string, string> scannedFiles;
 
         public static string? ValidateManifestFile(string fileName)
         {
+            //Ensure scannedFiles is reset each time.
+            scannedFiles = new Dictionary<string, string>();
             string folderPath = Path.GetDirectoryName(fileName);
 
             if (!folderPath.EndsWith("data_win32"))
