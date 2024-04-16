@@ -33,7 +33,10 @@ namespace PitCrew
 
         private bool GetNewModInfo(MainForm form, string[] modInfo)
         {
-            String modMetadataPath = Path.Combine(Path.GetDirectoryName(form.manifestLoc), "pitcrewmetadata", modInfo[0] + ".mdata");
+            string path = Path.Combine(Path.GetDirectoryName(form.manifestLoc), "pitcrewmetadata");
+            Utils.checkAndCreateFolder(path);
+
+            String modMetadataPath = Path.Combine(path, modInfo[0] + ".mdata");
 
             if (File.Exists(modMetadataPath))
                 return false;

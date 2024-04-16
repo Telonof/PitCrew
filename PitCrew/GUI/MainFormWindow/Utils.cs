@@ -56,11 +56,8 @@
 
 
             //Generate needed directories
-            if (!Directory.Exists(Path.Combine(mainFolder, "mods")))
-                Directory.CreateDirectory(Path.Combine(mainFolder, "mods"));
-
-            if (!Directory.Exists(Path.Combine(mainFolder, "pitcrewmetadata")))
-                Directory.CreateDirectory(Path.Combine(mainFolder, "pitcrewmetadata"));
+            checkAndCreateFolder(Path.Combine(mainFolder, "mods"));
+            checkAndCreateFolder(Path.Combine(mainFolder, "pitcrewmetadata"));
 
             foreach (string line in lines.Skip(3))
             {
@@ -126,6 +123,14 @@
 
                     stream.Seek(dataBlockSize, SeekOrigin.Current);
                 }
+            }
+        }
+
+        public static void checkAndCreateFolder(string folderPath)
+        {
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
             }
         }
     }
