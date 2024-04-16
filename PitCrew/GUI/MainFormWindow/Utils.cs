@@ -54,6 +54,14 @@
             string newFilePath;
             form.modList[fileName] = new List<FileEntry>();
 
+
+            //Generate needed directories
+            if (!Directory.Exists(Path.Combine(mainFolder, "mods")))
+                Directory.CreateDirectory(Path.Combine(mainFolder, "mods"));
+
+            if (!Directory.Exists(Path.Combine(mainFolder, "pitcrewmetadata")))
+                Directory.CreateDirectory(Path.Combine(mainFolder, "pitcrewmetadata"));
+
             foreach (string line in lines.Skip(3))
             {
                 string[] separator = line.Split(' ');
@@ -67,9 +75,6 @@
                     return;
                 }
 
-                if (!Directory.Exists(Path.Combine(mainFolder, "mods")))
-                    Directory.CreateDirectory(Path.Combine(mainFolder, "mods"));
-
                 File.Move(Path.Combine(Path.GetDirectoryName(openFileDialog.FileName), separator[1] + ".fat"), newFilePath);
                 File.Move(Path.Combine(Path.GetDirectoryName(openFileDialog.FileName), separator[1] + ".dat"), newFilePath.Replace(".fat", ".dat"));
 
@@ -80,9 +85,6 @@
                 };
                 form.modList[fileName].Add(entry);
             }
-
-            if (!Directory.Exists(Path.Combine(mainFolder, "pitcrewmetadata")))
-                Directory.CreateDirectory(Path.Combine(mainFolder, "pitcrewmetadata"));
 
             newFilePath = Path.Combine(mainFolder, "pitcrewmetadata", Path.GetFileName(openFileDialog.FileName));
             File.Move(openFileDialog.FileName, newFilePath, true);
