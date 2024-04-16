@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using PitCrewCompiler;
 
 namespace PitCrew.GUI.MainWindow.Components
 {
@@ -12,14 +12,8 @@ namespace PitCrew.GUI.MainWindow.Components
         public void CompileButton_Click(object sender, EventArgs e)
         {
             Utils.SaveFile();
-            Assembly assembly = Assembly.LoadFrom("PitCrewCompiler.dll");
 
-            MethodInfo entryPoint = assembly.EntryPoint;
-
-            if (entryPoint == null)
-                return;
-
-            entryPoint.Invoke(null, new object[] { new string[] { Utils.GetForm().manifestLoc } });
+            API.compileManifest(Utils.GetForm().manifestLoc);
             MessageBox.Show("Mods succesfully added.");
         }
     }
