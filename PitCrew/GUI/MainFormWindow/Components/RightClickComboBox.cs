@@ -58,7 +58,6 @@ namespace PitCrew.GUI.MainWindow.Components
                 return;
             }
 
-            filesToZip.Add(modMetadata);
             List<string> lines = File.ReadAllLines(modMetadata).ToList();
             int count = 2;
 
@@ -81,14 +80,22 @@ namespace PitCrew.GUI.MainWindow.Components
                 filesToZip.Add(Path.Combine(Path.GetDirectoryName(manifestLoc), entry.modPath + ".dat"));
             }
 
-            File.WriteAllLines(modMetadata, lines);
-
             //Zip it
             using (var zip = new ZipArchive(File.Open($"{modName}.zip", FileMode.Create), ZipArchiveMode.Create))
             {
                 foreach (string filePath in filesToZip)
                 {
                     zip.CreateEntryFromFile(filePath, Path.GetFileName(filePath));
+                }
+
+                //Apply new metadata
+                var newMetadata = zip.CreateEntry($"{modName}.mdata");
+                using (var writer = new StreamWriter(newMetadata.Open()))
+                {
+                    foreach (string line in lines)
+                    {
+                        writer.WriteLine(line);
+                    }
                 }
             }
 
