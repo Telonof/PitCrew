@@ -1,4 +1,6 @@
-﻿namespace PitCrew.GUI.MainWindow
+﻿using System.IO.Compression;
+
+namespace PitCrew.GUI.MainWindow
 {
     internal class Utils
     {
@@ -32,7 +34,7 @@
             form.Text = form.Text.TrimEnd('*');
         }
 
-        public static void OpenMDataFile()
+        public static void ImportMod()
         {
             MainForm form = GetForm();
 
@@ -43,17 +45,44 @@
                 return;
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "Please Select Your .mdata File";
-            openFileDialog.Filter = "Mod Metadata (*.mdata)|*.mdata";
+            openFileDialog.Title = "Please Select an .mdata file or zip file.";
+            openFileDialog.Filter = "Mod Metadata (*.mdata, *.zip)|*.mdata;*.zip";
             if (openFileDialog.ShowDialog() != DialogResult.OK)
                 return;
 
+            string zipTempFolder = "!PitCrewZipTempFolder";
+
+            if (openFileDialog.FileName.EndsWith(".zip"))
+            {
+                bool validmodzip = false;
+                string mdataName = "";
+                using (ZipArchive archive = ZipFile.OpenRead(openFileDialog.FileName))
+                {
+                    foreach (ZipArchiveEntry entry in archive.Entries)
+                    {
+                        if (!Path.GetExtension(entry.FullName).Equals(".mdata", StringComparison.OrdinalIgnoreCase))
+                            continue;
+
+                        validmodzip = true;
+                        mdataName = entry.Name;
+                        break;
+                    }
+                }
+                if (!validmodzip)
+                {
+                    MessageBox.Show("Invalid zip file, cannot find .mdata.", "Bad ZIP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                Directory.CreateDirectory(zipTempFolder);
+                ZipFile.ExtractToDirectory(openFileDialog.FileName, zipTempFolder);
+                openFileDialog.FileName = Path.Combine(zipTempFolder, mdataName);
+            }
 
             string[] lines = File.ReadAllLines(openFileDialog.FileName);
             string fileName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
             string newFilePath;
             form.modList[fileName] = new List<FileEntry>();
-
 
             //Generate needed directories
             checkAndCreateFolder(Path.Combine(mainFolder, "mods"));
@@ -72,8 +101,8 @@
                     return;
                 }
 
-                File.Move(Path.Combine(Path.GetDirectoryName(openFileDialog.FileName), separator[1] + ".fat"), newFilePath);
-                File.Move(Path.Combine(Path.GetDirectoryName(openFileDialog.FileName), separator[1] + ".dat"), newFilePath.Replace(".fat", ".dat"));
+                File.Copy(Path.Combine(Path.GetDirectoryName(openFileDialog.FileName), separator[1] + ".fat"), newFilePath);
+                File.Copy(Path.Combine(Path.GetDirectoryName(openFileDialog.FileName), separator[1] + ".dat"), newFilePath.Replace(".fat", ".dat"));
 
                 FileEntry entry = new FileEntry
                 {
@@ -84,11 +113,14 @@
             }
 
             newFilePath = Path.Combine(mainFolder, "pitcrewmetadata", Path.GetFileName(openFileDialog.FileName));
-            File.Move(openFileDialog.FileName, newFilePath, true);
+            File.Copy(openFileDialog.FileName, newFilePath, true);
 
             form.listBox.Items.Add(fileName);
 
             form.emptyLabel.Visible = false;
+
+            if (Directory.Exists(zipTempFolder))
+                Directory.Delete(zipTempFolder, true);
 
             //Just in case people close out immeditealy.
             SaveFile();

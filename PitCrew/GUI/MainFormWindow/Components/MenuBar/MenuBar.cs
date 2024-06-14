@@ -17,7 +17,7 @@ namespace PitCrew.GUI.MainWindow.Components.MenuBar
 
         public void ImportMod_Click(object sender, EventArgs e)
         {
-            Utils.OpenMDataFile();
+            Utils.ImportMod();
         }
 
         public void AboutMenu_Click(object sender, EventArgs e)

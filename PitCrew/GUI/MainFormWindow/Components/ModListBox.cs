@@ -44,7 +44,7 @@ namespace PitCrew.GUI.MainWindow.Components
 
         public void ModListBox_DoubleClick(object sender, EventArgs e)
         {
-            Utils.OpenMDataFile();
+            Utils.ImportMod();
         }
 
         public void ModListBox_MouseClick(object sender, MouseEventArgs e)
