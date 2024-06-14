@@ -45,7 +45,7 @@ namespace PitCrew.GUI.MainWindow
                 return;
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "Please Select an .mdata file or zip file.";
+            openFileDialog.Title = "Please Select as .mdata or zip file.";
             openFileDialog.Filter = "Mod Metadata (*.mdata, *.zip)|*.mdata;*.zip";
             if (openFileDialog.ShowDialog() != DialogResult.OK)
                 return;

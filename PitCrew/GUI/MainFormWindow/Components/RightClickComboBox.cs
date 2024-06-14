@@ -131,8 +131,6 @@ namespace PitCrew.GUI.MainWindow.Components
             form.modifiedFiles.Remove(modName);
 
             Utils.SaveFile();
-
-            MessageBox.Show("Mod successfully deleted.");
         }
 
         private void EditMod()
