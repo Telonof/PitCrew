@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO.Compression;
 using System.Xml.Linq;
+using PitCrewCommon;
 
 namespace PitCrewCompiler
 {
@@ -17,7 +18,7 @@ namespace PitCrewCompiler
             this.data = data;
             this.directory = directory;
 
-            GetConfig();
+            config = ProcessUtil.GetConfig();
             Unpack();
             ScanFileInfo();
             ScanForConflict();
@@ -26,32 +27,14 @@ namespace PitCrewCompiler
             Repack();
         }
 
-        private void GetConfig()
-        {
-            //Set default config options
-            if (!File.Exists("config.txt"))
-            {
-                config["unpacker"] = "tools\\Gibbed.Dunia2.Unpack.exe";
-                config["packer"] = "tools\\Gibbed.Dunia2.Pack.exe";
-                return;
-            }
-
-            string[] lines = File.ReadAllLines("config.txt");
-
-            foreach (string line in lines)
-            {
-                if (string.IsNullOrWhiteSpace(line))
-                    continue;
-
-                string[] configLine = line.Split('=');
-                config[configLine[0]] = configLine[1];
-            }
-        }
-
         private void Unpack()
         {
             string arguments = $"-o \"{Path.Combine(directory, "startup.fat")}\" tmp";
-            ProgramExecution(config["unpacker"], arguments);
+            if (!ProcessUtil.ProgramExecution(config["unpacker"], arguments))
+            {
+                Console.WriteLine($"{config["unpacker"]} does not exist.");
+                Environment.Exit(1);
+            }
         }
 
         private void ScanFileInfo()
@@ -133,27 +116,14 @@ namespace PitCrewCompiler
             }
 
             string arguments = $"-c -v \"{Path.Combine(directory, "startup.fat")}\" tmp";
-            ProgramExecution(config["packer"], arguments);
+            if (!ProcessUtil.ProgramExecution(config["packer"], arguments))
+            {
+                Console.WriteLine($"{config["packer"]} does not exist.");
+                Environment.Exit(1);
+            }
 
             Directory.Delete("tmp", true);
             Console.WriteLine("All packed up and ready to go!");
-        }
-
-        private void ProgramExecution(string tool, string arguments)
-        {
-            if (!File.Exists(tool))
-            {
-                Console.WriteLine($"{tool} does not exist.");
-                Environment.Exit(1);
-            }
-            
-            ProcessStartInfo startInfo = new ProcessStartInfo(tool);
-            startInfo.Arguments = arguments;
-
-            Process process = new Process();
-            process.StartInfo = startInfo;
-            process.Start();
-            process.WaitForExit();
         }
     }
 }

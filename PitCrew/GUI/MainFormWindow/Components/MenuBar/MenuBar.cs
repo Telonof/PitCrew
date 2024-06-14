@@ -1,4 +1,5 @@
 ﻿using PitCrewCommon;
+using System.IO;
 
 namespace PitCrew.GUI.MainWindow.Components.MenuBar
 {
@@ -134,6 +135,54 @@ namespace PitCrew.GUI.MainWindow.Components.MenuBar
             form.compile.Visible = true;
             form.modMenuItem.Visible = true;
             InitializeListBox();
+        }
+
+        public void PackageArchiveTool_Click(object sender, EventArgs e)
+        {
+            //Get source folder and output file.
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            folderBrowserDialog.Description = "Please select the folder with your mod files";
+            if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            string modPath = folderBrowserDialog.SelectedPath;
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Set the location and name of the output";
+            openFileDialog.Filter = "FAT file (*.fat)|*.fat";
+            openFileDialog.CheckFileExists = false;
+            if (openFileDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            //Confirm overwrite.
+            if (File.Exists(openFileDialog.FileName))
+            {
+                DialogResult overwriteMessage = MessageBox.Show("The file already exists. Do you want to overwrite it?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (overwriteMessage != DialogResult.Yes)
+                    return;
+            }
+
+            //Setup arguments for program.
+            string arguments = $"-v \"{openFileDialog.FileName}\" \"{modPath}\"";
+            DialogResult message = MessageBox.Show("Compress with LZO?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (message == DialogResult.Yes)
+                arguments = "-c " + arguments;
+
+            //Attempt to pack files.
+            string packer = ProcessUtil.GetConfig()["packer"];
+            if (!ProcessUtil.ProgramExecution(packer, arguments)) {
+                MessageBox.Show($"{packer} does not exist.", "Invalid config.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            //Display result
+            message = MessageBox.Show($"DAT file packaged. \nView in explorer?", "Archive Packaged", MessageBoxButtons.YesNo);
+
+            if (message != DialogResult.Yes)
+                return;
+
+            System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{openFileDialog.FileName}\"");
         }
 
         private void InitializeListBox()

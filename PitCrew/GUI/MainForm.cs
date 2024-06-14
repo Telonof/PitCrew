@@ -30,6 +30,7 @@ namespace PitCrew
             createModButton.Click += menuBar.CreateModButton_Click;
             openManifestItem.Click += menuBar.OpenManifestItem_Click;
             createManifestItem.Click += menuBar.CreateManifestItem_Click;
+            packageArchiveTool.Click += menuBar.PackageArchiveTool_Click;
 
             //Initalize keyboard shortcuts
             this.KeyDown += DetectKeyPresses;
