@@ -15,6 +15,15 @@
                 return "File not in the data_win32 folder of The Crew.";
             }
 
+            string[] startupletters = { "f", "d" };
+            foreach (string s in startupletters)
+            {
+                if (!File.Exists(Path.Combine(folderPath, "startup." + s + "at")))
+                {
+                    return "Could not find startup." + s + "at in your data_win32 folder.";
+                }
+            }
+
             string[] lines = File.ReadAllLines(fileName);
 
             int count = 1;
