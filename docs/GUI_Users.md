@@ -12,15 +12,15 @@ If this is your first time, boot up PitCrew.exe and head to `Manifest -> Create`
 To then open the manifest on next boot, head to `Manifest -> Open` and select the .txt created inside data_win32 (should be named pitcrewmanifest.txt)
 
 ## Importing Mods
-The GUI will then prompt you to double click on the box or click `Mod -> Import` on the menu bar to get prompted for a .mdata file.
+The GUI will then prompt you to double click on the box or click `Mod -> Import` on the menu bar to get prompted for an .mdata or .zip file.
 
-A typical mod should look like this in a directory:
+A typical mod should look like this in a directory or zip:
 
 - ModId.mdata
 - modfile1.dat
 - modfile1.fat
 
-Each mod should contain an .mdata as well as one or multiple .dat/.fat pairs. Select the .mdata to import it into the GUI.
+Each mod should contain an .mdata as well as one or multiple .dat/.fat pairs. Select the the unpackaged or packaged mod to import it into the GUI.
 
 ## Editing Mods
 The mod provided should have everything configured and ready to go for you. If you want to disable/enable certain mods on the next boot of your game, click the checkbox to the right of each mod.

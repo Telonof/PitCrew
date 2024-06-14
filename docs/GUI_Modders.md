@@ -30,3 +30,6 @@ Be sure to save with CTRL+S or by clicking `Save`.
 
 ## Packaging Mods
 Packaging a mod will get all the files needed and zipped up for sharing. Simply right click on the mod then choose `Package Mod`.
+
+## Packing Archives
+Head to the menu bar, then Utilities -> Package Game Archive. Select the folder you want to package, then head to the output folder and name the mod in the dialog box below.
