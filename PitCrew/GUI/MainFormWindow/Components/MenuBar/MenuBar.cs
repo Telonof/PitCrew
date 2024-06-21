@@ -188,6 +188,7 @@ namespace PitCrew.GUI.MainWindow.Components.MenuBar
         private void InitializeListBox()
         {
             form.listBox.Items.Clear();
+            form.listBox.AllowDrop = true;
             foreach (var key in form.modList.Keys)
             {
                 form.listBox.Items.Add(key);

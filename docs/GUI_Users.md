@@ -12,7 +12,7 @@ If this is your first time, boot up PitCrew.exe and head to `Manifest -> Create`
 To then open the manifest on next boot, head to `Manifest -> Open` and select the .txt created inside data_win32 (should be named pitcrewmanifest.txt)
 
 ## Importing Mods
-The GUI will then prompt you to double click on the box or click `Mod -> Import` on the menu bar to get prompted for an .mdata or .zip file.
+To import mods, either drag and drop an .mdata/.zip, or double click into the mod list for manual file selection. You can alternatively use `Mod -> Import`
 
 A typical mod should look like this in a directory or zip:
 

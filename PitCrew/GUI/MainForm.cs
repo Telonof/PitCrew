@@ -48,6 +48,8 @@ namespace PitCrew
             listBox.DoubleClick += modListBox.ModListBox_DoubleClick;
             listBox.MouseDown += modListBox.ModListBox_MouseDown;
             listBox.DrawItem += modListBox.ModListBox_DrawItem;
+            listBox.DragDrop += modListBox.ModListBox_DragDrop;
+            listBox.DragEnter += modListBox.ModListBox_DragEnter;
 
             //Initialize Right click box
             rightClickComboBox = new RightClickComboBox(this);

@@ -24,6 +24,28 @@ namespace PitCrew.GUI.MainWindow.Components
 
         }
 
+        public void ModListBox_DragDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                return;
+            }
+
+            string[] files = (string[]) e.Data.GetData(DataFormats.FileDrop);
+            foreach (string file in files)
+            {
+                Utils.ImportMod(file);
+            }
+        }
+
+        public void ModListBox_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
         public void ModListBox_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Right)
