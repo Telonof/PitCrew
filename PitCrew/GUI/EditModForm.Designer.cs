@@ -149,6 +149,7 @@
             MaximizeBox = false;
             Name = "EditModForm";
             ShowIcon = false;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Edit Metadata";
             ResumeLayout(false);
             PerformLayout();

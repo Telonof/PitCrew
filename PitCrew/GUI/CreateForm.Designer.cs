@@ -178,6 +178,7 @@
             Name = "CreateForm";
             ShowIcon = false;
             ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Create Mod Group";
             ResumeLayout(false);
             PerformLayout();
