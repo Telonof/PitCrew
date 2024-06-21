@@ -111,7 +111,7 @@ namespace PitCrew.GUI.MainWindow.Components
         {
             string manifestLoc = form.manifestLoc;
 
-            DialogResult result = MessageBox.Show("Are you sure you want to delete this?\nThe metadata and all mod files will be gone.", "Final warning", MessageBoxButtons.OKCancel);
+            DialogResult result = MessageBox.Show("Are you sure you want to delete this?\nThe metadata and all mod files will be gone.", "Final warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (result != DialogResult.OK)
                 return;
 
