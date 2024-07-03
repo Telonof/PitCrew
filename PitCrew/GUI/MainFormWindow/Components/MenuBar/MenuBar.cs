@@ -147,15 +147,15 @@ namespace PitCrew.GUI.MainWindow.Components.MenuBar
 
             string modPath = folderBrowserDialog.SelectedPath;
 
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "Set the location and name of the output";
-            openFileDialog.Filter = "FAT file (*.fat)|*.fat";
-            openFileDialog.CheckFileExists = false;
-            if (openFileDialog.ShowDialog() != DialogResult.OK)
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Set the location and name of the output";
+            saveFileDialog.Filter = "FAT file (*.fat)|*.fat";
+            saveFileDialog.CheckFileExists = false;
+            if (saveFileDialog.ShowDialog() != DialogResult.OK)
                 return;
 
             //Confirm overwrite.
-            if (File.Exists(openFileDialog.FileName))
+            if (File.Exists(saveFileDialog.FileName))
             {
                 DialogResult overwriteMessage = MessageBox.Show("The file already exists. Do you want to overwrite it?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -164,7 +164,7 @@ namespace PitCrew.GUI.MainWindow.Components.MenuBar
             }
 
             //Setup arguments for program.
-            string arguments = $"-v \"{openFileDialog.FileName}\" \"{modPath}\"";
+            string arguments = $"-v \"{saveFileDialog.FileName}\" \"{modPath}\"";
             DialogResult message = MessageBox.Show("Compress with LZO?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (message == DialogResult.Yes)
                 arguments = "-c " + arguments;
@@ -182,7 +182,7 @@ namespace PitCrew.GUI.MainWindow.Components.MenuBar
             if (message != DialogResult.Yes)
                 return;
 
-            System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{openFileDialog.FileName}\"");
+            System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{saveFileDialog.FileName}\"");
         }
 
         private void InitializeListBox()
