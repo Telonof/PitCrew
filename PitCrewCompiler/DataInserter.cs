@@ -91,7 +91,7 @@ namespace PitCrewCompiler
                 XElement newArchive = new XElement("Archive",
                     new XAttribute("Name", key),
                     new XAttribute("IsSkued", "0"),
-                    new XAttribute("IsStartChunk", "0"),
+                    new XAttribute("IsStartChunk", "1"),
                     new XAttribute("IsAutoOpenOnChunkInstalled", "1"),
                     new XAttribute("ChunkId", "4"),
                     new XAttribute("Priority", data[key]));
