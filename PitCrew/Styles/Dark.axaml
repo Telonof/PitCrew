@@ -1,0 +1,29 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  
+    <Style Selector="Window">
+        <Setter Property="Background" Value="#2a2a2a" />
+    </Style>
+
+    <Style Selector="MenuItem:open /template/ Popup#PART_Popup > Border">
+	      <Setter Property="BorderBrush" Value="#383838" />
+	      <Setter Property="Background" Value="#383838" />
+    </Style>
+
+    <Style Selector="Button">
+        <Setter Property="Background" Value="#2a2a2a" />
+    </Style>
+
+    <Style Selector="ListBox">
+        <Setter Property="Background" Value="#2a2a2a" />
+    </Style>
+
+    <Style Selector="Menu">
+        <Setter Property="Background" Value="#363636" />
+    </Style>
+
+    <Style Selector="DataGridColumnHeader">
+        <Setter Property="Foreground" Value="White" />
+	  </Style>
+
+</Styles>

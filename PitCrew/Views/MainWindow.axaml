@@ -1,0 +1,84 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Class="PitCrew.Views.MainWindow"
+        Title="PitCrew"
+        MinWidth="816"
+        MinHeight="538"
+		Width="816"
+		Height="538"
+		WindowStartupLocation="CenterScreen">
+
+	<Window.Styles>
+		<Style Selector="Button">
+			<Setter Property="MinWidth" Value="0" />
+			<Setter Property="Height" Value="60" />
+		</Style>
+	</Window.Styles>
+	
+    <Grid>
+		<DockPanel LastChildFill="False">
+			<Menu DockPanel.Dock="Top">
+    			<MenuItem Name="InstancesMenuButton" Header="{Binding Source='menubar.instances', Converter={StaticResource Translator}}" Click="InstancesMenuButton_Click" />
+
+    			<MenuItem Name="ModsMenu" Header="{Binding Source='menubar.mods', Converter={StaticResource Translator}}" IsVisible="False">
+    	 			<MenuItem Name="NewModMenuButton" Header="{Binding Source='menubar.newmod', Converter={StaticResource Translator}}" Click="NewModMenuButton_Click"  />
+    	 			<MenuItem Name="ImportModMenuButton" Header="{Binding Source='menubar.importmod', Converter={StaticResource Translator}}" Click="ImportModMenuButton_Click" />
+    			</MenuItem>
+
+    			<MenuItem Header="{Binding Source='menubar.utilities', Converter={StaticResource Translator}}">
+    	 			<MenuItem Name="UnpackArchiveMenuButton" Header="{Binding Source='menubar.unpack', Converter={StaticResource Translator}}" Click="UnpackArchiveMenuButton_Click" />
+    	 			<MenuItem Name="PackArchiveMenuButton" Header="{Binding Source='menubar.pack', Converter={StaticResource Translator}}" Click="RepackArchiveMenuButton_Click" />
+    			</MenuItem>
+
+				<MenuItem Name="ThemeSwitcherButton" Header="{Binding Source='menubar.theme', Converter={StaticResource Translator}}" Click="ThemeSwitcherButton_Click" />
+
+				<MenuItem Name="LanguageMenuButton" Header="{Binding Source='menubar.language', Converter={StaticResource Translator}}" />
+				
+    			<MenuItem Name="AboutMenuButton" Header="{Binding Source='menubar.about', Converter={StaticResource Translator}}" Click="AboutMenuButton_Click" />
+			</Menu>
+		</DockPanel>
+
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.6*" />
+				<ColumnDefinition Width="0.4*" />
+			</Grid.ColumnDefinitions>
+
+			<ListBox Name="ModGUIList" Grid.Column="0" Margin="10,50,0,10" BorderBrush="Gray" BorderThickness="1"
+					DragDrop.AllowDrop="True">
+				<ListBox.ContextMenu>
+					<ContextMenu>
+						<MenuItem Name="ListBox_PackageModItem" Header="{Binding Source='modlist.rightclick.package', Converter={StaticResource Translator}}" />
+						<MenuItem Name="ListBox_EditMetadataItem" Header="{Binding Source='modlist.rightclick.edit', Converter={StaticResource Translator}}" />
+						<MenuItem Name="ListBox_DeleteModItem" Header="{Binding Source='modlist.rightclick.delete', Converter={StaticResource Translator}}" />
+					</ContextMenu>
+				</ListBox.ContextMenu>
+			</ListBox>
+
+			<Grid Grid.RowSpan="3" Grid.Column="1">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="60*" />
+					<RowDefinition Height="20*" />
+					<RowDefinition Height="20*" />
+				</Grid.RowDefinitions>
+
+				<DataGrid Name="FileList" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1" Margin="20,50"
+					BorderBrush="Gray" BorderThickness="1"/> 
+
+				<!--Why does text block not have the same border controls is beyond me.-->
+				<Border Grid.Row="1" BorderBrush="Gray" BorderThickness="2" Margin="20,-30,20,0">
+					<TextBlock Name="ConflictBox" Text="{Binding Source='conflictbox.default', Converter={StaticResource Translator}}" VerticalAlignment="Stretch" TextWrapping="Wrap" />
+				</Border>
+
+				<StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Spacing="50">
+					<Button Name="SaveButton" Content="{Binding Source='button.save', Converter={StaticResource Translator}}" Click="SaveButton_Click" />
+            		<Button Name="CompileButton" Content="{Binding Source='button.compile', Converter={StaticResource Translator}}" Click="CompileButton_Click" />
+				</StackPanel>
+
+			</Grid>
+		</Grid>
+	</Grid>
+
+</Window>

@@ -3,14 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitCrew", "PitCrew\PitCrew.csproj", "{3D648F2F-5696-4925-8048-E5BF4C4A68C9}"
-	ProjectSection(ProjectDependencies) = postProject
-		{92F92EF6-E62E-4B5A-8283-31B1BC5E1066} = {92F92EF6-E62E-4B5A-8283-31B1BC5E1066}
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitCrewCompiler", "PitCrewCompiler\PitCrewCompiler.csproj", "{92F92EF6-E62E-4B5A-8283-31B1BC5E1066}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitCrewCommon", "PitCrewCommon\PitCrewCommon.csproj", "{1558F6AC-92EC-46DF-BBA2-DDCE1CCDA902}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gibbed.Dunia2.FileFormats", "Gibbed.Dunia2\Gibbed.Dunia2.FileFormats\Gibbed.Dunia2.FileFormats.csproj", "{1390501E-B675-4D13-8F1C-00CD5F3676A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gibbed.IO", "Gibbed.Dunia2\Gibbed.IO\Gibbed.IO.csproj", "{3A2FF021-BB01-43C7-BDDC-3447E664751F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gibbed.ProjectData", "Gibbed.Dunia2\Gibbed.ProjectData\Gibbed.ProjectData.csproj", "{2DAF26DD-9423-45D8-BF5B-C4B13F855BED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitCrew", "PitCrew\PitCrew.csproj", "{1FFF7CCF-159E-4288-B203-F1A46351B54E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3D648F2F-5696-4925-8048-E5BF4C4A68C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D648F2F-5696-4925-8048-E5BF4C4A68C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D648F2F-5696-4925-8048-E5BF4C4A68C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D648F2F-5696-4925-8048-E5BF4C4A68C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{92F92EF6-E62E-4B5A-8283-31B1BC5E1066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{92F92EF6-E62E-4B5A-8283-31B1BC5E1066}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92F92EF6-E62E-4B5A-8283-31B1BC5E1066}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -30,6 +29,22 @@ Global
 		{1558F6AC-92EC-46DF-BBA2-DDCE1CCDA902}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1558F6AC-92EC-46DF-BBA2-DDCE1CCDA902}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1558F6AC-92EC-46DF-BBA2-DDCE1CCDA902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1390501E-B675-4D13-8F1C-00CD5F3676A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1390501E-B675-4D13-8F1C-00CD5F3676A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1390501E-B675-4D13-8F1C-00CD5F3676A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1390501E-B675-4D13-8F1C-00CD5F3676A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A2FF021-BB01-43C7-BDDC-3447E664751F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A2FF021-BB01-43C7-BDDC-3447E664751F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A2FF021-BB01-43C7-BDDC-3447E664751F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A2FF021-BB01-43C7-BDDC-3447E664751F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DAF26DD-9423-45D8-BF5B-C4B13F855BED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DAF26DD-9423-45D8-BF5B-C4B13F855BED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DAF26DD-9423-45D8-BF5B-C4B13F855BED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DAF26DD-9423-45D8-BF5B-C4B13F855BED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FFF7CCF-159E-4288-B203-F1A46351B54E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FFF7CCF-159E-4288-B203-F1A46351B54E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FFF7CCF-159E-4288-B203-F1A46351B54E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FFF7CCF-159E-4288-B203-F1A46351B54E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

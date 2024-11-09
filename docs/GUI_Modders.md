@@ -26,10 +26,14 @@ To add a file, have your .fat/.dat already in the appropriate folder inside your
 
 > Only pack the file pair with the files you modified. Avoid repacking files left untouched to save space and have as little conflicts as possible with other mods.
 
-Be sure to save with CTRL+S or by clicking `Save`.
+Be sure to save by clicking `Save`.
 
 ## Packaging Mods
 Packaging a mod will get all the files needed and zipped up for sharing. Simply right click on the mod then choose `Package Mod`.
 
-## Packing Archives
-Head to the menu bar, then Utilities -> Package Game Archive. Select the folder you want to package, then head to the output folder and name the mod in the dialog box below.
+## Un/Packing Archives
+Head to the menu bar, then Utilities -> Unpack Archive.
+
+For unpacking, select your output folder and the .fat file of the archive you wish to unpack, then hit the button.
+
+For packing, select your input folder and the location you want the .fat file to be saved. You can optionally add an author to the file or turn on/off compression.

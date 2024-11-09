@@ -1,0 +1,39 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Class="PitCrew.Views.InstanceWindow"
+        Title="{Binding Source='instances.title', Converter={StaticResource Translator}}"
+        Width="600"
+        MinWidth="600"
+        MinHeight="400"
+		WindowStartupLocation="CenterOwner">
+        
+    <Window.Styles>
+		<Style Selector="TextBlock">
+			<Setter Property="FontFamily" Value="Verdana" />
+			<Setter Property="FontSize" Value="16" />
+		</Style>
+	</Window.Styles>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" FontSize="20" Text="{Binding Source='instances.header', Converter={StaticResource Translator}}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10" />
+
+		<Button Name="AddInstanceButton" Grid.Row="0" Content="{Binding Source='button.add', Converter={StaticResource Translator}}" HorizontalAlignment="Right" Margin="10" Click="AddInstanceButton_Click" />
+        
+        <ListBox Name="InstanceList" Grid.Row="1" Margin="10" BorderBrush="Gray" BorderThickness="1" DragDrop.AllowDrop="True">
+			<ListBox.ContextMenu>
+				<ContextMenu Opening="ContextMenu_Opening">
+                    <MenuItem Name="InstanceList_RenameInstanceItem" Header="{Binding Source='instances.renameitem', Converter={StaticResource Translator}}" Click="ContextMenuRenameItem_Click" />
+					<MenuItem Name="InstanceList_DeleteInstanceItem" Header="{Binding Source='instances.deleteitem', Converter={StaticResource Translator}}" Click="ContextMenuDeleteItem_Click" />
+				</ContextMenu>
+			</ListBox.ContextMenu>
+		</ListBox>
+    </Grid>
+
+</Window>

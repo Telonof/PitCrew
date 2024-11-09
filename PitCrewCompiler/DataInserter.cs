@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using System.IO.Compression;
+﻿using System.IO.Compression;
+using System.Xml;
 using System.Xml.Linq;
 using PitCrewCommon;
 
@@ -10,31 +10,18 @@ namespace PitCrewCompiler
         private readonly Dictionary<string, string> data;
         private readonly string directory;
         private XDocument xmlFile;
-        private readonly List<string> archiveNames = new List<string>();
-        private readonly Dictionary<string, string> config = new Dictionary<string, string>();
+        private readonly List<string> archiveNames = [];
 
-        public DataInserter(Dictionary<string, string> data, String directory)
+        public DataInserter(Dictionary<string, string> data, string directory)
         {
             this.data = data;
             this.directory = directory;
 
-            config = ProcessUtil.GetConfig();
-            Unpack();
+            BigFileUtil.UnpackBigFile(Path.Combine(directory, "startup.fat"), "tmp");
             ScanFileInfo();
             ScanForConflict();
             InsertModdedFiles();
-            Console.WriteLine("Repacking...");
             Repack();
-        }
-
-        private void Unpack()
-        {
-            string arguments = $"-o \"{Path.Combine(directory, "startup.fat")}\" tmp";
-            if (!ProcessUtil.ProgramExecution(config["unpacker"], arguments))
-            {
-                Console.WriteLine($"{config["unpacker"]} does not exist.");
-                Environment.Exit(1);
-            }
         }
 
         private void ScanFileInfo()
@@ -43,13 +30,26 @@ namespace PitCrewCompiler
             xmlFile = XDocument.Load(filesinfosPath);
 
             //Remove any mods previously added by the tool.
-            var modsComment = xmlFile.DescendantNodes().OfType<XComment>()
-                                  .FirstOrDefault(c => c.Value.Contains("PitCrew mods"));
+            var sectionStartComment = xmlFile.DescendantNodes().OfType<XComment>()
+                                        .FirstOrDefault(c => c.Value.Contains("PitCrew mods"));
 
-            if (modsComment != null)
+            if (sectionStartComment != null)
             {
-                modsComment.NodesAfterSelf().Remove();
-                modsComment.Remove();
+                var sectionEndComment = sectionStartComment.NodesAfterSelf().OfType<XComment>()
+                                        .FirstOrDefault(c => c.Value.Contains("PitCrew mods end"));
+                //Legacy
+                if (sectionEndComment == null)
+                {
+                    sectionStartComment.NodesAfterSelf().Remove();
+                }
+                else
+                {
+                    List<XNode> nodes = sectionStartComment.NodesAfterSelf().TakeWhile(c => c != sectionEndComment).ToList();
+                    nodes.ForEach(node => node.Remove());
+                    sectionEndComment.Remove();
+                }
+
+                sectionStartComment.Remove();
             }
 
             xmlFile.Save(filesinfosPath);
@@ -61,9 +61,7 @@ namespace PitCrewCompiler
             {
                 string? archiveName = archiveElement.Attribute("Name")?.Value;
                 if (archiveName != null)
-                {
                     archiveNames.Add(archiveName);
-                }
             }
         }
 
@@ -74,7 +72,7 @@ namespace PitCrewCompiler
                 if (!archiveNames.Contains(key))
                     continue;
 
-                Console.WriteLine($"{key} has a conflict with your current filesinfos.xml");
+                Console.WriteLine(string.Format(Translate.Get("compiler.conflict-in-original-file"), key));
                 Directory.Delete("tmp", true);
                 Environment.Exit(1);
             }
@@ -98,6 +96,10 @@ namespace PitCrewCompiler
 
                 xmlFile.Root.Add(newArchive);
             }
+
+            modsComment = new XComment("PitCrew mods end");
+            xmlFile.Root.Add(modsComment);
+
             xmlFile.Save(Path.Combine("tmp", "engine", "filesinfos.xml"));
         }
 
@@ -115,15 +117,9 @@ namespace PitCrewCompiler
                 }
             }
 
-            string arguments = $"-c -v \"{Path.Combine(directory, "startup.fat")}\" tmp";
-            if (!ProcessUtil.ProgramExecution(config["packer"], arguments))
-            {
-                Console.WriteLine($"{config["packer"]} does not exist.");
-                Environment.Exit(1);
-            }
-
+            BigFileUtil.RepackBigFile("tmp", Path.Combine(directory, "startup.fat"));
             Directory.Delete("tmp", true);
-            Console.WriteLine("All packed up and ready to go!");
+            Console.WriteLine(Translate.Get("compiler.success"));
         }
     }
 }

@@ -1,21 +1,22 @@
-﻿using PitCrewCompiler;
-using System.Reflection;
+﻿using PitCrewCommon;
+using PitCrewCompiler;
 
 public class Program
 {
-    static void Main(string[] args)
+    internal static void Main(string[] args)
     {
         if (args.Length < 1)
         {
-            Console.WriteLine($"Usage: {Assembly.GetExecutingAssembly().GetName().Name} <file>");
+            Console.WriteLine($"Usage: {Environment.ProcessPath} <file>");
             return;
         }
 
         string manifestFile = args[0];
+        Translate.Initialize("English.json");
 
         if (!File.Exists(manifestFile))
         {
-            Console.WriteLine("Unknown file.");
+            Console.WriteLine(Translate.Get("compiler.unknown-file"));
             return;
         }
 

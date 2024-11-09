@@ -2,34 +2,30 @@
 {
     public class ManifestUtil
     {
-        static Dictionary<string, string> scannedFiles;
+        static Dictionary<string, string> scannedFiles = [];
 
         public static string? ValidateManifestFile(string fileName)
         {
             //Ensure scannedFiles is reset each time.
-            scannedFiles = new Dictionary<string, string>();
-            string folderPath = Path.GetDirectoryName(fileName);
+            scannedFiles = [];
+            string? folderPath = Path.GetDirectoryName(fileName);
+
+            if (folderPath == null)
+                return Translate.Get("manifestutil.invalid-folder");
 
             if (!folderPath.EndsWith("data_win32"))
-            {
-                return "File not in the data_win32 folder of The Crew.";
-            }
+                return Translate.Get("manifestutil.invalid-location");
 
-            string[] startupletters = { "f", "d" };
-            foreach (string s in startupletters)
-            {
-                if (!File.Exists(Path.Combine(folderPath, "startup." + s + "at")))
-                {
-                    return "Could not find startup." + s + "at in your data_win32 folder.";
-                }
-            }
+            if (!CheckForBigFile(Path.Combine(folderPath, "startup")))
+                return Translate.Get("manifestutil.no-startup-file");
 
             string[] lines = File.ReadAllLines(fileName);
 
             int count = 1;
             foreach (string line in lines)
             {
-                if (String.IsNullOrWhiteSpace(line) || line.StartsWith("##"))
+                //Ignore comments and blanks.
+                if (string.IsNullOrWhiteSpace(line) || line.StartsWith("##"))
                     continue;
 
                 string[] parts = line.Split(' ');
@@ -38,43 +34,44 @@
                 if (parts.Length < 2)
                     continue;
 
-                //Disabled doesn't matter for validating file.
+                //Validating a manifest has to ensure disabled mods are also correct.
                 if (parts[0].StartsWith('#'))
-                {
                     parts[0] = parts[0].Substring(1);
-                }
 
                 if (!int.TryParse(parts[0], out int priority))
-                {
-                    return $"Line {count} is invalid: Priority cannot be lower than 11.";
-                }
+                    return string.Format(Translate.Get("manifestutil.invalid-priority"), count);
 
                 if (priority < 11)
-                {
-                    return $"Line {count} is invalid: Priority cannot be lower than 11.";
-                }
+                    return string.Format(Translate.Get("manifestutil.too-low-priority"), count);
 
-                //This would detect .dat as well, but based on good faith the user should have both .fat and .dat in their folder.
-                string filePath = Path.Combine(folderPath, parts[1] + ".fat");
+                string filePath = Path.Combine(folderPath, parts[1]);
 
-                if (!File.Exists(filePath))
-                {
-                    return $"Line {count} is invalid: Cannot find file {filePath.Replace("\\", "/")}";
-                }
+                if (!CheckForBigFile(filePath))
+                    return string.Format(Translate.Get("manifestutil.cannot-find-big-file"), count, filePath.Replace("\\", "/"));
 
                 string group = parts.Length > 2 ? parts[2] : "Default";
 
                 //The same file should never be listed twice.
-                if (scannedFiles.ContainsKey(parts[1]))
-                {
-                    return $"{group} and {scannedFiles[parts[1]]} are conflicting with {parts[1]}";
-                }
+                if (scannedFiles.TryGetValue(parts[1], out string? value))
+                    return string.Format(Translate.Get("manifestutil.conflict-found"), group, value, parts[1]);
 
                 scannedFiles[parts[1]] = group;
                 count++;              
             }
 
             return null;
+        }
+
+        //When checking a big file, we want both .fat and .dat
+        public static bool CheckForBigFile(string item)
+        {
+            string[] letters = ["f", "d"];
+            foreach (string s in letters)
+            {
+                if (!File.Exists($"{item}.{s}at"))
+                    return false;
+            }
+            return true;
         }
     }
 }

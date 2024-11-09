@@ -22,7 +22,7 @@ namespace PitCrewCompiler
             //Sort through all mods listed and send them for editing.
             foreach (string line in lines)
             {
-                if (String.IsNullOrWhiteSpace(line) || line.StartsWith('#'))
+                if (string.IsNullOrWhiteSpace(line) || line.StartsWith('#'))
                     continue;
 
                 string[] parts = line.Split(' ');
@@ -30,7 +30,7 @@ namespace PitCrewCompiler
                 fileInfosData[parts[1]] = parts[0];
             }
 
-            new DataInserter(fileInfosData, Path.GetDirectoryName(manifestFile));
+            _ = new DataInserter(fileInfosData, Path.GetDirectoryName(manifestFile));
         }
     }
 }

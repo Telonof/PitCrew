@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="PitCrew.Views.MessageBox"
+        Title="Info"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        SizeToContent="WidthAndHeight"
+        MinWidth="100">
+  
+    <StackPanel Margin="0,10,0,0">
+        <TextBlock Name="InfoText" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,10,30,10" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10">
+            <Button Name="ConfirmButton" Content="{Binding Source='button.ok', Converter={StaticResource Translator}}" IsDefault="True" MinWidth="75" Margin="10" Click="ConfirmButton_Click" />
+            <Button Name="CancelButton" Content="{Binding Source='button.cancel', Converter={StaticResource Translator}}" IsCancel="True" MinWidth="75" Margin="10" Click="CancelButton_Click" IsVisible="False" />
+        </StackPanel>
+    </StackPanel>
+
+</Window>

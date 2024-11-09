@@ -6,13 +6,14 @@ If you don't plan on making your own mods and just want to use other mods, this 
 
 PitCrew relies on custom manifests to know what mods to apply to the game and what priority each file in the mod uses. 
 
-If this is your first time, boot up PitCrew.exe and head to `Manifest -> Create` and select the exe of your game. 
+If this is your first time, boot up PitCrew.exe and head to `Instances` then click Add or drag and drop the exe of your game.
 (This is knowing your game has a data_win32 folder where the manifest will be stored.)
 
-To then open the manifest on next boot, head to `Manifest -> Open` and select the .txt created inside data_win32 (should be named pitcrewmanifest.txt)
+To then open the manifest on next boot, head to `Instances` and double click the version of the game.
+(The program will auto open whatever last instance you were working on.)
 
 ## Importing Mods
-To import mods, either drag and drop an .mdata/.zip, or double click into the mod list for manual file selection. You can alternatively use `Mod -> Import`
+To import mods, either drag and drop an .mdata/.zip, or use `Mod -> Import` in the menubar.
 
 A typical mod should look like this in a directory or zip:
 
