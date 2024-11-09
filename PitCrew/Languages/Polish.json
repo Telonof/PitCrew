@@ -8,7 +8,7 @@
 	"about.title": "O PitCrew",
 	"about.description": "Modloader do The Crew 1",
 	"about.author": "Autor: FTIW",
-	"about.discord": "Dołącz na discord The Crew Unlimited",
+	"about.discord": "Dołącz do discord The Crew Unlimited",
 	
 	"modinfo.default-name": "Domyślna nazwa",
 	"modinfo.default-author": "Różni autorzy",
@@ -23,7 +23,7 @@
 	"filelist.filepath": "Ścieżka do pliku",
 	"filelist.priority": "Priorytet",
 	
-	"conflictbox.default": "Dodaj grę w zakładce Instancje.\nKliknij 2 razy grę z listy by ją zaznaczyć.",
+	"conflictbox.default": "Dodaj grę w zakładce Instancje.\nKliknij 2 razy grę z listy by ją wybrać.",
 	"conflictbox.no-mods": "Dodaj modyfikacje przez przeciągnięcie plików .zip do niebieskiego okna.\nLub przez kliknięcie Modyfikacje -> Importuj",
 	"conflictbox.no-conflicts": "Pamiętaj by kliknąć Kompiluj by zaaplikować zmiany.",
 	"conflictbox.conflicting": "Te modyfikacje są w konflikcie:",
@@ -70,7 +70,7 @@
 	"bigfile.pack-success": "Folder spakowany w {0}",
 	
 	"instances.title": "Wybór Instancji",
-	"instances.header": "Wyznacz Instancje",
+	"instances.header": "Wybierz instancje",
 	"instances.renameitem": "Zmień nazwę",
 	"instances.deleteitem": "Usuń",
 	"instances.delete-confirmation": "Czy na pewno chcesz to usunąć?\nPliki modyfikacji nie zostaną usunięte.",
