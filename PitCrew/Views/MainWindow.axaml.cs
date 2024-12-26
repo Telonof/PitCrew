@@ -126,14 +126,14 @@ public partial class MainWindow : Window
         Utils.ImportMod(this);
     }
 
-    private async void UnpackArchiveMenuButton_Click(object sender, RoutedEventArgs e)
+    private void UnpackArchiveMenuButton_Click(object sender, RoutedEventArgs e)
     {
-        await new BigFileWindow().ShowDialog(this);
+        new BigFileWindow().Show();
     }
 
-    private async void RepackArchiveMenuButton_Click(object sender, RoutedEventArgs e)
+    private void RepackArchiveMenuButton_Click(object sender, RoutedEventArgs e)
     {
-        await new BigFileWindow(true).ShowDialog(this);
+        new BigFileWindow(true).Show();
     }
 
     private void ThemeSwitcherButton_Click(object sender, RoutedEventArgs e)
