@@ -57,6 +57,7 @@ namespace PitCrewCommon
 
         public static void RepackBigFile(string inputFolder, string outputFatFile, string? author = null, bool compress = true)
         {
+            inputFolder = inputFolder.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             byte[]? authorHex = null;
             SortedDictionary<ulong, PendingEntry> pendingEntries = [];
             int byteIndex = 0;
