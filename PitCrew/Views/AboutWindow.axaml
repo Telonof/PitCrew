@@ -24,7 +24,7 @@
         <TextBlock Text="{Binding Source='about.author', Converter={StaticResource Translator}}" />
         <TextBlock Name="Translation" />
         <TextBlock Name="DiscordLink" Text="{Binding Source='about.discord', Converter={StaticResource Translator}}"
-                Margin="0,5,0,0" Foreground="Blue" TextDecorations="Underline"
+                Margin="0,5,0,0" Foreground="LightBlue" TextDecorations="Underline"
                 PointerMoved="DiscordLinkEnter" PointerPressed="DiscordLinkClick" />
     </StackPanel>
 	
