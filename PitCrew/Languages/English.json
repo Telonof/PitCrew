@@ -1,5 +1,6 @@
 {
-	"translation-author": "If you are translating please put your username here as credit.",
+	"translation-author": "FTIW",
+	"UNUSED notice": "If you are translating this program please put your username on translation-author above, this message will not be seen inside PitCrew.",
 	
 	"language-restart": "Language will be applied properly on restart of PitCrew.",
 	
@@ -8,7 +9,7 @@
 	"about.title": "About",
 	"about.description": "A mod loader for The Crew 1",
 	"about.author": "By: FTIW",
-	"about.translator": "Translation By: "
+	"about.translator": "Translation By: ",
 	"about.discord": "Come join the TCU Discord",
 	
 	"modinfo.default-name": "Default",

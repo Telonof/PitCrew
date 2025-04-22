@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
+using PitCrewCommon;
 using System.Diagnostics;
 
 namespace PitCrew.Views;
@@ -9,6 +10,7 @@ internal partial class AboutWindow : Window
     public AboutWindow()
     {
         InitializeComponent();
+        Translation.Text = Translate.Get("about.translator") + Translate.Get("translation-author");
     }
 
     private void DiscordLinkEnter(object sender, PointerEventArgs e)

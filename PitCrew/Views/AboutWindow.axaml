@@ -3,9 +3,9 @@
         x:Class="PitCrew.Views.AboutWindow"
         Title="{Binding Source='about.title', Converter={StaticResource Translator}}"
         MinWidth="408"
-        MinHeight="169"
+        MinHeight="185"
         MaxWidth="408"
-        MaxHeight="169"
+        MaxHeight="185"
         CanResize="False"
 		WindowStartupLocation="CenterOwner">
 	
@@ -22,6 +22,7 @@
         <TextBlock Text="PitCrew" FontSize="40" />
         <TextBlock Text="{Binding Source='about.description', Converter={StaticResource Translator}}" />
         <TextBlock Text="{Binding Source='about.author', Converter={StaticResource Translator}}" />
+        <TextBlock Name="Translation" />
         <TextBlock Name="DiscordLink" Text="{Binding Source='about.discord', Converter={StaticResource Translator}}"
                 Margin="0,5,0,0" Foreground="Blue" TextDecorations="Underline"
                 PointerMoved="DiscordLinkEnter" PointerPressed="DiscordLinkClick" />
