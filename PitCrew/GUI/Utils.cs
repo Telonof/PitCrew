@@ -126,7 +126,7 @@ internal class Utils
             MessageBox.Result result = await ShowDialog(owner, Translate.Get("importmod.overwrite-old-mod"), MessageBox.ButtonType.YesNo);
             if (result == MessageBox.Result.Cancel || result == MessageBox.Result.None)
             {
-                checkAndDeleteFolder(zipTempFolder);
+                FileUtil.checkAndDeleteFolder(zipTempFolder);
                 return;
             }
             IM.modList.Remove(modExists);
@@ -135,8 +135,8 @@ internal class Utils
         IM.modList[info] = [];
 
         //Generate needed directories
-        checkAndCreateFolder(Path.Combine(mainFolder, "mods", info.ID));
-        checkAndCreateFolder(Path.Combine(mainFolder, "pitcrewmetadata"));
+        FileUtil.checkAndCreateFolder(Path.Combine(mainFolder, "mods", info.ID));
+        FileUtil.checkAndCreateFolder(Path.Combine(mainFolder, "pitcrewmetadata"));
 
 		//For each mod in the .mdata, copy over to the relative location set by the mdata
         foreach (string line in lines.Skip(3))
@@ -173,7 +173,7 @@ internal class Utils
 
         IM.modListBox.setList(IM.modList.Keys.ToList());
         owner.ConflictBox.Text = Translate.Get("conflictbox.no-conflicts");
-        checkAndDeleteFolder(zipTempFolder);
+        FileUtil.checkAndDeleteFolder(zipTempFolder);
         //Just in case people close out immeditealy.
         SaveFile();
     }
@@ -207,7 +207,7 @@ internal class Utils
         string[] lines = File.ReadAllLines(instance.ManifestPath);
         string rootDirectory = Path.GetDirectoryName(instance.ManifestPath);
         string metadatafolder = Path.Combine(rootDirectory, "pitcrewmetadata");
-        Utils.checkAndCreateFolder(metadatafolder);
+        FileUtil.checkAndCreateFolder(metadatafolder);
         foreach (string line in lines)
         {
             ModInfo modInfo = new ModInfo();
@@ -286,6 +286,9 @@ internal class Utils
         const int loopCountSize = 4;
         const int dataBlockSize = 8;
 
+        if (Path.GetFileNameWithoutExtension(file).EndsWith(".xml"))
+            return;
+
         if (!IM.allHashes.ContainsKey(info))
             IM.allHashes[info] = [];
 
@@ -316,19 +319,6 @@ internal class Utils
                 stream.Seek(dataBlockSize, SeekOrigin.Current);
             }
         }
-    }
-
-    public static void checkAndCreateFolder(string folderPath)
-    {
-        if (!Directory.Exists(folderPath))
-            Directory.CreateDirectory(folderPath);
-    }
-
-    //This should only be called regarding the deletion of a temporary folder, at least until this has use elsewhere.
-    private static void checkAndDeleteFolder(string folderPath)
-    {
-        if (Directory.Exists(folderPath))
-            Directory.Delete(folderPath, true);
     }
 
     public static FilePickerFileType CustomFileOptions(string name, string[] pattern)

@@ -154,6 +154,18 @@ namespace PitCrewCommon
                 fat.Serialize(output);
             }
         }
+
+        public static string GetLatestPatch(string basename)
+        {
+            string[] patches = [basename + "_patch_1.fat", basename + "_patch.fat"];
+            
+            foreach (string patch in patches)
+            {
+                if (File.Exists(patch))
+                    return patch;
+            }
+            return basename + ".fat";
+        }
     }
 
     internal struct PendingEntry

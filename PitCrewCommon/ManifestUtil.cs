@@ -16,7 +16,7 @@
             if (!folderPath.EndsWith("data_win32"))
                 return Translate.Get("manifestutil.invalid-location");
 
-            if (!CheckForBigFile(Path.Combine(folderPath, "startup")))
+            if (!CheckForValidFile(Path.Combine(folderPath, "startup")))
                 return Translate.Get("manifestutil.no-startup-file");
 
             string[] lines = File.ReadAllLines(fileName);
@@ -46,8 +46,11 @@
 
                 string filePath = Path.Combine(folderPath, parts[1]);
 
-                if (!CheckForBigFile(filePath))
-                    return string.Format(Translate.Get("manifestutil.cannot-find-big-file"), count, filePath.Replace("\\", "/"));
+                if (!CheckForValidFile(filePath))
+                    return string.Format(Translate.Get("manifestutil.cannot-find-file"), count, filePath.Replace("\\", "/"));
+
+                if (filePath.EndsWith(".xml"))
+                    continue;
 
                 string group = parts.Length > 2 ? parts[2] : "Default";
 
@@ -63,8 +66,16 @@
         }
 
         //When checking a big file, we want both .fat and .dat
-        public static bool CheckForBigFile(string item)
+        public static bool CheckForValidFile(string item)
         {
+            if (item.EndsWith(".xml"))
+            {
+                if (File.Exists(item))
+                    return true;
+
+                return false;
+            }
+
             string[] letters = ["f", "d"];
             foreach (string s in letters)
             {

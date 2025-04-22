@@ -79,7 +79,7 @@ internal class FileGridList
         string combinedPath = Path.Combine(Path.GetDirectoryName(IM.currentInstance.ManifestPath), path);
 
         //Check if first column file path is correct.
-        if (e.Column.DisplayIndex == 0 && !ManifestUtil.CheckForBigFile(combinedPath))
+        if (e.Column.DisplayIndex == 0 && !ManifestUtil.CheckForValidFile(combinedPath))
         {
             grid.CancelEdit();
             Utils.ShowDialog(owner, Translate.Get("filelist.unable-to-find") + " " + path);

@@ -90,7 +90,7 @@ internal partial class ModWindow : Window
     private bool WriteToFile(string[] modInfo, bool overwrite = false)
     {
         string path = Path.Combine(Path.GetDirectoryName(IM.currentInstance.ManifestPath), "pitcrewmetadata");
-        Utils.checkAndCreateFolder(path);
+        FileUtil.checkAndCreateFolder(path);
 
         string modMetadataPath = Path.Combine(path, modInfo[0] + ".mdata");
 
