@@ -1,5 +1,5 @@
 {
-	"translation-author": "Put your username here.",
+	"translation-author": "If you are translating please put your username here as credit.",
 	
 	"language-restart": "Language will be applied properly on restart of PitCrew.",
 	
@@ -8,6 +8,7 @@
 	"about.title": "About",
 	"about.description": "A mod loader for The Crew 1",
 	"about.author": "By: FTIW",
+	"about.translator": "Translation By: "
 	"about.discord": "Come join the TCU Discord",
 	
 	"modinfo.default-name": "Default",
@@ -111,7 +112,7 @@
 	"manifestutil.no-startup-file": "Could not find startup.dat or .fat in your data_win32 folder.",
 	"manifestutil.invalid-priority": "Line {0} is invalid: Priority must be a number.",
 	"manifestutil.too-low-priority": "Line {0} is invalid: Priority cannot be lower than 11.",
-	"manifestutil.cannot-find-big-file": "Line {0} is invalid: Cannot find file {1}.dat or .fat",
+	"manifestutil.cannot-find-big-file": "Line {0} is invalid: Cannot find file {1}",
 	"manifestutil.conflict-found": "{0} and {1} are conflicting with {2}",
 	
 	"compiler.unknown-file": "Unknown file.",
