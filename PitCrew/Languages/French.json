@@ -28,6 +28,7 @@
 	"conflictbox.no-mods": "Ajoutez vos mods en faisant glisser et en déposant les fichiers zip dans la case en surbrillance bleue.\nOr En cliquant sur mods -> Importer",
 	"conflictbox.no-conflicts": "N'oubliez pas de cliquer sur Compiler pour appliquer vos mods au jeu.",
 	"conflictbox.conflicting": "Ces mods sont en conflit:",
+	"conflictbox.startupfile": "STARTUP FILE",
 		
 	"button.save": "Sauvegarder",
 	"button.compile": "Compiler",

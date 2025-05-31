@@ -28,7 +28,8 @@
 	"conflictbox.no-mods": "Dodaj modyfikacje przez przeciągnięcie plików .zip do niebieskiego okna.\nLub przez kliknięcie Modyfikacje -> Importuj",
 	"conflictbox.no-conflicts": "Pamiętaj by kliknąć Kompiluj by zaaplikować zmiany.",
 	"conflictbox.conflicting": "Te modyfikacje są w konflikcie:",
-		
+	"conflictbox.startupfile": "STARTUP FILE",
+
 	"button.save": "Zapisz",
 	"button.compile": "Kompiluj",
 	"button.add": "Dodaj",

@@ -23,19 +23,20 @@ internal class FileGridList
             return;
 
         string? strpriority = GetText(grid.Columns[1].GetCellContent(e.Row));
+        string conflictText = Translate.Get("conflictbox.startupfile");
 
         if (strpriority.Equals("10"))
         {
-            if (owner.ConflictBox.Text.Contains("STARTUP MOD"))
+            if (owner.ConflictBox.Text.Contains(conflictText))
                 return;
 
-            owner.ConflictBox.Text = "STARTUP MOD\n\n" + owner.ConflictBox.Text;
+            owner.ConflictBox.Text = $"{conflictText}\n\n" + owner.ConflictBox.Text;
         } else
         {
-            if (!owner.ConflictBox.Text.Contains("STARTUP MOD"))
+            if (!owner.ConflictBox.Text.Contains(conflictText))
                 return;
 
-            owner.ConflictBox.Text = owner.ConflictBox.Text.Substring(13);
+            owner.ConflictBox.Text = owner.ConflictBox.Text.Substring(conflictText.Length + 2);
         }
     }
 

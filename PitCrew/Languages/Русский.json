@@ -28,6 +28,7 @@
 	"conflictbox.no-mods": "Добавьте свои моды, перетащив zip-файлы в выделенное синим цветом поле.\nИли нажав «Моды» -> «Импорт».",
 	"conflictbox.no-conflicts": "Не забудьте нажать «Компилировать», чтобы применить свои моды к игре.",
 	"conflictbox.conflicting": "Эти моды конфликтуют:",
+	"conflictbox.startupfile": "STARTUP FILE",
 		
 	"button.save": "Сохранить",
 	"button.compile": "Компилировать",
