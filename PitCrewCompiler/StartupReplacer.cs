@@ -7,7 +7,24 @@ namespace PitCrewCompiler
         //Goal here is to unpack the files of each startup mod and dump it into the startup of the main game.
         public StartupReplacer(string directory, List<string> files)
         {
-            BigFileUtil.UnpackBigFile(Path.Combine(directory, "startup.fat"), "tmp");
+            string cstartupFatPath = Path.Combine(directory, "cstartup.fat");
+            string cstartupDatPath = Path.Combine(directory, "cstartup.dat");
+            string startupFatPath = Path.Combine(directory, "startup.fat");
+            string startupDatPath = Path.Combine(directory, "startup.dat");
+
+            //cstartup is "clean startup" meaning we use a clean slate startup when it comes to modding it rather than overwriting modded startup.
+            if (File.Exists(cstartupFatPath))
+            {
+                BigFileUtil.UnpackBigFile(cstartupFatPath, "tmp");
+            }
+            else
+            {
+                BigFileUtil.UnpackBigFile(startupFatPath, "tmp");
+            }
+
+            //Create cstartup if not existing yet
+            File.Copy(startupFatPath, cstartupFatPath, false);
+            File.Copy(startupDatPath, cstartupDatPath, false);
 
             if (files.Count < 1)
                 return;

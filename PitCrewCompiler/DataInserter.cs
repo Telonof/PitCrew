@@ -106,18 +106,6 @@ namespace PitCrewCompiler
 
         private void Repack()
         {
-            string backupPath = Path.Combine(directory, "startupbak.zip");
-
-            //Backup startup if non existing yet.
-            if (!File.Exists(backupPath))
-            {
-                using (var backupZip = ZipFile.Open(backupPath, ZipArchiveMode.Create))
-                {
-                    backupZip.CreateEntryFromFile(Path.Combine(directory, "startup.fat"), "startup.fat");
-                    backupZip.CreateEntryFromFile(Path.Combine(directory, "startup.dat"), "startup.dat");
-                }
-            }
-
             BigFileUtil.RepackBigFile("tmp", Path.Combine(directory, "startup.fat"));
             Directory.Delete("tmp", true);
             Console.WriteLine(Translate.Get("compiler.success"));
