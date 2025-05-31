@@ -41,7 +41,7 @@
                 if (!int.TryParse(parts[0], out int priority))
                     return string.Format(Translate.Get("manifestutil.invalid-priority"), count);
 
-                if (priority < 11)
+                if (priority < 10)
                     return string.Format(Translate.Get("manifestutil.too-low-priority"), count);
 
                 string filePath = Path.Combine(folderPath, parts[1]);

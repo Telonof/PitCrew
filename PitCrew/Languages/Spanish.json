@@ -18,7 +18,7 @@
 	"filelist.priority-blank": "No puedes dejar la prioridad en blanco, borra la ruta para retirar el elemento de la lista.",
 	"filelist.priority-requires-number": "La prioridad debe ser un numero.",
 	"filelist.priority-no-edit-before-path": "No puedes editar la prioridad antes que la ruta.",
-	"filelist.priority-less-than-eleven": "La prioridad no puede ser inferior a 11.",
+	"filelist.priority-less-than-ten": "La prioridad no puede ser inferior a 10.",
 	"filelist.unable-to-find": "Incapaz de encontrar",
 	"filelist.already-in-use": "El mod {0} ya esta usando esto.",
 	"filelist.filepath": "Ruta del archivo",
@@ -111,7 +111,7 @@
 	"manifestutil.invalid-location": "El archivo no se encuentra en la carpeta data_win32.",
 	"manifestutil.no-startup-file": "Incapaz de encontrar el archivo startup.dat o .fat en tu carpeta data_win32.",
 	"manifestutil.invalid-priority": "La linea {0} es inválida: La prioridad debe ser un numero.",
-	"manifestutil.too-low-priority": "La linea {0} es inválida: La prioridad no puede ser inferior a 11.",
+	"manifestutil.too-low-priority": "La linea {0} es inválida: La prioridad no puede ser inferior a 10.",
 	"manifestutil.cannot-find-big-file": "La linea {0} es inválida: Incapaz de encontrar el archivo {1}.dat or .fat",
 	"manifestutil.conflict-found": "{0} y {1} están en conflicto con {2}",
 

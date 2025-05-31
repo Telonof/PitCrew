@@ -18,7 +18,7 @@
 	"filelist.priority-blank": "Du kannst die Priorität nicht leer lassen, lösche den Pfad um das Listenelement zu entfernen.",
 	"filelist.priority-requires-number": "Die Priorität muss eine Nummer sein.",
 	"filelist.priority-no-edit-before-path": "Du kannst die Priorität nicht vor dem Pfad bearbeiten.",
-	"filelist.priority-less-than-eleven": "Priorität kann nicht tiefer als 11 sein.",
+	"filelist.priority-less-than-ten": "Priorität kann nicht tiefer als 10 sein.",
 	"filelist.unable-to-find": "Kann nicht gefunden werden",
 	"filelist.already-in-use": "Mod {0} verwendet dies bereits.",
 	"filelist.filepath": "Dateipfad",
@@ -111,7 +111,7 @@
 	"manifestutil.invalid-location": "Datei ist nicht im data_win32 Ordner.",
 	"manifestutil.no-startup-file": "startup.dat oder .fat konnten nicht in deinem data_win32 Ordner gefunden werden.",
 	"manifestutil.invalid-priority": "Linie {0} ist ungültig: Die Priorität muss eine Nummer sein.",
-	"manifestutil.too-low-priority": "Linie {0} ist ungültig: Die Priorität kann nicht tiefer als 11.",
+	"manifestutil.too-low-priority": "Linie {0} ist ungültig: Die Priorität kann nicht tiefer als 10.",
 	"manifestutil.cannot-find-big-file": "Linie {0} ist ungültig: Es kann keine {1}.dat oder .fat Datei gefunden werden",
 	"manifestutil.conflict-found": "{0} und {1} haben einen Konflikt mit {2}",
 	

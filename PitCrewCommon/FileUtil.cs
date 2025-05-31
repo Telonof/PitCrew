@@ -13,5 +13,11 @@
             if (Directory.Exists(folderPath))
                 Directory.Delete(folderPath, true);
         }
+
+        public static void checkAndDeleteFile(string filePath)
+        {
+            if (Directory.Exists(filePath))
+                File.Delete(filePath);
+        }
     }
 }

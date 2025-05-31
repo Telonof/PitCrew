@@ -19,7 +19,7 @@
 	"filelist.priority-blank": "You cannot set the priority to blank, delete the path to remove the list item.",
 	"filelist.priority-requires-number": "The priority has to be a number.",
 	"filelist.priority-no-edit-before-path": "You cannot edit the priority before the path.",
-	"filelist.priority-less-than-eleven": "Priority cannot be lower than 11.",
+	"filelist.priority-less-than-ten": "Priority cannot be lower than 10.",
 	"filelist.unable-to-find": "Unable to find",
 	"filelist.already-in-use": "Mod {0} is already using this.",
 	"filelist.filepath": "File Path",
@@ -112,7 +112,7 @@
 	"manifestutil.invalid-location": "File not in the data_win32 folder.",
 	"manifestutil.no-startup-file": "Could not find startup.dat or .fat in your data_win32 folder.",
 	"manifestutil.invalid-priority": "Line {0} is invalid: Priority must be a number.",
-	"manifestutil.too-low-priority": "Line {0} is invalid: Priority cannot be lower than 11.",
+	"manifestutil.too-low-priority": "Line {0} is invalid: Priority cannot be lower than 10.",
 	"manifestutil.cannot-find-big-file": "Line {0} is invalid: Cannot find file {1}",
 	"manifestutil.conflict-found": "{0} and {1} are conflicting with {2}",
 	

@@ -17,6 +17,28 @@ internal class FileGridList
         this.owner = owner;
     }
 
+    public void OnCellSelect(object sender, DataGridCellPointerPressedEventArgs e)
+    {
+        if (sender is not DataGrid grid)
+            return;
+
+        string? strpriority = GetText(grid.Columns[1].GetCellContent(e.Row));
+
+        if (strpriority.Equals("10"))
+        {
+            if (owner.ConflictBox.Text.Contains("STARTUP MOD"))
+                return;
+
+            owner.ConflictBox.Text = "STARTUP MOD\n\n" + owner.ConflictBox.Text;
+        } else
+        {
+            if (!owner.ConflictBox.Text.Contains("STARTUP MOD"))
+                return;
+
+            owner.ConflictBox.Text = owner.ConflictBox.Text.Substring(13);
+        }
+    }
+
     public void OnCellEdit(object sender, DataGridCellEditEndingEventArgs e)
     {
         if (sender is not DataGrid grid)
@@ -68,11 +90,11 @@ internal class FileGridList
             return;
         }
 
-        //Do not allow priorities lower than 11.
-        if (e.Column.DisplayIndex == 1 && priority < 11)
+        //Do not allow priorities lower than 10.
+        if (e.Column.DisplayIndex == 1 && priority < 10)
         {
             grid.CancelEdit();
-            Utils.ShowDialog(owner, Translate.Get("filelist.priority-less-than-eleven"));
+            Utils.ShowDialog(owner, Translate.Get("filelist.priority-less-than-ten"));
             return;
         }
 

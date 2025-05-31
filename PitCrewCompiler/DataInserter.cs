@@ -17,7 +17,8 @@ namespace PitCrewCompiler
             this.data = data;
             this.directory = directory;
 
-            BigFileUtil.UnpackBigFile(Path.Combine(directory, "startup.fat"), "tmp");
+            //This is now done for us in StartupRepair
+            //BigFileUtil.UnpackBigFile(Path.Combine(directory, "startup.fat"), "tmp");
             ScanFileInfo();
             ScanForConflict();
             InsertModdedFiles();

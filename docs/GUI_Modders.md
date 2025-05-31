@@ -20,7 +20,9 @@ File paths are the relative path to the .fat/.dat pairs from the manifest's loca
 
 Priorities are when a mod should be loaded in comparison to the rest of the files, the lower the number the higher the priority.
 
-To add a file, have your .fat/.dat already in the appropriate folder inside your game (preferably in a folder called mods inside data_win32), then write in the file path the location without the extension. An example would be `mods/modfile1`. Once you finish editing, the priority should auto populate with 998. This guarantees your mod will load before any game files, to ensure it loads before other mods, set it lower. 
+To add a file, have your .fat/.dat already in the appropriate folder inside your game (preferably in a folder called mods inside data_win32), then write in the file path the location without the extension. An example would be `mods/modfile1`. Once you finish editing, the priority should auto populate with 998. This guarantees your mod will load before any game files, to ensure it loads before other mods, set it lower.
+
+If you set a file with a priority of 10, you are labelling it as a startup mod. Doing so will take any file inside of it and insert/replace them in startup.dat. 
 
 > Tip: Try to name your modded .fat/.dat's something unique to avoid naming conflicts. Rather than gui_file, consider prepending the author name then the modId like AuthorModId_gui_file.
 

@@ -18,7 +18,7 @@
 	"filelist.priority-blank": "Вы не можете сделать приоритет пустым, сначала удалите путь, чтобы потом удалить элемент списка.",
 	"filelist.priority-requires-number": "Приоритет должен быть числом.",
 	"filelist.priority-no-edit-before-path": "Вы не можете редактировать приоритет перед путём.",
-	"filelist.priority-less-than-eleven": "Приоритет не может быть ниже 11.",
+	"filelist.priority-less-than-ten": "Приоритет не может быть ниже 10.",
 	"filelist.unable-to-find": "Не удалось найти",
 	"filelist.already-in-use": "Мод {0} уже использует это.",
 	"filelist.filepath": "Путь к файлу",
@@ -111,7 +111,7 @@
 	"manifestutil.invalid-location": "Файл отсутствует в папке data_win32.",
 	"manifestutil.no-startup-file": "Не удалось найти startup.dat или .fat в папке data_win32.",
 	"manifestutil.invalid-priority": "Строка {0} недействительна: Приоритет должен быть числом.",
-	"manifestutil.too-low-priority": "Строка {0} недействительна: Приоритет не может быть ниже 11.",
+	"manifestutil.too-low-priority": "Строка {0} недействительна: Приоритет не может быть ниже 10.",
 	"manifestutil.cannot-find-big-file": "Строка {0} недействительна: Невозможно найти файл {1}.dat или .fat",
 	"manifestutil.conflict-found": "{0} и {1} конфликтуют с {2}",
 	

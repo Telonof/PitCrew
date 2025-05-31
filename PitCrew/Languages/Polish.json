@@ -18,7 +18,7 @@
 	"filelist.priority-blank": "Nie możesz nie ustawić priorytetu, usuń ścieżkę by usunąć",
 	"filelist.priority-requires-number": "Priorytet musi być numerem.",
 	"filelist.priority-no-edit-before-path": "Nie możesz zmienić priorytetu przed ustawieniem ścieżki.",
-	"filelist.priority-less-than-eleven": "Priorytet nie może być niższy niż 11.",
+	"filelist.priority-less-than-ten": "Priorytet nie może być niższy niż 10.",
 	"filelist.unable-to-find": "Unable to find",
 	"filelist.already-in-use": "Modyfikacja {0} już tego używa.",
 	"filelist.filepath": "Ścieżka do pliku",
@@ -111,7 +111,7 @@
 	"manifestutil.invalid-location": "Nie można znaleźć pliku w folderze data_win32.",
 	"manifestutil.no-startup-file": "Nie można znaleźć pliku startup.dat lub .fat w folderze data_win32.",
 	"manifestutil.invalid-priority": "Linia {0} jest niepoprawna: Priorytet musi być liczbą.",
-	"manifestutil.too-low-priority": "Linia {0} jest niepoprawna: Priorytet nie może być niższy niż 11.",
+	"manifestutil.too-low-priority": "Linia {0} jest niepoprawna: Priorytet nie może być niższy niż 10.",
 	"manifestutil.cannot-find-big-file": "Linia {0} jest niepoprawna: Nie można odnaleźć pliku {1}.dat lub .fat",
 	"manifestutil.conflict-found": "{0} i {1} konfliktują z {2}",
 	

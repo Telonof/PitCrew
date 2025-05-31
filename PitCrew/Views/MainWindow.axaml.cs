@@ -96,6 +96,7 @@ public partial class MainWindow : Window
         FileList.Columns.Add(modPath);
         FileList.Columns.Add(priority);
         FileList.CellEditEnding += IM.fileGridList.OnCellEdit;
+        FileList.CellPointerPressed += IM.fileGridList.OnCellSelect;
         FileList.KeyDown += IM.fileGridList.OnCellDelete;
 
         //Setup languages
