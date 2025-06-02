@@ -27,8 +27,4 @@
     <ProjectReference Include="..\PitCrewCompiler\PitCrewCompiler.csproj" />
     <Content Include="Languages\*.*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if $(ConfigurationName) == Debug xcopy /E /I /Y &quot;..\Gibbed.Dunia2\bin\projects&quot; &quot;$(TargetDir)projects&quot;&#xD;&#xA;" />
-  </Target>
 </Project>

@@ -110,18 +110,18 @@ internal partial class ModWindow : Window
     {
         string[] list = [IDTextbox.Text, TitleTextbox.Text, AuthorTextbox.Text, DescriptionTextbox.Text];
 
-        if (IDTextbox.Text.Any(char.IsWhiteSpace))
-        {
-            Utils.ShowDialog(this, Translate.Get("modedit.no-whitespace-allowed"));
-            return null;
-        }
-
         foreach (string input in list)
         {
             if (!string.IsNullOrWhiteSpace(input))
                 continue;
 
             Utils.ShowDialog(this, Translate.Get("modedit.no-blank-fields"));
+            return null;
+        }
+
+        if (IDTextbox.Text.Any(char.IsWhiteSpace))
+        {
+            Utils.ShowDialog(this, Translate.Get("modedit.no-whitespace-allowed"));
             return null;
         }
 
