@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -76,7 +77,7 @@ public class RightClickTree
 
         System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
         {
-            FileName = IM.currentMod.ID + ".zip",
+            FileName = Path.GetDirectoryName(Environment.ProcessPath),
             UseShellExecute = true
         });
     }
