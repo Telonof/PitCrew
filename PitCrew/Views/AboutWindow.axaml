@@ -3,9 +3,9 @@
         x:Class="PitCrew.Views.AboutWindow"
         Title="{Binding Source='about.title', Converter={StaticResource Translator}}"
         MinWidth="408"
-        MinHeight="185"
+        MinHeight="200"
         MaxWidth="408"
-        MaxHeight="185"
+        MaxHeight="200"
         CanResize="False"
 		WindowStartupLocation="CenterOwner">
 	

@@ -4,9 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Class="PitCrew.Views.MainWindow"
         Title="PitCrew"
-        MinWidth="816"
+        MinWidth="840"
         MinHeight="538"
-		Width="816"
+		Width="840"
 		Height="538"
 		WindowStartupLocation="CenterScreen">
 
@@ -34,9 +34,9 @@
 
 				<MenuItem Name="ThemeSwitcherButton" Header="{Binding Source='menubar.theme', Converter={StaticResource Translator}}" Click="ThemeSwitcherButton_Click" />
 
-				<MenuItem Name="LanguageMenuButton" Header="{Binding Source='menubar.language', Converter={StaticResource Translator}}" />
-				
     			<MenuItem Name="AboutMenuButton" Header="{Binding Source='menubar.about', Converter={StaticResource Translator}}" Click="AboutMenuButton_Click" />
+
+				<MenuItem Name="LanguageMenuButton" Header="🌐"/>
 			</Menu>
 		</DockPanel>
 
