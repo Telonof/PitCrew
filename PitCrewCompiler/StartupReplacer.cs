@@ -23,8 +23,11 @@ namespace PitCrewCompiler
             }
 
             //Create cstartup if not existing yet
-            File.Copy(startupFatPath, cstartupFatPath, false);
-            File.Copy(startupDatPath, cstartupDatPath, false);
+            if (!File.Exists(cstartupFatPath))
+            {
+                File.Copy(startupFatPath, cstartupFatPath);
+                File.Copy(startupDatPath, cstartupDatPath);
+            }
 
             if (files.Count < 1)
                 return;
