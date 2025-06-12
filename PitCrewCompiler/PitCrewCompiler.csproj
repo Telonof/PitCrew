@@ -13,6 +13,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Gibbed.Dunia2\Dunia2.MergeBinaryObject\Dunia2.MergeBinaryObject.csproj" />
     <ProjectReference Include="..\PitCrewCommon\PitCrewCommon.csproj" />
-    <Content Include="Languages\*.*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+
+  <Target Name="CopyLanguages" AfterTargets="Build">
+	<ItemGroup>
+		<LanguageFiles Include="..\Languages\**\*.*" />
+	</ItemGroup>
+	<Copy SourceFiles="@(LanguageFiles)"
+	      DestinationFiles="@(LanguageFiles->'$(OutputPath)Languages\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
 </Project>
