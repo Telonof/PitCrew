@@ -118,5 +118,7 @@
 	
 	"compiler.unknown-file": "Nieznany plik.",
 	"compiler.conflict-in-original-file": "{0} konfliktuje z obecnym plikiem filesinfos.xml",
+	"compiler.file-not-found-in-xml": "Cannot find file {0}.",
+	"compiler.no-attribute-in-root": "Cannot find the file attribute inside the root of {0}.",
 	"compiler.success": "Spakowane i gotowe!"
 }

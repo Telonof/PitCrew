@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gibbed.ProjectData", "Gibbe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitCrew", "PitCrew\PitCrew.csproj", "{1FFF7CCF-159E-4288-B203-F1A46351B54E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dunia2.MergeBinaryObject", "Gibbed.Dunia2\Dunia2.MergeBinaryObject\Dunia2.MergeBinaryObject.csproj", "{82C2A925-8CC5-4436-9E1E-23A1D7545E9B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gibbed.Dunia2.BinaryObjectInfo", "Gibbed.Dunia2\Gibbed.Dunia2.BinaryObjectInfo\Gibbed.Dunia2.BinaryObjectInfo.csproj", "{6E15CA32-966F-46DF-A14F-CFC80BD00F94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{1FFF7CCF-159E-4288-B203-F1A46351B54E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FFF7CCF-159E-4288-B203-F1A46351B54E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FFF7CCF-159E-4288-B203-F1A46351B54E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82C2A925-8CC5-4436-9E1E-23A1D7545E9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82C2A925-8CC5-4436-9E1E-23A1D7545E9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82C2A925-8CC5-4436-9E1E-23A1D7545E9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82C2A925-8CC5-4436-9E1E-23A1D7545E9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E15CA32-966F-46DF-A14F-CFC80BD00F94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E15CA32-966F-46DF-A14F-CFC80BD00F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E15CA32-966F-46DF-A14F-CFC80BD00F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E15CA32-966F-46DF-A14F-CFC80BD00F94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

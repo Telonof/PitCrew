@@ -118,5 +118,7 @@
 	
 	"compiler.unknown-file": "Неизвестный файл.",
 	"compiler.conflict-in-original-file": "{0} конфликтует с вашим текущим файлом filesinfos.xml",
+	"compiler.file-not-found-in-xml": "Cannot find file {0}.",
+	"compiler.no-attribute-in-root": "Cannot find the file attribute inside the root of {0}.",
 	"compiler.success": "Все упаковано и готово к отправке!"
 }

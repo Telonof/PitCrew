@@ -16,7 +16,7 @@
 
         public static void checkAndDeleteFile(string filePath)
         {
-            if (Directory.Exists(filePath))
+            if (File.Exists(filePath))
                 File.Delete(filePath);
         }
     }

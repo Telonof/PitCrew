@@ -39,3 +39,6 @@ Head to the menu bar, then Utilities -> Unpack Archive.
 For unpacking, select your output folder and the .fat file of the archive you wish to unpack, then hit the button.
 
 For packing, select your input folder and the location you want the .fat file to be saved. You can optionally add an author to the file or turn on/off compression.
+
+## Merging Binaries
+To see how to merge binaries, please check [Merging_Binaries](Merging_Binaries.md)

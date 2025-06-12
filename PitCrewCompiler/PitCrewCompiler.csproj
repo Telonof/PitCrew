@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Gibbed.Dunia2\Dunia2.MergeBinaryObject\Dunia2.MergeBinaryObject.csproj" />
     <ProjectReference Include="..\PitCrewCommon\PitCrewCommon.csproj" />
     <Content Include="Languages\*.*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

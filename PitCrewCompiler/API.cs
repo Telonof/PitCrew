@@ -6,8 +6,9 @@ namespace PitCrewCompiler
     {
         public static void compileManifest(string manifestFile)
         {
-            Dictionary<string, string> fileInfosData = new Dictionary<string, string>();
+            Dictionary<string, string> fileInfosData = [];
             List<string> startupMods = [];
+            Dictionary<string, int> xmlFiles = [];
 
             string? output = ManifestUtil.ValidateManifestFile(manifestFile);
 
@@ -35,9 +36,23 @@ namespace PitCrewCompiler
                     continue;
                 }
 
+                if (parts[1].EndsWith(".xml"))
+                {
+                    //Priority should be validated from check above
+                    int.TryParse(parts[0], out int priority);
+                    xmlFiles.Add(parts[1], priority);
+                    continue;
+                }
+
                 fileInfosData[parts[1]] = parts[0];
             }
 
+            if (xmlFiles.Count > 0)
+            {
+                List<string> sortedFiles = xmlFiles.OrderByDescending(x => x.Value).Select(x => x.Key).ToList();
+                new BinaryInserter(manifestFile, sortedFiles);
+                fileInfosData["PitCrewBase"] = "11";
+            }
             _ = new StartupReplacer(Path.GetDirectoryName(manifestFile), startupMods);
             _ = new DataInserter(fileInfosData, Path.GetDirectoryName(manifestFile));
         }
