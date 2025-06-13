@@ -36,7 +36,11 @@
 
     			<MenuItem Name="AboutMenuButton" Header="{Binding Source='menubar.about', Converter={StaticResource Translator}}" Click="AboutMenuButton_Click" />
 
-				<MenuItem Name="LanguageMenuButton" Header="🌐"/>
+				<MenuItem Name="LanguageMenuButton">
+					<MenuItem.Header>
+						<Image Width="19" Margin="0,1,0,0" Source="avares://PitCrew/Assets/language_icon.png"/>
+					</MenuItem.Header>
+				</MenuItem>
 			</Menu>
 		</DockPanel>
 

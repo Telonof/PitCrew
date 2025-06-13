@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\PitCrewCommon\PitCrewCommon.csproj" />
     <ProjectReference Include="..\PitCrewCompiler\PitCrewCompiler.csproj" />
+	<AvaloniaResource Include="Assets\**"/>
   </ItemGroup>
 	
   <Target Name="CopyLanguages" AfterTargets="Build">
