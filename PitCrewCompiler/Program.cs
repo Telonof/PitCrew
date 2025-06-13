@@ -7,7 +7,7 @@ public class Program
     {
         if (args.Length < 1)
         {
-            Console.WriteLine($"Usage: {Environment.ProcessPath} <file>");
+            Console.WriteLine($"Usage: {Path.GetFileName(Environment.ProcessPath)} <file>");
             return;
         }
 
