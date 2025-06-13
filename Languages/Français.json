@@ -105,7 +105,6 @@
 	"menubar.unpack": "Décompresser l'archive",
 	"menubar.pack": "Compresser l'archive",
 	"menubar.theme": "Thème",
-	"menubar.language": "Langue",
 	"menubar.about": "À propos",
 	
 	"manifestutil.invalid-folder": "Dossier invalide.",

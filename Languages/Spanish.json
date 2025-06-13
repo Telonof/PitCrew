@@ -106,7 +106,6 @@
 	"menubar.unpack": "Desempaquetar Archivo",
 	"menubar.pack": "Empaquetar Archivo",
 	"menubar.theme": "Tema",
-	"menubar.language": "Idioma",
 	"menubar.about": "Sobre",
 
 	"manifestutil.invalid-folder": "Carpeta inválida.",

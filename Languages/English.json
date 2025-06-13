@@ -106,7 +106,6 @@
 	"menubar.unpack": "Unpack Archive",
 	"menubar.pack": "Pack Archive",
 	"menubar.theme": "Theme",
-	"menubar.language": "Language",
 	"menubar.about": "About",
 	
 	"manifestutil.invalid-folder": "Invalid folder.",

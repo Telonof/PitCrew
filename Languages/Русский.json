@@ -105,7 +105,6 @@
 	"menubar.unpack": "Распаковать архив",
 	"menubar.pack": "Запаковать архив",
 	"menubar.theme": "Тема",
-	"menubar.language": "Язык",
 	"menubar.about": "О программе",
 	
 	"manifestutil.invalid-folder": "Неверная папка.",

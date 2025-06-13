@@ -105,7 +105,6 @@
 	"menubar.unpack": "Archiv entpacken",
 	"menubar.pack": "Archiv paketisieren",
 	"menubar.theme": "Aussehen",
-	"menubar.language": "Sprache",
 	"menubar.about": "Über",
 	
 	"manifestutil.invalid-folder": "Ungültiger Ordner.",
