@@ -1,21 +1,21 @@
 {
 	"translation-author": "fabale09",
 	
-	"language-restart": "Sprache wird beim Neustart von PitCrew übernommen.",
+	"language-restart": "Die Sprache wird beim Neustart von PitCrew übernommen.",
 	
 	"messagebox-title-default": "Info",
 	
 	"about.title": "Über",
 	"about.description": "Ein Mod Loader für The Crew 1",
 	"about.author": "Von: FTIW",
-	"about.translator": "Translation By: ",
+	"about.translator": "Übersetzung von: ",
 	"about.discord": "Trete dem TCU Discord bei",
 	
 	"modinfo.default-name": "Standart",
 	"modinfo.default-author": "Unterschiedlich",
 	"modinfo.default-description": "Sammlung von allen unsortierten Dateien.",
 	
-	"filelist.priority-blank": "Du kannst die Priorität nicht leer lassen, lösche den Pfad um das Listenelement zu entfernen.",
+	"filelist.priority-blank": "Du kannst diese Priorität nicht leer lassen, lösche den Pfad um das Listenelement zu entfernen.",
 	"filelist.priority-requires-number": "Die Priorität muss eine Nummer sein.",
 	"filelist.priority-no-edit-before-path": "Du kannst die Priorität nicht vor dem Pfad bearbeiten.",
 	"filelist.priority-less-than-ten": "Priorität kann nicht tiefer als 10 sein.",
@@ -43,8 +43,8 @@
 	"modlist.packagemod.success": "Mod wurde zum teilen paketisiert unter {0}.zip\nIm Explorer anzeigen?",
 	"modlist.deletemod-warning": "Bist du dir sicher das du dies löschen willst?\nDie Metadaten und alle Mod Dateien werden gelöscht.",
 	
-	"modlist.rightclick.package": "Packe Mod",
-	"modlist.rightclick.edit": "Bearbeite Metadaten",
+	"modlist.rightclick.package": "Mod paketisieren",
+	"modlist.rightclick.edit": "Metadaten bearbeiten",
 	"modlist.rightclick.delete": "Mod löschen",
 	
 	"importmod.filechooser.title": "Bitte wähle eine .mdata oder zip Datei",
@@ -52,7 +52,7 @@
 	"importmod.invalid-extension": "Falsche Dateierweiterung.",
 	"importmod.invalid-zip": "Ungültige zip Datei, .mdata kann nicht gefunden werden.",
 	"importmod.overwrite-old-mod": "Ein Mod mit dieser ID existiert bereits.\nÜberschreiben?",
-	"importmod.file-in-use": "Ein anderer Mod verwendet gerade eine Datei mit dem Namen {0}. Bitte benenne die Datei für diesen Mod um, mache das ebenfalls in der metadata.",
+	"importmod.file-in-use": "Ein anderer Mod verwendet gerade eine Datei mit diesem Namen {0}. Bitte benenne die Datei für diesen Mod um, mache dies ebenfalls in der metadata.",
 	
 	"bigfile.unpacktitle": "Grosse Dateien entpacken",
 	"bigfile.packtitle": "Grosse Dateien paketisieren",
@@ -80,7 +80,7 @@
 	"instances.selectexe.title": "Bitte wähle The Crew's EXE aus",
 	"instances.selectexe.filter": "Exe Datei",
 	"instances.invalid-exe": "Der Ordner data_win32 konnte nicht gefunden werden.",
-	"instances.instance-already-found": "Instanz existiert bereits.",
+	"instances.instance-already-found": "Die Instanz existiert bereits.",
 	"instances.textinput.header": "Bitte gib den Namen ein:",
 	"instances.textinput.title": "Texteingabe",
 	
@@ -90,10 +90,10 @@
 	"modedit.title": "Titel",
 	"modedit.author": "Autor",
 	"modedit.desc": "Beschreibung",
-	"modedit.desc-text": "Halte es bitte kurz.",
+	"modedit.desc-text": "Bitte halte es kurz.",
 	"modedit.create": "Erstellen",
 	"modedit.edit": "Bearbeiten",
-	"modedit.mod-exists": "Mod ID existiert bereits.",
+	"modedit.mod-exists": "Diese Mod ID existiert bereits.",
 	"modedit.no-whitespace-allowed": "Die ID darf keine Leerzeichen enthalten.",
 	"modedit.no-blank-fields": "Alle Felder müssen eine Eingabe enthalten.",
 	
@@ -104,7 +104,7 @@
 	"menubar.utilities": "Werkzeuge",
 	"menubar.unpack": "Archiv entpacken",
 	"menubar.pack": "Archiv paketisieren",
-	"menubar.theme": "Aussehen",
+	"menubar.theme": "Erscheinung",
 	"menubar.about": "Über",
 	
 	"manifestutil.invalid-folder": "Ungültiger Ordner.",
@@ -117,7 +117,7 @@
 	
 	"compiler.unknown-file": "Unbekannte Datei.",
 	"compiler.conflict-in-original-file": "{0} hat einen Konflikt mit deinem aktuellen filesinfos.xml",
-	"compiler.file-not-found-in-xml": "Cannot find file {0}.",
-	"compiler.no-attribute-in-root": "Cannot find the file attribute inside the root of {0}.",
-	"compiler.success": "Alles paketisiert und bereit!"
+	"compiler.file-not-found-in-xml": "Datei {0} wurde nicht gefunden.",
+	"compiler.no-attribute-in-root": "Das Dateiattribut im Stammverzeichnis von {0} kann nicht gefunden werden.",
+	"compiler.success": "Paketisiert und bereit!"
 }

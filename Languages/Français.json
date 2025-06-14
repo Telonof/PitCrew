@@ -28,7 +28,7 @@
 	"conflictbox.no-mods": "Ajoutez vos mods en faisant glisser et en déposant les fichiers zip dans la case en surbrillance bleue.\nOr En cliquant sur mods -> Importer",
 	"conflictbox.no-conflicts": "N'oubliez pas de cliquer sur Compiler pour appliquer vos mods au jeu.",
 	"conflictbox.conflicting": "Ces mods sont en conflit:",
-	"conflictbox.startupfile": "STARTUP FILE",
+	"conflictbox.startupfile": "FICHIER DE DÉMARRAGE",
 		
 	"button.save": "Sauvegarder",
 	"button.compile": "Compiler",
@@ -72,7 +72,7 @@
 	"bigfile.pack-success": "Dossier emballé à {0}",
 	
 	"instances.title": "Sélection d'instance",
-	"instances.header": "Sélectionner une instance",
+	"instances.header": "Choisir une Instance",
 	"instances.renameitem": "Renommer",
 	"instances.deleteitem": "Supprimer",
 	"instances.delete-confirmation": "Êtes-vous sûr de vouloir supprimer ceci ?\nAucun fichier de mod réel ne sera supprimé.",
@@ -84,7 +84,7 @@
 	"instances.textinput.header": "Veuillez saisir le nom:",
 	"instances.textinput.title": "Saisie de texte",
 	
-	"modedit.title": "Metadata Window",
+	"modedit.title": "Fenêtre de métadonnées",
 	"modedit.header": "Modifier les métadonnées",
 	"modedit.id": "Mod ID (nom de fichier)",
 	"modedit.title": "Titre",
@@ -117,7 +117,7 @@
 	
 	"compiler.unknown-file": "Fichier inconnu.",
 	"compiler.conflict-in-original-file": "{0} a un conflit avec votre actuel filesinfos.xml",
-	"compiler.file-not-found-in-xml": "Cannot find file {0}.",
-	"compiler.no-attribute-in-root": "Cannot find the file attribute inside the root of {0}.",
-	"compiler.success": "Tous emballés et prêts à partir!"
+	"compiler.file-not-found-in-xml": "Impossible de trouver le fichier {0}.",
+	"compiler.no-attribute-in-root": "Impossible de trouver l'attribut de fichier à la racine de {0}.",
+	"compiler.success": "Tout emballés et prêts à partir!"
 }
