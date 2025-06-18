@@ -48,9 +48,9 @@ To be able to quickly merge multiple mods into these files, a depth system is ne
 
 The depth system works as follows:
 
-`root` means add/edit the root itself (depth of 0)
+`root` means add/edit the root itself of the binary (depth of 0)
 
-Specifying the depth with numbers has the root automatically truncated from the beginning. Meaning for a depth of `25:0:1:5`, the compiler will head to root(0) -> (26)th child object -> (1)st child object -> (2)nd child object -> (6)th child object and edit the specific fields.
+Specifying the depth with numbers has the root automatically truncated from the beginning. Meaning for a depth of `25:0:1:5`, the compiler will head to root(0) -> (26)th child object -> (1)st child object -> (2)nd child object -> (6)th child object and edit the specific fields. Each depth starts at 0 hence `25:0` is 26th child -> 1st child.
 
 Depths are required for each command you add to the file.
 
@@ -76,9 +76,9 @@ The edit command only supports fields and all of them have to be a child directl
 
 If the hash does not exist at that depth, the compiler will add it.
 
-If the hash exists but the value is empty, the compiler will remove it.
+If the hash exists but the value you set for it is empty, the compiler will remove it.
 
-If the hash exists with a value, the compiler will replace that value.
+If the hash exists and your value isn't empty, the compiler will replace that value.
 
 ### Delete Command
 
