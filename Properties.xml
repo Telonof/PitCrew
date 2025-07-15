@@ -3,6 +3,7 @@
   <!--If you don't know what you are doing, avoid touching this file!-->
   <Instances />
   <Settings>
+    <Setting Name="Lang" Value="English" />
     <Setting Name="Theme" Value="Dark" />
     <Setting Name="LastOpenedPath" Value="" />
   </Settings>

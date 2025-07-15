@@ -1,25 +1,33 @@
 ﻿using PitCrewCommon;
-using PitCrewCompiler;
+using PitCrewCommon.Models;
 
-public class Program
+namespace PitCrewCompiler
 {
-    internal static void Main(string[] args)
+    internal class Program
     {
-        if (args.Length < 1)
+        public static void Main(string[] args)
         {
-            Console.WriteLine($"Usage: {Path.GetFileName(Environment.ProcessPath)} <file>");
-            return;
+            ConfigManager config = new ConfigManager();
+            Translatable.Initialize(config.GetSetting(ConfigKey.Language) + ".json");
+            Logger.EraseLog();
+
+            if (args.Length < 1)
+            {
+                Console.WriteLine($"{Translatable.Get("compiler.usage")}: PitCrewCompiler.exe <{Translatable.Get("compiler.file")}>");
+                return;
+            }
+
+            if (!File.Exists(args[0]))
+            {
+                Console.WriteLine(Translatable.Get("compiler.file-not-found"));
+                return;
+            }
+
+            Instance instance = new Instance(args[0]);
+            instance.LoadFromXML(true);
+            
+            Compile compile = new Compile(instance);
+            compile.Run();
         }
-
-        string manifestFile = args[0];
-        Translate.Initialize("English.json");
-
-        if (!File.Exists(manifestFile))
-        {
-            Console.WriteLine(Translate.Get("compiler.unknown-file"));
-            return;
-        }
-
-        API.compileManifest(manifestFile);
     }
 }

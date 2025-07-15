@@ -2,19 +2,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:behaviors="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Xaml.Behaviors"
+        xmlns:vm="using:PitCrew.ViewModels"
         x:Class="PitCrew.Views.InstanceWindow"
-        Title="{Binding Source='instances.title', Converter={StaticResource Translator}}"
+        x:DataType="vm:InstanceWindowViewModel"
+        Title="{Binding Source='instances.title', Converter={StaticResource Translatable}}"
         Width="600"
         MinWidth="600"
         MinHeight="400"
-		WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner">
         
     <Window.Styles>
-		<Style Selector="TextBlock">
-			<Setter Property="FontFamily" Value="Verdana" />
-			<Setter Property="FontSize" Value="16" />
-		</Style>
-	</Window.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Verdana" />
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+    </Window.Styles>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -22,18 +25,38 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" FontSize="20" Text="{Binding Source='instances.header', Converter={StaticResource Translator}}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10" />
+        <TextBlock Grid.Row="0" FontSize="20" Text="{Binding Source='instances.header', Converter={StaticResource Translatable}}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10" />
 
-		<Button Name="AddInstanceButton" Grid.Row="0" Content="{Binding Source='button.add', Converter={StaticResource Translator}}" HorizontalAlignment="Right" Margin="10" Click="AddInstanceButton_Click" />
+        <Button Name="AddInstanceButton" Grid.Row="0" Content="{Binding Source='button.add', Converter={StaticResource Translatable}}" HorizontalAlignment="Right" Margin="10" Command="{Binding AddInstanceButton}" />
         
-        <ListBox Name="InstanceList" Grid.Row="1" Margin="10" BorderBrush="Gray" BorderThickness="1" DragDrop.AllowDrop="True">
-			<ListBox.ContextMenu>
-				<ContextMenu Opening="ContextMenu_Opening">
-                    <MenuItem Name="InstanceList_RenameInstanceItem" Header="{Binding Source='instances.renameitem', Converter={StaticResource Translator}}" Click="ContextMenuRenameItem_Click" />
-					<MenuItem Name="InstanceList_DeleteInstanceItem" Header="{Binding Source='instances.deleteitem', Converter={StaticResource Translator}}" Click="ContextMenuDeleteItem_Click" />
-				</ContextMenu>
-			</ListBox.ContextMenu>
-		</ListBox>
+        <ListBox Name="InstanceList" Grid.Row="1" Margin="10" BorderBrush="Gray" BorderThickness="1" DragDrop.AllowDrop="True" ItemsSource="{Binding Instances}" SelectedItem="{Binding HighlightedInstance, Mode=TwoWay}">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="InstanceList_RenameInstanceItem" Header="{Binding Source='instances.renameitem', Converter={StaticResource Translatable}}" Command="{Binding RenameInstance}"/>
+                    <MenuItem Name="InstanceList_DeleteInstanceItem" Header="{Binding Source='instances.deleteitem', Converter={StaticResource Translatable}}" Command="{Binding DeleteInstance}"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="Transparent">
+                        <Interaction.Behaviors>
+                            <DoubleTappedTrigger>
+                                <InvokeCommandAction Command="{Binding DataContext.LoadInstance, ElementName=InstanceList}}" />
+                            </DoubleTappedTrigger>
+                        </Interaction.Behaviors>
+                        <StackPanel Margin="5" Spacing="5">
+                            <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Bold" Classes="rtl"/>
+                            <TextBlock Text="{Binding Location}" FontSize="14" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            
+            <Interaction.Behaviors>
+                <FilesDropBehavior Command="{Binding AddInstance}" />
+            </Interaction.Behaviors>
+        </ListBox>
     </Grid>
 
 </Window>

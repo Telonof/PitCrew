@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:PitCrew.ViewModels"
+        x:Class="PitCrew.Views.LogWindow"
+        x:DataType="vm:LogWindowViewModel"
+        Title="{Binding Source='logs.title', Converter={StaticResource Translatable}}"
+        MinWidth="500"
+        MinHeight="300"
+        Width="620"
+        Height="300"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="0.6*"/>
+        </Grid.RowDefinitions>
+        
+        <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="2" Margin="5">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <TextBlock Name="LogBox" Text="{Binding LogsText}" VerticalAlignment="Top" TextWrapping="Wrap" Classes="rtl"/>
+            </ScrollViewer>
+        </Border>
+        
+        <ProgressBar Grid.Row="1" Maximum="{Binding MaxPercentage}" Value="{Binding CurrentPercentage}" Height="10" Foreground="Green" Margin="5" IsVisible="{Binding ProgressVisible}"/>
+    </Grid>
+</Window>

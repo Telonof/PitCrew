@@ -5,21 +5,19 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <OutputPath>..\bin</OutputPath>
-	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-	<RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+    <SelfContained>false</SelfContained>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gibbed.Dunia2\Dunia2.MergeBinaryObject\Dunia2.MergeBinaryObject.csproj" />
+    <Content Include="Assets\**\*">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PitCrewCommon\PitCrewCommon.csproj" />
   </ItemGroup>
 
-  <Target Name="CopyLanguages" AfterTargets="Build">
-	<ItemGroup>
-		<LanguageFiles Include="..\Languages\**\*.*" />
-	</ItemGroup>
-	<Copy SourceFiles="@(LanguageFiles)"
-	      DestinationFiles="@(LanguageFiles->'$(OutputPath)Languages\%(RecursiveDir)%(Filename)%(Extension)')" />
-  </Target>
 </Project>

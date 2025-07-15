@@ -1,14 +1,16 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:PitCrew.ViewModels"
         x:Class="PitCrew.Views.AboutWindow"
-        Title="{Binding Source='about.title', Converter={StaticResource Translator}}"
+        x:DataType="vm:AboutWindowViewModel"
+        Title="{Binding Source='about.title', Converter={StaticResource Translatable}}"
         MinWidth="408"
-        MinHeight="200"
+        MinHeight="190"
         MaxWidth="408"
-        MaxHeight="200"
+        MaxHeight="190"
         CanResize="False"
-		WindowStartupLocation="CenterOwner">
-	
+        WindowStartupLocation="CenterOwner">
+
     <Window.Styles>
         <Style Selector="TextBlock">
             <Setter Property="FontFamily" Value="Verdana" />
@@ -20,12 +22,13 @@
 
     <StackPanel Spacing="7" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0">
         <TextBlock Text="PitCrew" FontSize="40" />
-        <TextBlock Text="{Binding Source='about.description', Converter={StaticResource Translator}}" />
-        <TextBlock Text="{Binding Source='about.author', Converter={StaticResource Translator}}" />
-        <TextBlock Name="Translation" />
-        <TextBlock Name="DiscordLink" Text="{Binding Source='about.discord', Converter={StaticResource Translator}}"
-                Margin="0,5,0,0" Foreground="LightBlue" TextDecorations="Underline"
-                PointerMoved="DiscordLinkEnter" PointerPressed="DiscordLinkClick" />
+        <TextBlock Text="{Binding Source='about.description', Converter={StaticResource Translatable}}" />
+        <TextBlock Text="{Binding Source='about.author', Converter={StaticResource Translatable}}" />
+        <TextBlock Name="Translation" Text="{Binding TranslationText}"/>
+        <Button HorizontalAlignment="Center" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding DiscordLinkClick}" Height="30">
+            <TextBlock Name="DiscordLink" Text="{Binding Source='about.discord', Converter={StaticResource Translatable}}"
+                    Foreground="LightBlue" TextDecorations="Underline" />
+        </Button>
     </StackPanel>
-	
+
 </Window>

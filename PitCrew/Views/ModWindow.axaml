@@ -1,44 +1,46 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:PitCrew.ViewModels"
         x:Class="PitCrew.Views.ModWindow"
-        Title="{Binding Source='modedit.title', Converter={StaticResource Translator}}"
+        x:DataType="vm:ModWindowViewModel"
+        Title="{Binding Source='modedit.title', Converter={StaticResource Translatable}}"
         MinWidth="362"
         MinHeight="400"
         MaxWidth="362"
         MaxHeight="400"
-		CanResize="False"
-		WindowStartupLocation="CenterOwner">
+        CanResize="False"
+        WindowStartupLocation="CenterOwner">
 
-	<Window.Styles>
-		<Style Selector="TextBlock">
-			<Setter Property="FontFamily" Value="Verdana" />
-			<Setter Property="FontSize" Value="16" />
-		</Style>
-		
-		<Style Selector="TextBox">
-			<Setter Property="MinHeight" Value="30" />
-			<Setter Property="Height" Value="0" />
-			<Setter Property="Width" Value="200" />
-		</Style>
-	</Window.Styles>
+    <Window.Styles>
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Verdana" />
+            <Setter Property="FontSize" Value="16" />
+        </Style>
 
-	<Grid>
-		<TextBlock Name="CreateLabel" Text="{Binding Source='modedit.header', Converter={StaticResource Translator}}" HorizontalAlignment="Center" FontSize="20" Margin="0,10,0,0" />
+        <Style Selector="TextBox">
+            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="Height" Value="0" />
+            <Setter Property="Width" Value="200" />
+        </Style>
+    </Window.Styles>
 
-		<StackPanel Spacing="38" HorizontalAlignment="Center" Margin="0,60,0,0">
-			<TextBlock Text="{Binding Source='modedit.id', Converter={StaticResource Translator}}" Margin="-14,0,0,0" />
-			<TextBlock Text="{Binding Source='modedit.title', Converter={StaticResource Translator}}" Margin="-14,0,0,0" />
-			<TextBlock Text="{Binding Source='modedit.author', Converter={StaticResource Translator}}" Margin="-14,0,0,0" />
-			<TextBlock Text="{Binding Source='modedit.desc', Converter={StaticResource Translator}}" Margin="-37,0,0,0" />
-			<Button Name="SubmitButton" Content="{Binding Source='modedit.create', Converter={StaticResource Translator}}" IsDefault="True" Click="SubmitButton_Click" Margin="0,40,0,0" />
-		</StackPanel>
+    <Grid>
+        <TextBlock Name="CreateLabel" Text="{Binding Source='modedit.header', Converter={StaticResource Translatable}}" HorizontalAlignment="Center" FontSize="20" Margin="0,10,0,0" />
 
-		<StackPanel Spacing="30" HorizontalAlignment="Center" Margin="0,80,0,0">
-			<TextBox Name="IDTextbox" />
-			<TextBox Name="TitleTextbox" />
-			<TextBox Name="AuthorTextbox" />
-			<TextBox Name="DescriptionTextbox" Width="250" MinHeight="60" TextWrapping="Wrap" Text="{Binding Source='modedit.desc-text', Converter={StaticResource Translator}}" />
-		</StackPanel>
-	</Grid>
+        <StackPanel Spacing="38" HorizontalAlignment="Center" Margin="0,60,0,0">
+            <TextBlock Text="{Binding Source='modedit.id', Converter={StaticResource Translatable}}" Margin="-14,0,0,0" Classes="rtlm"/>
+            <TextBlock Text="{Binding Source='modedit.title', Converter={StaticResource Translatable}}" Margin="-14,0,0,0" Classes="rtlm"/>
+            <TextBlock Text="{Binding Source='modedit.author', Converter={StaticResource Translatable}}" Margin="-14,0,0,0" Classes="rtlm"/>
+            <TextBlock Text="{Binding Source='modedit.desc', Converter={StaticResource Translatable}}" Margin="-37,0,0,0" Classes="rtlm"/>
+            <Button Name="SubmitButton" Content="{Binding ButtonText}" IsDefault="True" Command="{Binding Submit}" Margin="0,40,0,0"/>
+        </StackPanel>
+
+        <StackPanel Spacing="30" HorizontalAlignment="Center" Margin="0,80,0,0">
+            <TextBox Text="{Binding Id}" IsEnabled="{Binding IdTextBoxEnabled}" />
+            <TextBox Text="{Binding Name}" Classes="rtl"/>
+            <TextBox Text="{Binding Author}" Classes="rtl"/>
+            <TextBox Name="DescriptionTextbox" Width="250" MinHeight="60" TextWrapping="Wrap" Text="{Binding Description}" Classes="rtl"/>
+        </StackPanel>
+    </Grid>
 
 </Window>

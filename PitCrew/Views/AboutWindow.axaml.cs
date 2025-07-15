@@ -1,31 +1,12 @@
-using Avalonia.Controls;
-using Avalonia.Input;
-using PitCrewCommon;
-using System.Diagnostics;
+﻿using Avalonia.Controls;
 
-namespace PitCrew.Views;
-
-internal partial class AboutWindow : Window
+namespace PitCrew.Views
 {
-    public AboutWindow()
+    public partial class AboutWindow : Window
     {
-        InitializeComponent();
-        Translation.Text = Translate.Get("about.translator") + Translate.Get("translation-author");
-    }
-
-    private void DiscordLinkEnter(object sender, PointerEventArgs e)
-    {
-        if (sender is not TextBlock block)
-            return;
-        
-        block.Cursor = new Cursor(StandardCursorType.Hand);
-    }
-
-    private void DiscordLinkClick(object sender, PointerPressedEventArgs e) {
-        ProcessStartInfo discordLink = new ProcessStartInfo("https://discord.com/invite/gUczTkphGE")
+        public AboutWindow()
         {
-            UseShellExecute = true
-        };
-        Process.Start(discordLink);
+            InitializeComponent();
+        }
     }
 }

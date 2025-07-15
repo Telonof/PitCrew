@@ -6,8 +6,8 @@
     </Style>
 
     <Style Selector="MenuItem:open /template/ Popup#PART_Popup > Border">
-	      <Setter Property="BorderBrush" Value="#383838" />
-	      <Setter Property="Background" Value="#383838" />
+          <Setter Property="BorderBrush" Value="#383838" />
+          <Setter Property="Background" Value="#383838" />
     </Style>
 
     <Style Selector="Button">
@@ -24,6 +24,6 @@
 
     <Style Selector="DataGridColumnHeader">
         <Setter Property="Foreground" Value="White" />
-	  </Style>
+    </Style>
 
 </Styles>

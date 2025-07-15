@@ -2,19 +2,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:PitCrew.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="PitCrew.Views.TextInputWindow"
-        Title="{Binding Source='instances.textinput.title', Converter={StaticResource Translator}}"
+        x:DataType="vm:TextInputWindowViewModel"
+        Title="{Binding Source='instances.textinput.title', Converter={StaticResource Translatable}}"
         Width="600"
         Height="150"
         CanResize="False"
-        WindowStartupLocation="CenterOwner"
-        Loaded="OnLoad">
+        WindowStartupLocation="CenterOwner">
 
     <StackPanel VerticalAlignment="Center" Margin="10" Spacing="10">
-        <TextBlock Name="InputText" Text="{Binding Source='instances.textinput.header', Converter={StaticResource Translator}}" />
-        <TextBox Name="Input" Height="30" />
-        <Button Name="SubmitButton" Content="{Binding Source='button.ok', Converter={StaticResource Translator}}" IsDefault="True" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="SubmitButton_Click" />
+        <TextBlock Name="InputText" Text="{Binding Source='instances.textinput.header', Converter={StaticResource Translatable}}" Classes="rtlm" />
+        <TextBox Name="Input" Height="30" Text="{Binding TextBox, Mode=TwoWay}" Classes="rtl"/>
+        <Button Name="SubmitButton" Content="{Binding Source='button.ok', Converter={StaticResource Translatable}}" IsDefault="True" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding Submit}" />
     </StackPanel>
-   
+
 </Window>

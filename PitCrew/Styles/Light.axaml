@@ -3,6 +3,6 @@
 
     <Style Selector="DataGridColumnHeader">
         <Setter Property="FontWeight" Value="Bold" />
-	  </Style>
+    </Style>
     
 </Styles>

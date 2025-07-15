@@ -17,8 +17,8 @@ PitCrew is the main GUI application, allowing you to create, edit, and package m
 PitCrewCompiler is a standalone CLI application that PitCrew relies on to compile. This reads a basic manifest file generated either manually or by the GUI and applies the data to the file it needs to.
 
 # Usage
-For GUI Users: Check [GUI_Users](docs/GUI_Users.md)
+For GUI Users: Check [GUI_Users](Docs/English/GUI_Users.md)
 
-For GUI Mod Creators: Check [GUI_Modders](docs/GUI_Modders.md)
+For GUI Mod Creators: Check [GUI_Modders](Docs/English/GUI_Modders.md)
 
-For CLI Usage: Check [here](docs/CLI_Usage.md)
+For CLI Usage: Check [here](Docs/English/CLI_Usage.md)

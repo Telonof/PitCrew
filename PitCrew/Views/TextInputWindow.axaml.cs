@@ -1,30 +1,12 @@
-using Avalonia.Controls;
-using Avalonia.Interactivity;
+﻿using Avalonia.Controls;
 
-namespace PitCrew.Views;
-
-public partial class TextInputWindow : Window
+namespace PitCrew.Views
 {
-    private string text = "";
-
-    public TextInputWindow()
+    internal partial class TextInputWindow : Window
     {
-        InitializeComponent();
-    }
-
-    public string GetText()
-    {
-        return text;
-    }
-
-    private void OnLoad(object sender, RoutedEventArgs e)
-    {
-        Input.Focus();
-    }
-
-    private void SubmitButton_Click(object sender, RoutedEventArgs e)
-    {
-        text = Input.Text;
-        Close();
+        public TextInputWindow()
+        {
+            InitializeComponent();
+        }
     }
 }

@@ -4,13 +4,22 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<OutputPath>..\bin</OutputPath>
-	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-	<RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Gibbed.Dunia2\Dunia2.MergeBinaryObject\Dunia2.MergeBinaryObject.csproj" />
     <ProjectReference Include="..\Gibbed.Dunia2\Gibbed.Dunia2.FileFormats\Gibbed.Dunia2.FileFormats.csproj" />
+    <ProjectReference Include="..\Gibbed.Dunia2\Gibbed.ProjectData\Gibbed.ProjectData.csproj" />
+    
+    <Content Include="..\Languages\**\*">
+        <Link>Languages\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Gibbed.Dunia2\bin\projects\**\*">
+        <Link>projects\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
