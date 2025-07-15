@@ -184,6 +184,9 @@ namespace PitCrew.ViewModels
             {
                 LoadedInstance.ModsGUI.Add(modGUI);
             }
+            
+            if (LoadedMod == null)
+                UI.ConflictBoxText = Translatable.Get("conflictbox.no-conflicts");
 
             FileUtil.CheckAndDeleteFolder(zipTempFolder);
             Save();

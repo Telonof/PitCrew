@@ -109,6 +109,9 @@ namespace PitCrewCommon.Models
                 string currentFileLoc = Path.Combine(Path.GetDirectoryName(mdataPath), Path.GetFileName(modInfo[1]));
                 string newFileLoc = Path.Combine(baseDirectory, newLocation);
 
+                if (!Path.HasExtension(currentFileLoc))
+                    currentFileLoc = Path.ChangeExtension(currentFileLoc, ".fat");
+
                 //Warn and don't copy
                 if (!File.Exists(currentFileLoc))
                 {
@@ -116,12 +119,13 @@ namespace PitCrewCommon.Models
                     continue;
                 }
 
-                if (!Path.HasExtension(currentFileLoc))
+                if (Path.GetExtension(currentFileLoc).Equals(".fat"))
                 {
                     File.Copy(Path.ChangeExtension(currentFileLoc, ".dat"), Path.ChangeExtension(newFileLoc, ".dat"), true);
-                    File.Copy(Path.ChangeExtension(currentFileLoc, ".fat"), Path.ChangeExtension(newFileLoc, ".fat"), true);
+                    File.Copy(currentFileLoc, Path.ChangeExtension(newFileLoc, ".fat"), true);
                     continue;
                 }
+                
                 File.Copy(currentFileLoc, newFileLoc, true);
             }
 
