@@ -58,15 +58,14 @@ namespace PitCrewCompiler
 
                 _ = new BinaryInserter(Instance.GetDirectory(), XmlMods);
 
-                //We really don't care what PitCrewBase's parent mod is, it only ever exists on compile time and we don't need much access to it's data.
-                FilesinfosMods.Add(new ModFile(null, "mods/PitCrewBase", 11));
+                FilesinfosMods.Add(new ModFile(XmlMods[0].ParentMod, "mods/PitCrewBase", 11));
             }
             else
             {
                 //Delete that server data binary we may have edited.
                 //TODO This stinks if someone is manually editing it.
                 if (!string.IsNullOrWhiteSpace(Instance.ServerLocation))
-                    FileUtil.CheckAndDeleteFile(Path.Combine(Instance.ServerLocation, "server_data.fcb"));
+                    FileUtil.CheckAndDeleteFile(Path.Combine(Instance.ServerLocation, Constants.SERVER_DATA_FILE));
             }
 
             _ = new FilesInfosInserter(Instance.GetDirectory(), FilesinfosMods);

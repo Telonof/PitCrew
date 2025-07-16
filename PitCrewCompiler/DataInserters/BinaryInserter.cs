@@ -75,8 +75,8 @@ namespace PitCrewCompiler.DataInserters
                         continue;
                     }
 
-                    mergingPath = Path.Combine(serverPath, "server_data.fcb");
-                    File.Copy("Assets/server_data.fcb", mergingPath, true);
+                    mergingPath = Path.Combine(serverPath, Constants.SERVER_DATA_FILE);
+                    File.Copy(Path.Combine("Assets", Constants.SERVER_DATA_FILE), mergingPath, true);
                     */
                 }
 
