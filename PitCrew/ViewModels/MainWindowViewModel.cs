@@ -140,6 +140,12 @@ namespace PitCrew.ViewModels
 
         public async void ImportMod(string path)
         {
+            if (LoadedInstance == null)
+            {
+                await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("server.no-instance")));
+                return;
+            }
+
             string zipTempFolder = "!PitCrewZipTempFolder";
 
             //If a zip was given, extract it to a temporary folder first then run as if it was mdata.

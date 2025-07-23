@@ -129,7 +129,7 @@ namespace PitCrew.ViewModels
             if (confirm.Result != MessageBoxViewModel.ResultType.OK)
                 return;
 
-            if (HighlightedInstance.Location.Equals(MainWindow.LoadedInstance.Location))
+            if (MainWindow.LoadedInstance != null && HighlightedInstance.Location.Equals(MainWindow.LoadedInstance.Location))
             {
                 MainWindow.LoadedInstance = null;
                 MainWindow.LoadedMod = null;
