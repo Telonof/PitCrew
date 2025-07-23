@@ -47,6 +47,9 @@ namespace PitCrew.ViewModels
                 await Service.WindowManager.ShowDialog(MainWindow, new MessageBoxViewModel(Translatable.Get("modlist.packagemod.file-in-use")));
                 return;
             }
+            
+            //Clear this array as it's only used for packing, we don't need duplicate files found.
+            metadata.FoundModInfo.Clear();
 
             var zip = new ZipArchive(File.Open($"{modId}.zip", FileMode.Create), ZipArchiveMode.Create);
 
@@ -70,9 +73,6 @@ namespace PitCrew.ViewModels
             zip.CreateEntryFromFile(Path.Combine(baseDirectory, Constants.METADATA_FOLDER, $"{modId}.mdata"), $"{modId}.mdata");
 
             zip.Dispose();
-
-            //Clear this array as it's only used for packing, we don't need duplicate files found.
-            metadata.FoundModInfo.Clear();
 
             var result = new MessageBoxViewModel(string.Format(Translatable.Get("modlist.packagemod.success"), modId), MessageBoxViewModel.ButtonType.YesNo);
             await Service.WindowManager.ShowDialog(MainWindow, result);
