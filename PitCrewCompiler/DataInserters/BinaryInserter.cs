@@ -23,10 +23,19 @@ namespace PitCrewCompiler.DataInserters
         {
             BinaryObjectMerger merger = new BinaryObjectMerger();
 
+            //Find what pc_ folder the player is using as different copies have different pc_ directories.
+            string[] dirs = Directory.GetDirectories(directory, "pc_*");
+            //There should only be one, it would be very confusing if someone pasted a different pc_ in there.
+            string pc_dir = dirs[0];
+
             //Extract all global_db's if existing, and overwrite any files for each
             foreach (string patch in Patches)
             {
                 string bigFile = Path.Combine(directory, $"global_db{patch}.fat");
+                if (File.Exists(bigFile))
+                    BigFileUtil.UnpackBigFile(bigFile, XmlDirectory);
+
+                bigFile = Path.Combine(directory, pc_dir, $"localization{patch}.fat");
                 if (File.Exists(bigFile))
                     BigFileUtil.UnpackBigFile(bigFile, XmlDirectory);
             }
