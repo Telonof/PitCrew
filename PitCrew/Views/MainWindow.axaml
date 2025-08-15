@@ -43,7 +43,6 @@
                     <MenuItem Name="UnpackArchiveMenuButton" Header="{Binding Source='menubar.unpack', Converter={StaticResource Translatable}}" Command="{Binding BigFileWindow}" CommandParameter=""/>
                     <MenuItem Name="PackArchiveMenuButton" Header="{Binding Source='menubar.pack', Converter={StaticResource Translatable}}" Command="{Binding BigFileWindow}" CommandParameter="pack"/>
                     <MenuItem Name="LogWindowMenuButton" Header="{Binding Source='menubar.open-log', Converter={StaticResource Translatable}}" Command="{Binding LogWindow}"/>
-                    <MenuItem Name="ServerLocationMenuButton" Header="{Binding Source='menubar.set-server', Converter={StaticResource Translatable}}" Command="{Binding ServerLocation}"/>
                 </MenuItem>
 
                 <MenuItem Header="{Binding Source='menubar.theme', Converter={StaticResource Translatable}}">

@@ -19,6 +19,8 @@ namespace PitCrewCompiler.DataInserters
 
         private readonly List<string> Patches = ["", "_patch", "_patch_1"];
 
+        public bool ServerDataUsed { get; private set; } = false;
+
         public BinaryInserter(string directory, List<ModFile> xmlFiles)
         {
             BinaryObjectMerger merger = new BinaryObjectMerger();
@@ -61,23 +63,14 @@ namespace PitCrewCompiler.DataInserters
 
                 string mergingPath = Path.Combine(XmlDirectory, mergerFile);
 
+                //Handle server-side data
                 if (mergerFile.Equals("server", StringComparison.OrdinalIgnoreCase))
                 {
-                    //TODO enable this after thing comes out. And yes no translation system because rn no one should be even trying.
-                    Logger.Warn(101, "Server-side modding is not enabled yet, skipping file.");
-                    continue;
+                    ServerDataUsed = true;
 
-                    /*
-                    string serverPath = xmlFile.ParentMod.ParentInstance.ServerLocation;
-                    if (string.IsNullOrWhiteSpace(serverPath) || !Directory.Exists(serverPath))
-                    {
-                        Logger.Error(103, string.Format(Translatable.Get("compiler.no-server-found"), xmlFile.Location));
-                        continue;
-                    }
-
+                    string serverPath = Directory.GetParent(xmlFile.ParentMod.ParentInstance.GetDirectory()).FullName;
                     mergingPath = Path.Combine(serverPath, Constants.SERVER_DATA_FILE);
                     File.Copy(Path.Combine("Assets", Constants.SERVER_DATA_FILE), mergingPath, true);
-                    */
                 }
 
                 //Attempt to find the file this xml is trying to merge into.

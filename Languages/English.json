@@ -90,8 +90,6 @@
     "instances.textinput.title": "Text Input",
     
     "server.no-instance": "Instance not loaded.",
-    "server.select-server-folder": "Select the location of the server.",
-    "server.path-set": "Server path set to {0}",
     
     "modedit.title": "Metadata Window",
     "modedit.header": "Edit Metadata",
@@ -113,7 +111,6 @@
     "menubar.utilities": "Utilities",
     "menubar.unpack": "Unpack Archive",
     "menubar.pack": "Pack Archive",
-    "menubar.set-server": "Set Server Location",
     "menubar.open-log": "Open Logs",
     "menubar.theme": "Theme",
     "menubar.about": "About",
@@ -138,7 +135,6 @@
     "compiler.no-global-db": "No global_db files were found, cannot merge binaries.",
     "compiler.merging-file": "Merging file {0} into {1}...",
     "compiler.merging-startup-file": "Merging file {0} into startup...",
-    "compiler.no-server-found": "File {0} is trying to access the server location. But the server location is empty or cannot be found.",
     "compiler.no-attribute-in-root": "Cannot find the file attribute inside the root of {0}.",
     "compiler.success": "All packed up and ready to go!"
 }

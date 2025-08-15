@@ -4,7 +4,6 @@ namespace PitCrewCommon.Models
 {
     public class Instance
     {
-        public string ServerLocation { get; set; }
         public string Location { get; set; }
         public int PackageVersion { get; set; }
         public List<Mod> Mods { get; set; } = [];
@@ -22,9 +21,6 @@ namespace PitCrewCommon.Models
 
             XDocument document = XDocument.Load(Location);
             IsCLI = cli;
-
-            if (document.Root.Attribute("server") != null)
-                ServerLocation = document.Root.Attribute("server").Value;
 
             if (document.Root.Attribute("packageversion") == null || !int.TryParse(document.Root.Attribute("packageversion").Value, out int packageVersion))
                 packageVersion = 5;
@@ -53,7 +49,6 @@ namespace PitCrewCommon.Models
         {
             //Root instance with server attribute
             XElement rootElement =  new XElement("instance");
-            rootElement.SetAttributeValue("server", ServerLocation);
             rootElement.SetAttributeValue("packageversion", PackageVersion);
             
             foreach (Mod mod in Mods)

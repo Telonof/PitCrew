@@ -275,25 +275,6 @@ namespace PitCrew.ViewModels
             UI.ConflictBoxText = conflictBoxMessage;
         }
 
-        public async void ServerLocation()
-        {
-            if (LoadedInstance == null)
-            {
-                await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("server.no-instance")));
-                return;
-            }
-
-            var files = await Service.WindowManager.OpenFileDialogAsync(this, Translatable.Get("server.select-server-folder"), "", [], true);
-            if (files.Count == 0)
-                return;
-
-            string path = files[0].Path.LocalPath;
-            LoadedInstance.BaseModel.ServerLocation = path;
-            Save();
-
-            await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(string.Format(Translatable.Get("server.path-set"), path)));
-        }
-
         public void LogWindow()
         {
             Service.WindowManager.Show(new LogWindowViewModel(false));

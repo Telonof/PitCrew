@@ -56,16 +56,18 @@ namespace PitCrewCompiler
             {
                 XmlMods = XmlMods.OrderByDescending(mod => mod.Priority).ToList();
 
-                _ = new BinaryInserter(Instance.GetDirectory(), XmlMods);
+                BinaryInserter inserter = new BinaryInserter(Instance.GetDirectory(), XmlMods);
 
                 FilesinfosMods.Add(new ModFile(XmlMods[0].ParentMod, "mods/PitCrewBase", 11));
+
+                if (!inserter.ServerDataUsed)
+                    FileUtil.CheckAndDeleteFile(Path.Combine(Directory.GetParent(Instance.GetDirectory()).FullName, Constants.SERVER_DATA_FILE));
             }
             else
             {
                 //Delete that server data binary we may have edited.
                 //TODO This stinks if someone is manually editing it.
-                if (!string.IsNullOrWhiteSpace(Instance.ServerLocation))
-                    FileUtil.CheckAndDeleteFile(Path.Combine(Instance.ServerLocation, Constants.SERVER_DATA_FILE));
+                FileUtil.CheckAndDeleteFile(Path.Combine(Directory.GetParent(Instance.GetDirectory()).FullName, Constants.SERVER_DATA_FILE));
             }
 
             _ = new FilesInfosInserter(Instance.GetDirectory(), FilesinfosMods);
