@@ -7,13 +7,12 @@ If you want to ignore the GUI and just add mods to the manifest manually and com
 PitCrew relies on custom manifests to know what mods to apply and what priority each file in the mod uses. The manifests are forcefully located within the data_win32 folder of the game's location and look typically like this:
 
 ```xml
-<instance server="<Location to server emulator>">
+<instance>
   <mod id="id" enabled="false">
     <file priority="998" loc="mods/modFile1" />
   </mod>
 </instance>
 ```
-Each xml should have a root with a server attribute. This is meant for any binaries that hook into server-side modding.
 
 Each child object should be a `mod` node. The `id` attribute is required and is used to hook into the metadata and to serve as a name for messages.
 
@@ -26,8 +25,6 @@ A file's priority determines when it should load, the lower it is the earlier it
 
 `loc=mods/modFile1`
 The loc is the relative path of your file from the manifest, it will account for both .dat and .fat files of that name if given without an extension, adding .xml means the file is a binary needing to be merged, see more about that [here](Merging_Binaries.md).
-
-All of this can be edited in a text editor.
 
 ## Applying Manifest to Game
 In the command line, run `PitCrewCompiler.exe <manifest file>`. If the manifest is valid, it will backup your startup.fat/.dat and modify it to apply any files. If it's invalid, the program will output why and exit.
