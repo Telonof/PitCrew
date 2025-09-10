@@ -74,7 +74,6 @@ namespace PitCrewCommon.Models
                     continue;
 
                 ModFiles.Add(new ModFile(this, fileLoc, int.Parse(priority)));
-                Logger.Print(string.Format(Translatable.Get("parser.successful-parse"), fileLoc));
             }
         }
 
@@ -101,7 +100,6 @@ namespace PitCrewCommon.Models
                     continue;
 
                 ModFiles.Add(new ModFile(this, newLocation, int.Parse(modInfo[0])));
-                Logger.Print(string.Format(Translatable.Get("parser.successful-parse"), modInfo[1]));
 
                 //Now move the file(s) associated with that modInfo to their correct position.
                 FileUtil.CheckAndCreateFolder(Path.Combine(baseDirectory, "mods", Id, Path.GetDirectoryName(modInfo[1])));

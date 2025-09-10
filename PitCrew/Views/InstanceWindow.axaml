@@ -42,7 +42,7 @@
                     <Border Background="Transparent">
                         <Interaction.Behaviors>
                             <DoubleTappedTrigger>
-                                <InvokeCommandAction Command="{Binding DataContext.LoadInstance, ElementName=InstanceList}}" />
+                                <InvokeCommandAction Command="{Binding DataContext.LoadInstance, ElementName=InstanceList}" />
                             </DoubleTappedTrigger>
                         </Interaction.Behaviors>
                         <StackPanel Margin="5" Spacing="5">

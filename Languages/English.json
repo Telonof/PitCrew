@@ -119,7 +119,6 @@
         
     "parser.duplicate-file": "{0} is a duplicate file, skipping.",
     "parser.empty-string": "Either the priority or path is empty.",
-    "parser.successful-parse": "File {0} has been parsed successfully.",
     "parser.issue-found": "Mod {0} has an issue with file {1}.",
     "parser.not-integer": "Priority is not an integer.",
     "parser.too-low-priority": "Priority is lower than 10.",
