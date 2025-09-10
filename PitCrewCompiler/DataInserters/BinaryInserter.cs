@@ -25,10 +25,21 @@ namespace PitCrewCompiler.DataInserters
         {
             BinaryObjectMerger merger = new BinaryObjectMerger();
 
+            //Find what pc_ folder the player is using as different copies have different pc_ directories.
+            //Used for localization merging.
+            string[] localizationDirectories = Directory.GetDirectories(directory, "pc_*");
+            
+            //There should only be one, it would be very confusing if someone pasted a different pc_ in there.
+            string pc_dir = localizationDirectories[0];
+            
             //Extract all global_db's if existing, and overwrite any files for each
             foreach (string patch in Patches)
             {
                 string bigFile = Path.Combine(directory, $"global_db{patch}.fat");
+                if (File.Exists(bigFile))
+                    BigFileUtil.UnpackBigFile(bigFile, XmlDirectory);
+                
+                bigFile = Path.Combine(directory, pc_dir, $"localization{patch}.fat");
                 if (File.Exists(bigFile))
                     BigFileUtil.UnpackBigFile(bigFile, XmlDirectory);
             }
@@ -51,6 +62,7 @@ namespace PitCrewCompiler.DataInserters
 
             foreach (ModFile xmlFile in xmlFiles)
             {
+                BinaryObjectFile bof;
                 string file = Path.Combine(directory, xmlFile.Location);
 
                 XDocument xmlDoc = XDocument.Load(file);
@@ -73,6 +85,39 @@ namespace PitCrewCompiler.DataInserters
                     File.Copy(Path.Combine("Assets", Constants.SERVER_DATA_FILE), mergingPath, true);
                 }
 
+                //Handle localization. The goal is adding strings to every language in the game if modder does not care about specifying languages.
+                if (mergerFile.Equals("localization", StringComparison.OrdinalIgnoreCase))
+                {
+                    string[] directories = Directory.GetDirectories(Path.Combine(XmlDirectory, "localization"));
+
+                    Logger.Print(string.Format(Translatable.Get("compiler.merging-file"), "localization", Path.GetFileName(mergingPath)));
+
+                    foreach (string locDirectory in directories)
+                    {
+                        string localizationFile = Path.Combine(locDirectory, "99.localization.bin");
+                        if (!ModifiedFiles.ContainsKey(localizationFile))
+                            ModifiedFiles.Add(localizationFile, new BinaryObjectFile());
+
+                        bof = ModifiedFiles[localizationFile];
+
+                        if (bof.Root == null)
+                        {
+                            //Default localization settings
+                            BinaryObject obj = new BinaryObject();
+                            obj.NameHash = 150977874;
+                            obj.Uid = "0";
+                            bof.Root = obj;
+                        }
+
+                        bof.Root = merger.Merge(bof.Root, xmlDoc);
+                    }
+
+                    if (!xmlFile.ParentMod.ParentInstance.IsCLI)
+                        PercentageCalculator.IncrementProgress();
+
+                    continue;
+                }
+
                 //Attempt to find the file this xml is trying to merge into.
                 if (!File.Exists(mergingPath))
                 {
@@ -83,8 +128,6 @@ namespace PitCrewCompiler.DataInserters
                 Logger.Print(string.Format(Translatable.Get("compiler.merging-file"), Path.GetFileName(xmlFile.Location), Path.GetFileName(mergingPath)));
 
                 //Found it, now check the dictonary to see if we already modded it.
-                BinaryObjectFile bof;
-
                 if (!ModifiedFiles.ContainsKey(mergingPath))
                 {
                     BinaryObjectFile binaryObjectFile = new BinaryObjectFile();
@@ -98,6 +141,7 @@ namespace PitCrewCompiler.DataInserters
                 bof = ModifiedFiles[mergingPath];
 
                 bof.Root = merger.Merge(bof.Root, xmlDoc);
+
                 if (!xmlFile.ParentMod.ParentInstance.IsCLI)
                     PercentageCalculator.IncrementProgress();
             }

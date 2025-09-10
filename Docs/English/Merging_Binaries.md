@@ -34,6 +34,10 @@ Each XML file you insert into PitCrew will need to follow a structure like this:
 
 The root of the XML should have an attribute called file which tells PitCrew which file you wish to insert your data into. You can find these paths by extracting any of the global_db's and seeing their relative path inside the unpacked folder.
 
+Setting the `file` attribute to `server` will merge into the binary file found within the Assets folder of PitCrew.
+
+Setting the `file` attribute to `localization` will add your string to every language in the game. See more info [here](#localization-file).
+
 From there, there are 3 commands PitCrew will listen to.
 
 `add` - This will add any child objects of this command as child objects to the object specified in the depth.
@@ -86,3 +90,39 @@ The delete command will simply delete the specified depth along with any child o
 
 ## Compiling
 When compiling, whichever XMLs have the highest priority will merge first. So if you wish to edit an existing mod's data, you will need to set your XMLs priority lower.
+
+## Localization File
+If you want to add a string to every language globally, set the file attribute to `localization`. This will make a new string under the 99 localization bundle. From there, you will need to add to your mod a new file accounting for the table containing all strings.
+
+An example is say you want the string `AB`, first you would make the localization file like so:
+```xml
+<root file="localization">
+  <add depth="root">
+    <object hash="29D6A3E8">
+      <field hash="29D6A3E8" type="BinHex">41004200</field>
+      <!-- Set the value below to a high number to avoid conflicts -->
+      <field hash="BF396750" type="BinHex">45424D55</field>
+    </object>
+  </add>
+</root>
+```
+
+Then you need a new file editing the global table:
+```xml
+<root file="localization/tat.localization.bin">
+  <add depth="root">
+    <object hash="29D6A3E8">
+      <!-- Always set this to 63 (100) -->
+      <field hash="4AF2B3F3" type="BinHex">63000000</field>
+      <!-- Set this to the value you set above -->
+      <field hash="BF396750" type="BinHex">45424D55</field>
+    </object>
+  </add>
+  <edit depth="root">
+    <!-- Always set this to 64 -->
+    <field hash="1855B0EF" type="BinHex">64000000</field>
+  </edit>
+</root>
+```
+
+Add those two together in your mod to successfully add a string in-game.
