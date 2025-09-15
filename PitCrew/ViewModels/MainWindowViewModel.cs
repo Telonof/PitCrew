@@ -132,7 +132,7 @@ namespace PitCrew.ViewModels
                 if (!Path.GetExtension(path).Equals(".mdata") && !Path.GetExtension(path).Equals(".zip"))
                 {
                     await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("importmod.invalid-extension")));
-                    return;
+                    continue;
                 }
                 ImportMod(path);
             }

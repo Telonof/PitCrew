@@ -137,7 +137,13 @@ namespace PitCrew.ViewModels
         {
             foreach (var item in items)
             {
-                MainWindow.ImportMod(item.Path.LocalPath);
+                string path = item.Path.LocalPath;
+                if (!Path.GetExtension(path).Equals(".mdata") && !Path.GetExtension(path).Equals(".zip"))
+                {
+                    await Service.WindowManager.ShowDialogMainWindow(new MessageBoxViewModel(Translatable.Get("importmod.invalid-extension")));
+                    continue;
+                }
+                MainWindow.ImportMod(path);
             }
         }
     }
