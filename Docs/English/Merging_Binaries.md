@@ -92,14 +92,15 @@ The delete command will simply delete the specified depth along with any child o
 When compiling, whichever XMLs have the highest priority will merge first. So if you wish to edit an existing mod's data, you will need to set your XMLs priority lower.
 
 ## Localization File
-If you want to add a string to every language globally, set the file attribute to `localization`. This will make a new string under the 99 localization bundle. From there, you will need to add to your mod a new file accounting for the table containing all strings.
+If you want to add a string to every language globally, set the file attribute to `localization`. This will make a new string under the 99th localization bundle. From there, you will need to add to your mod a new file accounting for the table containing all strings.
 
 An example is say you want the string `AB`, first you would make the localization file like so:
 ```xml
 <root file="localization">
   <add depth="root">
     <object hash="29D6A3E8">
-      <field hash="29D6A3E8" type="BinHex">41004200</field>
+      <!-- This is AB in hexademical with nulls in between the characters and padding to the right. This is also done in-game -->
+      <field hash="29D6A3E8" type="BinHex">4100420000000000</field>
       <!-- Set the value below to a high number to avoid conflicts -->
       <field hash="BF396750" type="BinHex">45424D55</field>
     </object>
@@ -119,7 +120,7 @@ Then you need a new file editing the global table:
     </object>
   </add>
   <edit depth="root">
-    <!-- Always set this to 64 -->
+    <!-- Always set this to 63 + 1 -->
     <field hash="1855B0EF" type="BinHex">64000000</field>
   </edit>
 </root>
