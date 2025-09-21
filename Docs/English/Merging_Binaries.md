@@ -92,15 +92,15 @@ The delete command will simply delete the specified depth along with any child o
 When compiling, whichever XMLs have the highest priority will merge first. So if you wish to edit an existing mod's data, you will need to set your XMLs priority lower.
 
 ## Localization File
-If you want to add a string to every language globally, set the file attribute to `localization`. This will make a new string under the 99th localization bundle. From there, you will need to add to your mod a new file accounting for the table containing all strings.
+If you want to add a string to every language globally, set the file attribute to `localization`. This will make a new string under the 13th localization bundle. From there, you will need to add to your mod a new file accounting for the table containing all strings.
 
 An example is say you want the string `AB`, first you would make the localization file like so:
 ```xml
 <root file="localization">
   <add depth="root">
     <object hash="29D6A3E8">
-      <!-- This is AB in hexademical with nulls in between the characters and padding to the right. This is also done in-game -->
-      <field hash="29D6A3E8" type="BinHex">4100420000000000</field>
+      <!-- This is AB in hexademical with nulls in between the characters with 6 zeros padding to the right. This is also done with other strings. -->
+      <field hash="29D6A3E8" type="BinHex">410042000000</field>
       <!-- Set the value below to a high number to avoid conflicts -->
       <field hash="BF396750" type="BinHex">45424D55</field>
     </object>
@@ -113,16 +113,12 @@ Then you need a new file editing the global table:
 <root file="localization/tat.localization.bin">
   <add depth="root">
     <object hash="29D6A3E8">
-      <!-- Always set this to 63 (100) -->
+      <!-- Always set this to 0D (13) -->
       <field hash="4AF2B3F3" type="BinHex">63000000</field>
       <!-- Set this to the value you set above -->
       <field hash="BF396750" type="BinHex">45424D55</field>
     </object>
   </add>
-  <edit depth="root">
-    <!-- Always set this to 63 + 1 -->
-    <field hash="1855B0EF" type="BinHex">64000000</field>
-  </edit>
 </root>
 ```
 

@@ -62,7 +62,6 @@ namespace PitCrewCompiler.DataInserters
 
             foreach (ModFile xmlFile in xmlFiles)
             {
-                BinaryObjectFile bof;
                 string file = Path.Combine(directory, xmlFile.Location);
 
                 XDocument xmlDoc = XDocument.Load(file);
@@ -94,22 +93,8 @@ namespace PitCrewCompiler.DataInserters
 
                     foreach (string locDirectory in directories)
                     {
-                        string localizationFile = Path.Combine(locDirectory, "99.localization.bin");
-                        if (!ModifiedFiles.ContainsKey(localizationFile))
-                            ModifiedFiles.Add(localizationFile, new BinaryObjectFile());
-
-                        bof = ModifiedFiles[localizationFile];
-
-                        if (bof.Root == null)
-                        {
-                            //Default localization settings
-                            BinaryObject obj = new BinaryObject();
-                            obj.NameHash = 150977874;
-                            obj.Uid = "0";
-                            bof.Root = obj;
-                        }
-
-                        bof.Root = merger.Merge(bof.Root, xmlDoc);
+                        mergingPath = Path.Combine(locDirectory, "13.localization.bin");
+                        CheckAndMergeFile(merger, xmlDoc, mergingPath);
                     }
 
                     if (!xmlFile.ParentMod.ParentInstance.IsCLI)
@@ -128,19 +113,7 @@ namespace PitCrewCompiler.DataInserters
                 Logger.Print(string.Format(Translatable.Get("compiler.merging-file"), Path.GetFileName(xmlFile.Location), Path.GetFileName(mergingPath)));
 
                 //Found it, now check the dictonary to see if we already modded it.
-                if (!ModifiedFiles.ContainsKey(mergingPath))
-                {
-                    BinaryObjectFile binaryObjectFile = new BinaryObjectFile();
-                    FileStream stream = File.OpenRead(mergingPath);
-                    //Memory intensive but it's to be expected dealing with massive binaries.
-                    //Expect 1.5 gigs of ram to be used if modding the heavier files.
-                    binaryObjectFile.Deserialize(stream);
-                    stream.Close();
-                    ModifiedFiles.Add(mergingPath, binaryObjectFile);
-                }
-                bof = ModifiedFiles[mergingPath];
-
-                bof.Root = merger.Merge(bof.Root, xmlDoc);
+                CheckAndMergeFile(merger, xmlDoc, mergingPath);
 
                 if (!xmlFile.ParentMod.ParentInstance.IsCLI)
                     PercentageCalculator.IncrementProgress();
@@ -162,6 +135,22 @@ namespace PitCrewCompiler.DataInserters
 
             BigFileUtil.RepackBigFile(XmlDirectory, Path.Combine(directory, OutputFile), xmlFiles[0].ParentMod.ParentInstance.PackageVersion, "PitCrew");
             FileUtil.CheckAndDeleteFolder(XmlDirectory);
+        }
+
+        private void CheckAndMergeFile(BinaryObjectMerger merger, XDocument inputXML, string outputBinary)
+        {
+            if (!ModifiedFiles.ContainsKey(outputBinary))
+            {
+                BinaryObjectFile binaryObjectFile = new BinaryObjectFile();
+                FileStream stream = File.OpenRead(outputBinary);
+                //Memory intensive but it's to be expected dealing with massive binaries.
+                //Expect 1.5 gigs of ram to be used if modding the heavier files.
+                binaryObjectFile.Deserialize(stream);
+                stream.Close();
+                ModifiedFiles.Add(outputBinary, binaryObjectFile);
+            }
+            BinaryObjectFile bof = ModifiedFiles[outputBinary];
+            bof.Root = merger.Merge(bof.Root, inputXML);
         }
     }
 }
