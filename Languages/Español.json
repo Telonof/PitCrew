@@ -5,10 +5,14 @@
 
     "messagebox-title-default": "Información",
 
+    "logs.title": "Registros",
+
+    "windowmanager.no-main-window": "No se pudo encontrar la ventana principal. ¿Como ha podido ocurrir esto?",
+
     "about.title": "Sobre",
     "about.description": "Un cargador de mods para The Crew 1",
     "about.author": "Por: FTIW",
-    "about.translator": "Translation By: ",
+    "about.translator": "Traducido por: ",
     "about.discord": "Únete al Discord de TCU",
 
     "modinfo.default-name": "Por defecto",
@@ -17,30 +21,30 @@
 
     "filelist.priority-blank": "No puedes dejar la prioridad en blanco, borra la ruta para retirar el elemento de la lista.",
     "filelist.priority-requires-number": "La prioridad debe ser un numero.",
-    "filelist.priority-no-edit-before-path": "No puedes editar la prioridad antes que la ruta.",
-    "filelist.priority-less-than-ten": "La prioridad no puede ser inferior a 10.",
     "filelist.unable-to-find": "Incapaz de encontrar",
     "filelist.already-in-use": "El mod {0} ya esta usando esto.",
     "filelist.filepath": "Ruta del archivo",
     "filelist.priority": "Prioridad",
+    "filelist.priority-no-edit-before-path": "No puedes editar la prioridad antes que la ruta.",
+    "filelist.priority-less-than-ten": "La prioridad no puede ser inferior a 10.",
 
-    "conflictbox.default": "Añade tu juego en la pestaña de Instancias.\nHaz doble click sobre el juego en la lista para seleccionarlo.",
+    "conflictbox.default": "Añade tu juego en la pestaña de Instancias.\nHaz doble clic sobre el juego en la lista para seleccionarlo.",
     "conflictbox.no-mods": "Añade tus mods arrastrando y soltando los archivos zip en la caja azul resaltada.\nO presionando Mods -> Importar",
     "conflictbox.no-conflicts": "Recuerda presionar Compilar para aplicar los mods en el juego.",
     "conflictbox.conflicting": "Estos mods están en conflicto:",
     "conflictbox.startupfile": "STARTUP FILE",
 
-
     "button.save": "Guardar",
     "button.compile": "Compilar",
     "button.add": "Añadir",
-    "button.ok": "OK",
+    "button.ok": "Vale",
     "button.yes": "Si",
     "button.no": "No",
     "button.cancel": "Cancelar",
 
     "modlist.packagemod.no-metadata": "Faltan los metadatos correctos.\nPor favor edita este mod.",
     "modlist.packagemod.empty-mod": "Sin archivos que empaquetar.",
+    "modlist.packagemod.file-in-use": "El mod empaquetado que estas intentando sobrescribir esta en uso.\nPor favor cierra el archivo.",
     "modlist.packagemod.success": "Mod empaquetado para compartir en {0}.zip\n¿Ver en el explorador?",
     "modlist.deletemod-warning": "¿Seguro que quieres borrar esto?\nLos metadatos y archivos del mod se perderán.",
 
@@ -85,6 +89,8 @@
     "instances.textinput.header": "Por favor introduce el nombre:",
     "instances.textinput.title": "Entrada de Texto",
 
+    "server.no-instance": "Instancia no cargada.",
+
     "modedit.title": "Ventana de Metadatos",
     "modedit.header": "Editar Metadatos",
     "modedit.id": "ID del Mod (Nombre de Archivo)",
@@ -105,20 +111,38 @@
     "menubar.utilities": "Utilidades",
     "menubar.unpack": "Desempaquetar Archivo",
     "menubar.pack": "Empaquetar Archivo",
+    "menubar.open-log": "Abrir Registros",
     "menubar.theme": "Tema",
     "menubar.about": "Sobre",
+    "menubar.lighttheme": "Claro",
+    "menubar.darktheme": "Oscuro",
+
+    "parser.duplicate-file": "{0} es un archivo duplicado, omitiendo.",
+    "parser.empty-string": "Bien la prioridad o la ruta están vacías.",
+    "parser.issue-found": "El mod {0} tiene un problema con el archivo {1}.",
+    "parser.not-integer": "La prioridad no es un numero entero.",
+    "parser.too-low-priority": "La prioridad es inferior a 10.",
+    "parser.bad-metadata": "Los metadatos de un mod son inválidos.",
+
+    "compiler.usage": "Uso",
+    "compiler.file": "archivo",
+    "compiler.cannot-find-id": "Un mod no tiene ID asociado.",
+    "compiler.conflict-in-original-file": "{0} esta en conflicto con tu filesinfos.xml actual",
+    "compiler.no-startup-file": "No se pudo encontrar startup.dat o .fat en tu carpeta data_win32.",
+    "compiler.file-not-found": "No se puede encontrar el archivo.",
+    "compiler.file-not-found-in-xml": "No se puede encontrar el archivo {0}.",
+    "compiler.no-global-db": "No se encontraron archivos global_db, los binarios no se pudieron combinar.",
+    "compiler.merging-file": "Combinando archivo {0} en {1}...",
+    "compiler.merging-startup-file": "Combinando archivo {0} en el inicio...",
+    "compiler.no-attribute-in-root": "No se puede encontrar el atributo en la raíz del archivo {0}.",
+    "compiler.success": "¡Todo empaquetado y listo para marchar!"
+    "compiler.unknown-file": "Archivo desconocido.",
 
     "manifestutil.invalid-folder": "Carpeta inválida.",
     "manifestutil.invalid-location": "El archivo no se encuentra en la carpeta data_win32.",
     "manifestutil.no-startup-file": "Incapaz de encontrar el archivo startup.dat o .fat en tu carpeta data_win32.",
-    "manifestutil.invalid-priority": "La linea {0} es inválida: La prioridad debe ser un numero.",
-    "manifestutil.too-low-priority": "La linea {0} es inválida: La prioridad no puede ser inferior a 10.",
-    "manifestutil.cannot-find-big-file": "La linea {0} es inválida: Incapaz de encontrar el archivo {1}.dat or .fat",
+    "manifestutil.invalid-priority": "La línea {0} es inválida: La prioridad debe ser un numero.",
+    "manifestutil.too-low-priority": "La línea {0} es inválida: La prioridad no puede ser inferior a 10.",
+    "manifestutil.cannot-find-big-file": "La línea {0} es inválida: Incapaz de encontrar el archivo {1}.dat or .fat",
     "manifestutil.conflict-found": "{0} y {1} están en conflicto con {2}",
-
-    "compiler.unknown-file": "Archivo desconocido.",
-    "compiler.conflict-in-original-file": "{0} esta en conflicto con tu filesinfos.xml actual",
-    "compiler.file-not-found-in-xml": "Cannot find file {0}.",
-    "compiler.no-attribute-in-root": "Cannot find the file attribute inside the root of {0}.",
-    "compiler.success": "¡Todo empaquetado y listo para marchar!"
 }
