@@ -114,7 +114,7 @@ Then you need a new file editing the global table:
   <add depth="root">
     <object hash="29D6A3E8">
       <!-- Always set this to 0D (13) -->
-      <field hash="4AF2B3F3" type="BinHex">63000000</field>
+      <field hash="4AF2B3F3" type="BinHex">0D000000</field>
       <!-- Set this to the value you set above -->
       <field hash="BF396750" type="BinHex">45424D55</field>
     </object>
