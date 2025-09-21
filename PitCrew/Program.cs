@@ -19,7 +19,7 @@ namespace PitCrew
             }
             catch (Exception ex)
             {
-                Logger.Error(0, ex.StackTrace);
+                Logger.Error(0, $"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
             }
         }
 
