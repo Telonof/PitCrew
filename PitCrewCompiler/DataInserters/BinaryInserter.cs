@@ -17,6 +17,8 @@ namespace PitCrewCompiler.DataInserters
 
         private readonly HashSet<string> AllowedFiles = [".bin", ".fcb", ".bwo"];
 
+        private readonly HashSet<string> localizationFolders = ["pc_steam_ww", "pc_ww", "pc_steam_rus", "pc_rus"];
+
         private readonly List<string> Patches = ["", "_patch", "_patch_1"];
 
         public bool ServerDataUsed { get; private set; } = false;
@@ -27,10 +29,9 @@ namespace PitCrewCompiler.DataInserters
 
             //Find what pc_ folder the player is using as different copies have different pc_ directories.
             //Used for localization merging.
-            string[] localizationDirectories = Directory.GetDirectories(directory, "pc_*");
-            
-            //There should only be one, it would be very confusing if someone pasted a different pc_ in there.
-            string pc_dir = localizationDirectories[0];
+            string? pc_dir = localizationFolders
+                .Select(locFolder => Path.Combine(directory, locFolder))
+                .FirstOrDefault(Directory.Exists);
             
             //Extract all global_db's if existing, and overwrite any files for each
             foreach (string patch in Patches)
