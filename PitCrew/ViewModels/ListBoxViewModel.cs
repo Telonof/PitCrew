@@ -47,7 +47,7 @@ namespace PitCrew.ViewModels
                 await Service.WindowManager.ShowDialog(MainWindow, new MessageBoxViewModel(Translatable.Get("modlist.packagemod.file-in-use")));
                 return;
             }
-            
+
             //Clear this array as it's only used for packing, we don't need duplicate files found.
             metadata.FoundModInfo.Clear();
 
@@ -145,6 +145,30 @@ namespace PitCrew.ViewModels
                 }
                 MainWindow.ImportMod(path);
             }
+        }
+
+        public void MoveModUp(ModGUI mod)
+        {
+            int index = MainWindow.LoadedInstance.ModsGUI.IndexOf(mod);
+            int move = index - 1;
+            if (index == 0)
+                return; //It could be nice to have it loop back, but it's annoying if someone is spamming the button.
+
+            MainWindow.LoadedInstance.ModsGUI.Move(index, move);
+
+            //Done to make it easier to spam mod down or up.
+            MainWindow.LoadedMod = mod;
+        }
+
+        public void MoveModDown(ModGUI mod)
+        {
+            int index = MainWindow.LoadedInstance.ModsGUI.IndexOf(mod);
+            int move = index + 1;
+            if (index >= MainWindow.LoadedInstance.ModsGUI.Count - 1)
+                return;
+
+            MainWindow.LoadedInstance.ModsGUI.Move(index, move);
+            MainWindow.LoadedMod = mod;
         }
     }
 }

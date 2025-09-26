@@ -86,10 +86,18 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="5" Spacing="5" Classes="rtl">
-                            <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold" />
+                            <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold" />
                             <TextBlock Text="{Binding Author}" FontSize="12" FontWeight="Bold" />
-                            <TextBlock Text="{Binding Description}" FontSize="12" TextWrapping="Wrap" />
-                            <CheckBox IsChecked="{Binding Enabled}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,0,-10" MinWidth="10" />
+                            <TextBlock Text="{Binding Description}" FontSize="10" TextWrapping="Wrap"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5" Margin="0,-5,0,-10">
+                                <Button Name="MoveModUp" Content="∧" FontSize="15" Height="25" Width="25" BorderThickness="0"
+                                        Padding="0,0,0,2" Background="Transparent"
+                                        Command="{Binding $parent[ListBox].DataContext.ListBox.MoveModUp}" CommandParameter="{Binding}"/>
+                                <Button Name="MoveModDown" Content="∨" FontSize="15" Height="25" Width="25" BorderThickness="0"
+                                        Padding="0,0,0,2" Background="Transparent"
+                                        Command="{Binding $parent[ListBox].DataContext.ListBox.MoveModDown}" CommandParameter="{Binding}"/>
+                                <CheckBox IsChecked="{Binding Enabled}" VerticalAlignment="Center" MinWidth="10" />
+                            </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
