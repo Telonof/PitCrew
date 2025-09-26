@@ -20,11 +20,23 @@ namespace PitCrewCompiler
         public void Run()
         {
             PercentageCalculator.Reset();
+            int priority = 998 - Instance.Mods.Count;
 
             foreach (Mod mod in Instance.Mods)
             {
                 if (!mod.Enabled)
                     continue;
+
+                //Update 998 priorities based on order of mod list.
+                for (int i = 0; i < mod.ModFiles.Count; i++)
+                {
+                    ModFile file = mod.ModFiles[i];
+                    if (file.Priority == 998)
+                        file.Priority = Math.Max(11, file.Priority);
+
+                    if (file.Priority == 997)
+                        file.Priority = Math.Max(11, file.Priority - 1);
+                }
 
                 foreach (ModFile file in mod.ModFiles)
                 {
@@ -45,6 +57,8 @@ namespace PitCrewCompiler
 
                     FilesinfosMods.Add(file);
                 }
+
+                priority++;
             }
 
             BackupAndUnpack();
