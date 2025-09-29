@@ -126,6 +126,11 @@ namespace PitCrew.ViewModels
                 }
 
                 FileUtil.CheckAndDeleteFile(Path.Combine(baseDirectory, file.Location));
+
+                //Clear generated directory too.
+                string modDirectory = Path.Combine(baseDirectory, Path.GetDirectoryName(file.Location));
+                if (Directory.GetFiles(modDirectory).Length == 0)
+                    FileUtil.CheckAndDeleteFolder(modDirectory);
             }
 
             MainWindow.LoadedInstance.ModsGUI.Remove(MainWindow.LoadedMod);
