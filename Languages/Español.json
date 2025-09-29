@@ -135,7 +135,7 @@
     "compiler.merging-file": "Combinando archivo {0} en {1}...",
     "compiler.merging-startup-file": "Combinando archivo {0} en el inicio...",
     "compiler.no-attribute-in-root": "No se puede encontrar el atributo en la raíz del archivo {0}.",
-    "compiler.success": "¡Todo empaquetado y listo para marchar!"
+    "compiler.success": "¡Todo empaquetado y listo para marchar!",
     "compiler.unknown-file": "Archivo desconocido.",
 
     "manifestutil.invalid-folder": "Carpeta inválida.",
@@ -144,5 +144,5 @@
     "manifestutil.invalid-priority": "La línea {0} es inválida: La prioridad debe ser un numero.",
     "manifestutil.too-low-priority": "La línea {0} es inválida: La prioridad no puede ser inferior a 10.",
     "manifestutil.cannot-find-big-file": "La línea {0} es inválida: Incapaz de encontrar el archivo {1}.dat or .fat",
-    "manifestutil.conflict-found": "{0} y {1} están en conflicto con {2}",
+    "manifestutil.conflict-found": "{0} y {1} están en conflicto con {2}"
 }
