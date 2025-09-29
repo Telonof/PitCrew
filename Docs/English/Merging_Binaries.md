@@ -27,6 +27,10 @@ Each XML file you insert into PitCrew will need to follow a structure like this:
         <field hash="A733C3F9" type="BinHex"></field>
         <field hash="A733C3FA" type="BinHex">FF</field>
     </edit>
+	
+    <editall depth="root">
+        <field hash="A733C3FA" type="BinHex">FFFFFFFF</field>
+    </editall>
 
     <delete depth="25:0:1:5:0"></delete>
 </root>
@@ -43,6 +47,8 @@ From there, there are 3 commands PitCrew will listen to.
 `add` - This will add any child objects of this command as child objects to the object specified in the depth.
 
 `edit` - Add/Remove/Edit <ins>fields</ins> at the specified object (depth).
+
+`editall` - Edits/Deletes all specific <ins>fields</ins> located in the object and any child object.
 
 `delete` - Delete the specified object.
 
@@ -83,6 +89,14 @@ If the hash does not exist at that depth, the compiler will add it.
 If the hash exists but the value you set for it is empty, the compiler will remove it.
 
 If the hash exists and your value isn't empty, the compiler will replace that value.
+
+### Edit All Command
+
+The editall command works similarly to the edit command.
+
+Instead of only editing/deleting the fields at that object, it will also edit/delete the fields in any child object of the one specified.
+
+It does **not** accept making new fields, it will only edit/delete fields.
 
 ### Delete Command
 
