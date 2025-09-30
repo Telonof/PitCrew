@@ -188,7 +188,7 @@ namespace PitCrew.ViewModels
             }
             else
             {
-                LoadedInstance.ModsGUI.Add(modGUI);
+                LoadedInstance.ModsGUI.Insert(0, modGUI);
             }
             
             if (LoadedMod == null)
