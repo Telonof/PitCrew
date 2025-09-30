@@ -26,6 +26,8 @@ Each mod should contain an .mdata as well as one or multiple .dat/.fat pairs/.xm
 ## Editing Mods
 The mod provided should have everything configured and ready to go for you. If you want to disable/enable certain mods on the next boot of your game, click the checkbox to the right of each mod.
 
+By clicking the arrows you change the priority order of how the mods will load. So mods at the top of the list will load before mods below them.
+
 If you want to delete a mod, right click on the mod then choose `Delete Mod`.
 
 ## Applying mods

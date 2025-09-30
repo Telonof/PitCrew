@@ -23,6 +23,8 @@ File paths are the relative path to the .fat/.dat pairs from the manifest's loca
 
 Priorities are when a mod should be loaded in comparison to the rest of the files, the lower the number the higher the priority.
 
+Keeping them at 998 will automatically set their priorities based on it's position inside the mod list. 997 will sort your files based on the mod list as well but is designed for files that need to load earlier than your other ones (example being localization).
+
 To add your .fat/.dat file, place them in an appropriate folder inside your game (preferably in a folder called mods inside data_win32), then write in the file path the location without the extension. An example would be `mods/modfile1`. Once you finish editing, the priority should auto populate with 998. This guarantees your mod will load before any game files, to ensure it loads before other mods, set it lower.
 
 To add your .xml file, do the same as above but instead add the extension alongside it. An example would be `mods/mergingfile.xml`
