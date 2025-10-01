@@ -1,137 +1,114 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:PitCrew.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="PitCrew.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        xmlns:model="using:PitCrew.Models"
-        Title="PitCrew"
-        MinWidth="840"
-        MinHeight="538"
-        Width="1000"
-        Height="538"
-        WindowStartupLocation="CenterScreen">
-
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:vm="using:PitCrew.ViewModels" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" x:Class="PitCrew.Views.MainWindow" x:DataType="vm:MainWindowViewModel" xmlns:model="using:PitCrew.Models" Title="PitCrew" MinWidth="840" MinHeight="538" Width="1000" Height="538" WindowStartupLocation="CenterScreen">
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-    <Window.Styles>
-        <Style Selector="Button">
-            <Setter Property="MinWidth" Value="0" />
-            <Setter Property="Height" Value="60" />
-        </Style>
-    </Window.Styles>
-
-    <Grid IsHitTestVisible="{Binding UI.WindowClickable}">
-        <TextBlock Text="{Binding UI.Version}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5"/>
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
+	
+	<Window.Styles>
+		<Style Selector="Button">
+			<Setter Property="MinWidth" Value="0"/>
+			<Setter Property="Height" Value="60"/>
+		</Style>
+	</Window.Styles>
+	
+	<Grid IsHitTestVisible="{Binding UI.WindowClickable}">
+		<TextBlock Text="{Binding UI.Version}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5"/>
 		
-        <DockPanel LastChildFill="False">
-            <Menu DockPanel.Dock="Top" Classes="rtl">
-                <MenuItem Name="InstancesMenuButton" Header="{Binding Source='menubar.instances', Converter={StaticResource Translatable}}" Command="{Binding InstanceWindow}"/>
-
-                <MenuItem Name="ModsMenu" Header="{Binding Source='menubar.mods', Converter={StaticResource Translatable}}" IsVisible="{Binding UI.ModsTabVisible}">
-                    <MenuItem Name="NewModMenuButton" Header="{Binding Source='menubar.newmod', Converter={StaticResource Translatable}}" Command="{Binding NewMod}"/>
-                    <MenuItem Name="ImportModMenuButton" Header="{Binding Source='menubar.importmod', Converter={StaticResource Translatable}}" Command="{Binding ImportModButton}"/>
-                </MenuItem>
-
-                <MenuItem Header="{Binding Source='menubar.utilities', Converter={StaticResource Translatable}}">
-                    <MenuItem Name="UnpackArchiveMenuButton" Header="{Binding Source='menubar.unpack', Converter={StaticResource Translatable}}" Command="{Binding BigFileWindow}" CommandParameter=""/>
-                    <MenuItem Name="PackArchiveMenuButton" Header="{Binding Source='menubar.pack', Converter={StaticResource Translatable}}" Command="{Binding BigFileWindow}" CommandParameter="pack"/>
-                    <MenuItem Name="LogWindowMenuButton" Header="{Binding Source='menubar.open-log', Converter={StaticResource Translatable}}" Command="{Binding LogWindow}"/>
-                </MenuItem>
-
-                <MenuItem Header="{Binding Source='menubar.theme', Converter={StaticResource Translatable}}">
-                    <MenuItem Name="LightThemeMenuButton" Header="{Binding Source='menubar.lighttheme', Converter={StaticResource Translatable}}" Command="{Binding SwitchTheme}" CommandParameter="Light"/>
-                    <MenuItem Name="DarkThemeMenuButton" Header="{Binding Source='menubar.darktheme', Converter={StaticResource Translatable}}" Command="{Binding SwitchTheme}" CommandParameter="Dark"/>
-                </MenuItem>
-
-                <MenuItem Name="AboutMenuButton" Header="{Binding Source='menubar.about', Converter={StaticResource Translatable}}" Command="{Binding AboutWindow}"/>
-
-                <MenuItem Name="LanguageMenuButton" Classes="SubItems" ItemsSource="{Binding Languages}">
-                    <MenuItem.Header>
-                        <Image Width="19" Margin="0,1,0,0" Source="avares://PitCrew/Assets/language_icon.png"/>
-                    </MenuItem.Header>
+		<DockPanel LastChildFill="False">
+			<Menu DockPanel.Dock="Top" Classes="rtl">
+				<MenuItem Name="InstancesMenuButton" Header="{Binding Source='menubar.instances', Converter={StaticResource Translatable}}" Command="{Binding InstanceWindow}"/>
+				<MenuItem Name="ModsMenu" Header="{Binding Source='menubar.mods', Converter={StaticResource Translatable}}" IsVisible="{Binding UI.ModsTabVisible}">
+					<MenuItem Name="NewModMenuButton" Header="{Binding Source='menubar.newmod', Converter={StaticResource Translatable}}" Command="{Binding NewMod}"/>
+					<MenuItem Name="ImportModMenuButton" Header="{Binding Source='menubar.importmod', Converter={StaticResource Translatable}}" Command="{Binding ImportModButton}"/>
+				</MenuItem>
+				<MenuItem Header="{Binding Source='menubar.utilities', Converter={StaticResource Translatable}}">
+					<MenuItem Name="UnpackArchiveMenuButton" Header="{Binding Source='menubar.unpack', Converter={StaticResource Translatable}}" Command="{Binding BigFileWindow}" CommandParameter=""/>
+					<MenuItem Name="PackArchiveMenuButton" Header="{Binding Source='menubar.pack', Converter={StaticResource Translatable}}" Command="{Binding BigFileWindow}" CommandParameter="pack"/>
+					<MenuItem Name="LogWindowMenuButton" Header="{Binding Source='menubar.open-log', Converter={StaticResource Translatable}}" Command="{Binding LogWindow}"/>
+				</MenuItem>
+				<MenuItem Header="{Binding Source='menubar.theme', Converter={StaticResource Translatable}}">
+					<MenuItem Name="LightThemeMenuButton" Header="{Binding Source='menubar.lighttheme', Converter={StaticResource Translatable}}" Command="{Binding SwitchTheme}" CommandParameter="Light"/>
+					<MenuItem Name="DarkThemeMenuButton" Header="{Binding Source='menubar.darktheme', Converter={StaticResource Translatable}}" Command="{Binding SwitchTheme}" CommandParameter="Dark"/>
+				</MenuItem>
+				<MenuItem Name="AboutMenuButton" Header="{Binding Source='menubar.about', Converter={StaticResource Translatable}}" Command="{Binding AboutWindow}"/>
+				<MenuItem Name="LanguageMenuButton" Classes="SubItems" ItemsSource="{Binding Languages}">
+					<MenuItem.Header>
+						<Image Width="19" Margin="0,1,0,0" Source="avares://PitCrew/Assets/language_icon.png"/>
+					</MenuItem.Header>
+					<MenuItem.Styles>
+						<Style Selector="MenuItem.SubItems MenuItem" x:DataType="model:Language">
+							<Setter Property="Header" Value="{Binding Name}"/>
+							<Setter Property="Command" Value="{Binding Command}"/>
+						</Style>
+					</MenuItem.Styles>
+				</MenuItem>
+			</Menu>
+		</DockPanel>
+		
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.6*"/>
+				<ColumnDefinition Width="0.4*"/>
+			</Grid.ColumnDefinitions>
+			
+			<ListBox Name="ModGUIList" Grid.Column="0" Margin="10,50,0,10" BorderBrush="{Binding UI.ModListBorderColor}" BorderThickness="1" DragDrop.AllowDrop="True" ItemsSource="{Binding LoadedInstance.ModsGUI}" SelectedItem="{Binding LoadedMod, Mode=TwoWay}">
+				<ListBox.ContextMenu>
+					<ContextMenu>
+						<MenuItem Name="ListBox_PackageModItem" Header="{Binding Source='modlist.rightclick.package', Converter={StaticResource Translatable}}" Command="{Binding ListBox.PackageMod}"/>
+						<MenuItem Name="ListBox_EditMetadataItem" Header="{Binding Source='modlist.rightclick.edit', Converter={StaticResource Translatable}}" Command="{Binding ListBox.EditMetadata}"/>
+						<MenuItem Name="ListBox_DeleteModItem" Header="{Binding Source='modlist.rightclick.delete', Converter={StaticResource Translatable}}" Command="{Binding ListBox.DeleteMod}"/>
+					</ContextMenu>
+				</ListBox.ContextMenu>
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Margin="5" Spacing="5" Classes="rtl">
+							<TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold"/>
+							<TextBlock Text="{Binding Author}" FontSize="12" FontWeight="Bold"/>
+							<TextBlock Text="{Binding Description}" FontSize="10" TextWrapping="Wrap"/>
+							<CheckBox IsChecked="{Binding Enabled}" VerticalAlignment="Bottom" HorizontalAlignment="Right" MinWidth="10" Margin="0,-5,0,-15"/>
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+				<Interaction.Behaviors>
+					<FilesDropBehavior Command="{Binding ListBox.ImportModDragDrop}"/>
+				</Interaction.Behaviors>
+			</ListBox>
+			
+			<Grid Grid.RowSpan="3" Grid.Column="1">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="60*"/>
+					<RowDefinition Height="20*"/>
+					<RowDefinition Height="20*"/>
+				</Grid.RowDefinitions>
+				
+				<DataGrid Name="FileList" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1" Margin="20,50" Classes="rtl" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding LoadedMod.ModFilesGUI}" AutoGenerateColumns="False">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="{Binding Source='filelist.filepath', Converter={StaticResource Translatable}}" Binding="{Binding Location, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="8*"/>
+						<DataGridTextColumn Header="{Binding Source='filelist.priority', Converter={StaticResource Translatable}}" Binding="{Binding Priority, Mode=TwoWay, UpdateSourceTrigger=Explicit}"/>
+					</DataGrid.Columns>
+				</DataGrid>
+				
+				<!--Why does text block not have the same border controls is beyond me.-->
+				<Border Grid.Row="1" BorderBrush="Gray" BorderThickness="2" Margin="20,-30,20,0">
+					<TextBlock Name="ConflictBox" Text="{Binding UI.ConflictBoxText}" VerticalAlignment="Stretch" TextWrapping="Wrap" Classes="rtl"/>
+				</Border>
+				
+				<Grid Grid.Row="2" ColumnDefinitions="Auto,*" HorizontalAlignment="Stretch">
+					<StackPanel Grid.Column="0" Orientation="Vertical" Spacing="5" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0">
+						<RepeatButton Name="MoveModUp" Content="∧" FontSize="20" Height="30" MinWidth="40" BorderThickness="1" Padding="0,0,0,2" Background="Transparent" Delay="200" Interval="200" Command="{Binding ListBox.MoveModUp}"/>
+						<RepeatButton Name="MoveModDown" Content="∨" FontSize="20" Height="30" MinWidth="40" BorderThickness="1" Padding="0,0,0,2" Background="Transparent" Delay="200" Interval="200" Command="{Binding ListBox.MoveModDown}"/>
+					</StackPanel>
 					
-                    <MenuItem.Styles>
-                        <Style Selector="MenuItem.SubItems MenuItem" x:DataType="model:Language">
-                            <Setter Property="Header" Value="{Binding Name}" />
-                            <Setter Property="Command" Value="{Binding Command}" />
-                        </Style>
-                    </MenuItem.Styles>
-                    
-                </MenuItem>
-            </Menu>
-        </DockPanel>
-
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.6*" />
-                <ColumnDefinition Width="0.4*" />
-            </Grid.ColumnDefinitions>
-
-            <ListBox Name="ModGUIList" Grid.Column="0" Margin="10,50,0,10" BorderBrush="{Binding UI.ModListBorderColor}" BorderThickness="1"
-                    DragDrop.AllowDrop="True" ItemsSource="{Binding LoadedInstance.ModsGUI}" SelectedItem="{Binding LoadedMod, Mode=TwoWay}">
-                <ListBox.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Name="ListBox_PackageModItem" Header="{Binding Source='modlist.rightclick.package', Converter={StaticResource Translatable}}" Command="{Binding ListBox.PackageMod}"/>
-                        <MenuItem Name="ListBox_EditMetadataItem" Header="{Binding Source='modlist.rightclick.edit', Converter={StaticResource Translatable}}" Command="{Binding ListBox.EditMetadata}" />
-                        <MenuItem Name="ListBox_DeleteModItem" Header="{Binding Source='modlist.rightclick.delete', Converter={StaticResource Translatable}}" Command="{Binding ListBox.DeleteMod}"/>
-                    </ContextMenu>
-                </ListBox.ContextMenu>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Margin="5" Spacing="5" Classes="rtl">
-                            <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold" />
-                            <TextBlock Text="{Binding Author}" FontSize="12" FontWeight="Bold" />
-                            <TextBlock Text="{Binding Description}" FontSize="10" TextWrapping="Wrap"/>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5" Margin="0,-5,0,-10">
-                                <Button Name="MoveModUp" Content="∧" FontSize="15" Height="25" Width="25" BorderThickness="0"
-                                        Padding="0,0,0,2" Background="Transparent"
-                                        Command="{Binding $parent[ListBox].DataContext.ListBox.MoveModUp}" CommandParameter="{Binding}"/>
-                                <Button Name="MoveModDown" Content="∨" FontSize="15" Height="25" Width="25" BorderThickness="0"
-                                        Padding="0,0,0,2" Background="Transparent"
-                                        Command="{Binding $parent[ListBox].DataContext.ListBox.MoveModDown}" CommandParameter="{Binding}"/>
-                                <CheckBox IsChecked="{Binding Enabled}" VerticalAlignment="Center" MinWidth="10" />
-                            </StackPanel>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <Interaction.Behaviors>
-                    <FilesDropBehavior Command="{Binding ListBox.ImportModDragDrop}" />
-                </Interaction.Behaviors>
-            </ListBox>
-
-            <Grid Grid.RowSpan="3" Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60*" />
-                    <RowDefinition Height="20*" />
-                    <RowDefinition Height="20*" />
-                </Grid.RowDefinitions>
-
-                <DataGrid Name="FileList" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="1" Margin="20,50" Classes="rtl"
-                    BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding LoadedMod.ModFilesGUI}" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="{Binding Source='filelist.filepath', Converter={StaticResource Translatable}}" Binding="{Binding Location, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="8*" />
-                            <DataGridTextColumn Header="{Binding Source='filelist.priority', Converter={StaticResource Translatable}}" Binding="{Binding Priority, Mode=TwoWay, UpdateSourceTrigger=Explicit}"/>
-                        </DataGrid.Columns>
-                </DataGrid>
-
-                <!--Why does text block not have the same border controls is beyond me.-->
-                <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="2" Margin="20,-30,20,0">
-                    <TextBlock Name="ConflictBox" Text="{Binding UI.ConflictBoxText}" VerticalAlignment="Stretch" TextWrapping="Wrap" Classes="rtl" />
-                </Border>
-
-                <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Spacing="50">
-                    <Button Name="SaveButton" Content="{Binding Source='button.save', Converter={StaticResource Translatable}}" Command="{Binding Save}"/>
-                    <Button Name="CompileButton" Content="{Binding Source='button.compile', Converter={StaticResource Translatable}}" Command="{Binding Compile}"/>
-                </StackPanel>
-            </Grid>
-        </Grid>
-    </Grid>
-
+					<StackPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="50" Margin="-30,0,0,0">
+						<Button Name="SaveButton" Content="{Binding Source='button.save', Converter={StaticResource Translatable}}" Command="{Binding Save}"/>
+						<Button Name="CompileButton" Content="{Binding Source='button.compile', Converter={StaticResource Translatable}}" Command="{Binding Compile}"/>
+					</StackPanel>
+				</Grid>
+				
+			</Grid>
+		</Grid>
+		
+	</Grid>
+	
 </Window>

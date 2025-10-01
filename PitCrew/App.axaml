@@ -12,7 +12,7 @@
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
-        <Style Selector="Button">
+        <Style Selector="Button, RepeatButton">
             <Setter Property="BorderBrush" Value="Gray" />
             <Setter Property="BorderThickness" Value="2" />
             <Setter Property="FontFamily" Value="Segoe UI" />

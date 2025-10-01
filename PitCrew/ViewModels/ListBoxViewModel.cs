@@ -152,8 +152,13 @@ namespace PitCrew.ViewModels
             }
         }
 
-        public void MoveModUp(ModGUI mod)
+        public void MoveModUp()
         {
+            if (MainWindow.LoadedMod == null)
+                return;
+
+            ModGUI mod = MainWindow.LoadedMod;
+
             int index = MainWindow.LoadedInstance.ModsGUI.IndexOf(mod);
             int move = index - 1;
             if (index == 0)
@@ -165,8 +170,13 @@ namespace PitCrew.ViewModels
             MainWindow.LoadedMod = mod;
         }
 
-        public void MoveModDown(ModGUI mod)
+        public void MoveModDown()
         {
+            if (MainWindow.LoadedMod == null)
+                return;
+
+            ModGUI mod = MainWindow.LoadedMod;
+
             int index = MainWindow.LoadedInstance.ModsGUI.IndexOf(mod);
             int move = index + 1;
             if (index >= MainWindow.LoadedInstance.ModsGUI.Count - 1)
