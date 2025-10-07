@@ -111,7 +111,7 @@ namespace PitCrew.ViewModels
             ModGUI modGui = new ModGUI(mod);
             modGui.BaseModel.Metadata.Save();
 
-            LoadedInstance.ModsGUI.Add(modGui);
+            LoadedInstance.ModsGUI.Insert(0, modGui);
         }
 
         public async void ImportModButton()
