@@ -1,3 +1,4 @@
+using PitCrewCommon.Utilities;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -21,7 +22,11 @@ namespace PitCrewCommon.Models
             this.Location = location;
 
             if (!File.Exists(location))
+            {
+                LocalizedNames.Add("English", Name);
+                LocalizedDescriptions.Add("English", Description);
                 return;
+            }
 
             XDocument doc;
             try
@@ -81,6 +86,8 @@ namespace PitCrewCommon.Models
                 files.Add(fileElement);
             }
             root.Add(files);
+
+            FileUtil.CheckAndCreateFolder(Path.GetDirectoryName(Location));
 
             XDocument xmlDoc = new XDocument();
             xmlDoc.Add(root);

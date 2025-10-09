@@ -81,7 +81,6 @@ namespace PitCrew.Models
                 BaseModel.Metadata.Save();
         }
 
-
         protected void ModFileChanged(object sender, PropertyChangedEventArgs e)
         {
             if (sender is not ModFileGUI modFile)
