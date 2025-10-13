@@ -1,5 +1,6 @@
 ﻿using PitCrewCommon;
 using PitCrewCommon.Models;
+using PitCrewCommon.Utilities;
 
 namespace PitCrewCompiler
 {
@@ -19,7 +20,13 @@ namespace PitCrewCompiler
 
             if (!File.Exists(args[0]))
             {
-                Console.WriteLine(Translatable.Get("compiler.file-not-found"));
+                Logger.Error(107, Translatable.Get("compiler.file-not-found"));
+                return;
+            }
+
+            if (FileUtil.ProcessRunning(Path.GetDirectoryName(args[0])))
+            {
+                Logger.Error(108, Translatable.Get("game-running"));
                 return;
             }
 
