@@ -32,10 +32,12 @@ namespace PitCrewCompiler
                 {
                     ModFile file = mod.ModFiles[i];
                     if (file.Priority == 998)
-                        file.Priority = Math.Max(11, file.Priority);
+                        file.Priority = Math.Max(11, priority);
 
                     if (file.Priority == 997)
-                        file.Priority = Math.Max(11, file.Priority - 1);
+                        file.Priority = Math.Max(11, priority - 1);
+
+                    mod.ModFiles[i] = file;
                 }
 
                 foreach (ModFile file in mod.ModFiles)
