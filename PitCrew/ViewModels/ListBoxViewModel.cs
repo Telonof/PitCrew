@@ -109,6 +109,13 @@ namespace PitCrew.ViewModels
 
             string baseDirectory = MainWindow.LoadedInstance.BaseModel.GetDirectory();
 
+            if (FileUtil.ProcessRunning(baseDirectory))
+            {
+                var error = new MessageBoxViewModel(Translatable.Get("game-running"));
+                await Service.WindowManager.ShowDialog(MainWindow, error);
+                return;
+            }
+
             var result = new MessageBoxViewModel(Translatable.Get("modlist.deletemod-warning"), MessageBoxViewModel.ButtonType.OkCancel);
             await Service.WindowManager.ShowDialog(MainWindow, result);
             if (result.Result != MessageBoxViewModel.ResultType.OK)

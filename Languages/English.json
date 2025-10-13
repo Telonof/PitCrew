@@ -5,6 +5,7 @@
     "rtl": "0",
     
     "language-restart": "Language will be applied properly on restart of PitCrew.",
+    "game-running": "Your game is currently running, cannot continue.",
     
     "messagebox-title-default": "Info",
     

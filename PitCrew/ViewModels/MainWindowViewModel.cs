@@ -211,6 +211,13 @@ namespace PitCrew.ViewModels
             if (LoadedInstance == null)
                 return;
 
+            if (FileUtil.ProcessRunning(LoadedInstance.BaseModel.GetDirectory()))
+            {
+                var error = new MessageBoxViewModel(Translatable.Get("game-running"));
+                await Service.WindowManager.ShowDialog(this, error);
+                return;
+            }
+
             UI.WindowClickable = false;
             Save();
 

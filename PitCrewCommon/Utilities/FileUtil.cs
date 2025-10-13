@@ -1,4 +1,6 @@
-﻿namespace PitCrewCommon.Utilities
+﻿using System.Diagnostics;
+
+namespace PitCrewCommon.Utilities
 {
     public class FileUtil
     {
@@ -34,6 +36,21 @@
             {
                 return true;
             }
+        }
+
+        public static bool ProcessRunning(string compareDirectory, string executable = "TheCrew")
+        {
+            Process[] processes = Process.GetProcessesByName(executable);
+
+            //Double check if it's the same directory.
+            foreach(Process process in processes)
+            {
+                string path = Path.Combine(Path.GetDirectoryName(process.MainModule.FileName), "data_win32");
+                if (path.Equals(compareDirectory))
+                    return true;
+            }
+
+            return false;
         }
     }
 }
