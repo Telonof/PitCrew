@@ -1,6 +1,6 @@
 ﻿# PitCrew
 
-PitCrew is a simple mod loader for the game "The Crew" written in C#. 
+PitCrew is a simple mod loader for the game "The Crew" and "The Crew 2" written in C#. 
 
 Requires .NET Core 8.X found [here](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 

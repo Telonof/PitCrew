@@ -13,14 +13,5 @@ namespace PitCrew.ViewModels
         {
             TranslationText = Translatable.Get("about.translator") + Translatable.Get("translation-author");
         }
-
-        public void DiscordLinkClick()
-        {
-            ProcessStartInfo discordLink = new ProcessStartInfo("https://discord.com/invite/gUczTkphGE")
-            {
-                UseShellExecute = true
-            };
-            Process.Start(discordLink);
-        }
     }
 }

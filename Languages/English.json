@@ -16,10 +16,9 @@
     "windowmanager.no-main-window": "Cannot find main window, how did this even happen?",
     
     "about.title": "About",
-    "about.description": "A mod loader for The Crew 1",
+    "about.description": "A mod loader for The Crew 1 & 2",
     "about.author": "By: FTIW",
     "about.translator": "Translation By: ",
-    "about.discord": "Come join the TCU Discord",
     
     "modinfo.default-name": "Default",
     "modinfo.default-author": "Various",

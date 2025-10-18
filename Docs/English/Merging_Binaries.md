@@ -1,5 +1,8 @@
 # Merging Binaries
 
+> [!IMPORTANT]  
+> This feature is not supported in The Crew 2.
+
 This documentation is for being able to merge multiple Far Cry Binaries (.fcb, .bin, .bwo) into each other.
 
 This is needed for The Crew especially since there can only be one of each file, and some binaries in particular house a lot of data that multiple mods may all need, hence the reason we need to be able to merge.

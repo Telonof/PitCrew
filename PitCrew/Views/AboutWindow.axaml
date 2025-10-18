@@ -5,9 +5,9 @@
         x:DataType="vm:AboutWindowViewModel"
         Title="{Binding Source='about.title', Converter={StaticResource Translatable}}"
         MinWidth="408"
-        MinHeight="190"
+        MinHeight="170"
         MaxWidth="408"
-        MaxHeight="190"
+        MaxHeight="170"
         CanResize="False"
         WindowStartupLocation="CenterOwner">
 
@@ -25,10 +25,6 @@
         <TextBlock Text="{Binding Source='about.description', Converter={StaticResource Translatable}}" />
         <TextBlock Text="{Binding Source='about.author', Converter={StaticResource Translatable}}" />
         <TextBlock Name="Translation" Text="{Binding TranslationText}"/>
-        <Button HorizontalAlignment="Center" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding DiscordLinkClick}" Height="30">
-            <TextBlock Name="DiscordLink" Text="{Binding Source='about.discord', Converter={StaticResource Translatable}}"
-                    Foreground="LightBlue" TextDecorations="Underline" />
-        </Button>
     </StackPanel>
 
 </Window>
