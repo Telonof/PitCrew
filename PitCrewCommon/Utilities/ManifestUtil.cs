@@ -55,5 +55,13 @@ namespace PitCrewCommon.Utilities
             }
             return true;
         }
+
+        public static int GetPackageVersion(string dir)
+        {
+            if (File.Exists(Path.Combine(dir, Constants.OODLE_FILE)))
+                return 6;
+
+            return 5;
+        }
     }
 }

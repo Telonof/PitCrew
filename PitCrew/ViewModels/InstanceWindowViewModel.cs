@@ -86,12 +86,6 @@ namespace PitCrew.ViewModels
 
             InstanceGUI instance = new InstanceGUI(new Instance(manifestPath), textInput.TextBox);
 
-            instance.BaseModel.PackageVersion = 5;
-
-            //Test if crew 2 with oo2_core
-            if (File.Exists(Path.Combine(path, Constants.OODLE_FILE)))
-                instance.BaseModel.PackageVersion = 6;
-
             Instances.Add(instance);
             Service.Config.SaveInstance(instance);
         }

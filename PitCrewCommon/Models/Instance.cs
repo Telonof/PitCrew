@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using PitCrewCommon.Utilities;
+using System.Xml.Linq;
 
 namespace PitCrewCommon.Models
 {
@@ -16,6 +17,8 @@ namespace PitCrewCommon.Models
 
         public void LoadFromXML(bool cli = false)
         {
+            string root = Directory.GetParent(GetDirectory()).FullName;
+
             if (!File.Exists(Location) || new FileInfo(Location).Length < 1)
                 GenerateDummy();
 
@@ -23,7 +26,10 @@ namespace PitCrewCommon.Models
             IsCLI = cli;
 
             if (document.Root.Attribute("packageversion") == null || !int.TryParse(document.Root.Attribute("packageversion").Value, out int packageVersion))
-                packageVersion = 5;
+                packageVersion = ManifestUtil.GetPackageVersion(root);
+
+            if (packageVersion != 5 && packageVersion != 6)
+                packageVersion = ManifestUtil.GetPackageVersion(root);
 
             PackageVersion = packageVersion;
 
@@ -38,7 +44,7 @@ namespace PitCrewCommon.Models
         private void GenerateDummy()
         {
             XElement rootElement = new XElement("instance");
-            rootElement.SetAttributeValue("packageversion", PackageVersion);
+            rootElement.SetAttributeValue("packageversion", 0);
 
             XDocument document = new XDocument();
             document.Add(rootElement);

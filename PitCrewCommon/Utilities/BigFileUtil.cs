@@ -13,7 +13,7 @@ namespace PitCrewCommon.Utilities
     */
     public class BigFileUtil
     {
-        public static void UnpackBigFile(string fatPath, string outputPath, int packageVersion = 5)
+        public static void UnpackBigFile(string fatPath, string outputPath, int packageVersion)
         {
             //Load all file names stored in .filelist
             string project = "The Crew";
