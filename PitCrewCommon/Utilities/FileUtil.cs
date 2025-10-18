@@ -38,8 +38,12 @@ namespace PitCrewCommon.Utilities
             }
         }
 
-        public static bool ProcessRunning(string compareDirectory, string executable = "TheCrew")
+        public static bool ProcessRunning(string compareDirectory, int packageVersion)
         {
+            string executable = "TheCrew";
+            if (packageVersion == 6)
+                executable += "2";
+
             Process[] processes = Process.GetProcessesByName(executable);
 
             //Double check if it's the same directory.

@@ -13,10 +13,14 @@ namespace PitCrewCommon.Utilities
     */
     public class BigFileUtil
     {
-        public static void UnpackBigFile(string fatPath, string outputPath)
+        public static void UnpackBigFile(string fatPath, string outputPath, int packageVersion = 5)
         {
             //Load all file names stored in .filelist
-            var hashes = Manager.Load("The Crew").LoadListsFileNames(5);
+            string project = "The Crew";
+            if (packageVersion == 6)
+                project += " 2";
+
+            var hashes = Manager.Load(project).LoadListsFileNames(packageVersion);
 
             BigFile fat;
             using (var input = File.OpenRead(fatPath))
@@ -55,11 +59,8 @@ namespace PitCrewCommon.Utilities
             }
         }
 
-        public static void RepackBigFile(string inputFolder, string outputFatFile, int packageVersion = 5, string? author = null, bool compress = true)
+        public static void RepackBigFile(string inputFolder, string outputFatFile, string? author = null, bool compress = true)
         {
-            //TODO until I support The Crew 2, force repack to be 5, not 6.
-            packageVersion = 5;
-
             inputFolder = inputFolder.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             byte[]? authorHex = null;
             SortedDictionary<ulong, PendingEntry> pendingEntries = [];
@@ -110,7 +111,7 @@ namespace PitCrewCommon.Utilities
 
             var fat = new BigFile
             {
-                Version = packageVersion,
+                Version = 5,
                 Platform = Big.Platform.PC,
                 Unknown74 = 0
             };

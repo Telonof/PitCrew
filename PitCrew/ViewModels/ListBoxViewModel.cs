@@ -109,7 +109,7 @@ namespace PitCrew.ViewModels
 
             string baseDirectory = MainWindow.LoadedInstance.BaseModel.GetDirectory();
 
-            if (FileUtil.ProcessRunning(baseDirectory))
+            if (FileUtil.ProcessRunning(baseDirectory, MainWindow.LoadedInstance.BaseModel.PackageVersion))
             {
                 var error = new MessageBoxViewModel(Translatable.Get("game-running"));
                 await Service.WindowManager.ShowDialog(MainWindow, error);

@@ -69,12 +69,12 @@ namespace PitCrew.ViewModels
 
             if (Pack)
             {
-                BigFileUtil.RepackBigFile(FolderText, FileText, PackageVersion, AuthorText, Compression);
+                BigFileUtil.RepackBigFile(FolderText, FileText, AuthorText, Compression);
                 await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(string.Format(Translatable.Get("bigfile.pack-success"), FileText)));
                 return;
             }
 
-            BigFileUtil.UnpackBigFile(FileText, FolderText);
+            BigFileUtil.UnpackBigFile(FileText, FolderText, PackageVersion);
             await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(string.Format(Translatable.Get("bigfile.unpack-success"), FolderText)));
         }
     }

@@ -14,7 +14,7 @@ namespace PitCrewCompiler.DataInserters
 
                 string fullPath = Path.Combine(directory, file.Location + ".fat");
 
-                BigFileUtil.UnpackBigFile(fullPath, "moddata");
+                BigFileUtil.UnpackBigFile(fullPath, "moddata", file.ParentMod.ParentInstance.PackageVersion);
 
                 //We ignore filesinfos.xml here because PitCrew relies on that for regular mods.
                 FileUtil.CheckAndDeleteFile(Path.Combine("moddata", "engine", "filesinfos.xml"));

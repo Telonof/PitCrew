@@ -26,6 +26,11 @@ namespace PitCrewCompiler.DataInserters
         public BinaryInserter(string directory, List<ModFile> xmlFiles)
         {
             BinaryObjectMerger merger = new BinaryObjectMerger();
+            int packageVersion = xmlFiles[0].ParentMod.ParentInstance.PackageVersion;
+
+            //Do not even attempt TC2 merging for now until online is gone
+            if (packageVersion == 6)
+                return;
 
             //Find what pc_ folder the player is using as different copies have different pc_ directories.
             //Used for localization merging.
@@ -37,12 +42,10 @@ namespace PitCrewCompiler.DataInserters
             foreach (string patch in Patches)
             {
                 string bigFile = Path.Combine(directory, $"global_db{patch}.fat");
-                if (File.Exists(bigFile))
-                    BigFileUtil.UnpackBigFile(bigFile, XmlDirectory);
+                CheckAndUnpackFile(bigFile, packageVersion);
                 
                 bigFile = Path.Combine(directory, pc_dir, $"localization{patch}.fat");
-                if (File.Exists(bigFile))
-                    BigFileUtil.UnpackBigFile(bigFile, XmlDirectory);
+                CheckAndUnpackFile(bigFile, packageVersion);
             }
 
             string[] files = Directory.GetFiles(XmlDirectory, "*", SearchOption.AllDirectories);
@@ -134,7 +137,7 @@ namespace PitCrewCompiler.DataInserters
                 stream.Close();
             }
 
-            BigFileUtil.RepackBigFile(XmlDirectory, Path.Combine(directory, OutputFile), xmlFiles[0].ParentMod.ParentInstance.PackageVersion, "PitCrew");
+            BigFileUtil.RepackBigFile(XmlDirectory, Path.Combine(directory, OutputFile), "PitCrew");
             FileUtil.CheckAndDeleteFolder(XmlDirectory);
         }
 
@@ -152,6 +155,12 @@ namespace PitCrewCompiler.DataInserters
             }
             BinaryObjectFile bof = ModifiedFiles[outputBinary];
             bof.Root = merger.Merge(bof.Root, inputXML);
+        }
+
+        private void CheckAndUnpackFile(string bigFile, int packageVersion)
+        {
+            if (File.Exists(bigFile))
+                BigFileUtil.UnpackBigFile(bigFile, XmlDirectory, packageVersion);
         }
     }
 }

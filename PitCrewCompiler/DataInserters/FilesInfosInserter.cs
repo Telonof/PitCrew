@@ -101,7 +101,7 @@ namespace PitCrewCompiler.DataInserters
             if (ModFiles.Count > 0)
                 packageVersion = ModFiles[0].ParentMod.ParentInstance.PackageVersion;
 
-            BigFileUtil.RepackBigFile("tmp", Path.Combine(Directory, "startup.fat"), packageVersion, "PitCrew");
+            BigFileUtil.RepackBigFile("tmp", Path.Combine(Directory, "startup.fat"), "PitCrew");
             FileUtil.CheckAndDeleteFolder("tmp");
         }
     }

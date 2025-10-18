@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace PitCrew.ViewModels
@@ -80,6 +81,13 @@ namespace PitCrew.ViewModels
 
             UI.ModListBorderColor = "LightBlue";
             UI.ModsTabVisible = true;
+            
+            //Allow saving and editing but no compiling since oodle support isn't available for Linux.
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && LoadedInstance.BaseModel.PackageVersion == 6)
+            {
+                Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("tc2-warning")));
+                UI.ModListBorderColor = "Red";
+            }
         }
 
         public async void NewMod()
@@ -211,7 +219,7 @@ namespace PitCrew.ViewModels
             if (LoadedInstance == null)
                 return;
 
-            if (FileUtil.ProcessRunning(LoadedInstance.BaseModel.GetDirectory()))
+            if (FileUtil.ProcessRunning(LoadedInstance.BaseModel.GetDirectory(), LoadedInstance.BaseModel.PackageVersion))
             {
                 var error = new MessageBoxViewModel(Translatable.Get("game-running"));
                 await Service.WindowManager.ShowDialog(this, error);

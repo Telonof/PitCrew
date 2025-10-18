@@ -19,6 +19,12 @@ namespace PitCrewCompiler
 
         public void Run()
         {
+            //Grab oodle file from game if exists
+            if (Instance.PackageVersion == 6 && !File.Exists(Constants.OODLE_FILE))
+            {
+                File.Copy(Path.Combine(Directory.GetParent(Instance.GetDirectory()).FullName, Constants.OODLE_FILE), Constants.OODLE_FILE);
+            }
+
             PercentageCalculator.Reset();
             int priority = 998 - Instance.Mods.Count;
 
@@ -110,7 +116,7 @@ namespace PitCrewCompiler
                 throw new FileNotFoundException();
             }
 
-            BigFileUtil.UnpackBigFile(unpackingFat, "tmp");
+            BigFileUtil.UnpackBigFile(unpackingFat, "tmp", Instance.PackageVersion);
 
             //Create cstartup if not existing yet
             if (!File.Exists(cstartupFatPath))

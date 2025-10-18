@@ -24,15 +24,16 @@ namespace PitCrewCompiler
                 return;
             }
 
-            if (FileUtil.ProcessRunning(Path.GetDirectoryName(args[0])))
+            //Load instance first to grab package version.
+            Instance instance = new Instance(args[0]);
+            instance.LoadFromXML(true);
+
+            if (FileUtil.ProcessRunning(Path.GetDirectoryName(args[0]), instance.PackageVersion))
             {
                 Logger.Error(108, Translatable.Get("game-running"));
                 return;
             }
 
-            Instance instance = new Instance(args[0]);
-            instance.LoadFromXML(true);
-            
             Compile compile = new Compile(instance);
             compile.Run();
         }
