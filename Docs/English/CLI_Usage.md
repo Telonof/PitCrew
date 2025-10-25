@@ -7,12 +7,20 @@ If you want to ignore the GUI and just add mods to the manifest manually and com
 PitCrew relies on custom manifests to know what mods to apply and what priority each file in the mod uses. The manifests are forcefully located within the data_win32 folder of the game's location and look typically like this:
 
 ```xml
-<instance>
+<instance packageversion="5">
   <mod id="id" enabled="false">
     <file priority="998" loc="mods/modFile1" />
   </mod>
 </instance>
 ```
+
+The root node should contain a `pacakgeversion` containing what game the manifest is for. If it's not set it will default to 5.
+
+5 = The Crew
+
+6 = The Crew 2
+
+<br></br>
 
 Each child object should be a `mod` node. The `id` attribute is required and is used to hook into the metadata and to serve as a name for messages.
 
