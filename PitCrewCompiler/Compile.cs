@@ -33,6 +33,8 @@ namespace PitCrewCompiler
                 if (!mod.Enabled)
                     continue;
 
+                List<ModFile> files = [];
+
                 //Update 998 priorities based on order of mod list.
                 for (int i = 0; i < mod.ModFiles.Count; i++)
                 {
@@ -43,10 +45,10 @@ namespace PitCrewCompiler
                     if (file.Priority == 997)
                         file.Priority = Math.Max(11, priority - 1);
 
-                    mod.ModFiles[i] = file;
+                    files.Add(file);
                 }
 
-                foreach (ModFile file in mod.ModFiles)
+                foreach (ModFile file in files)
                 {
                     if (!Instance.IsCLI)
                         PercentageCalculator.IncrementTotal();
