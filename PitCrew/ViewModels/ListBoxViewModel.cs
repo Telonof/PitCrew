@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace PitCrew.ViewModels
 {
@@ -121,27 +122,38 @@ namespace PitCrew.ViewModels
             if (result.Result != MessageBoxViewModel.ResultType.OK)
                 return;
 
-            File.Delete(Path.Combine(baseDirectory, Constants.METADATA_FOLDER, $"{MainWindow.LoadedMod.BaseModel.Id}.mdata"));
-
-            foreach (ModFileGUI file in MainWindow.LoadedMod.ModFilesGUI)
+            foreach (ModGUI mod in MainWindow.SelectedMods.ToList())
             {
-                if (!Path.HasExtension(file.Location))
+                File.Delete(Path.Combine(baseDirectory, Constants.METADATA_FOLDER, $"{mod.BaseModel.Id}.mdata"));
+
+                foreach (ModFileGUI file in mod.ModFilesGUI)
                 {
-                    FileUtil.CheckAndDeleteFile(Path.Combine(baseDirectory, Path.ChangeExtension(file.Location, ".dat")));
-                    FileUtil.CheckAndDeleteFile(Path.Combine(baseDirectory, Path.ChangeExtension(file.Location, ".fat")));
-                    continue;
+                    if (!Path.HasExtension(file.Location))
+                    {
+                        FileUtil.CheckAndDeleteFile(Path.Combine(baseDirectory, Path.ChangeExtension(file.Location, ".dat")));
+                        FileUtil.CheckAndDeleteFile(Path.Combine(baseDirectory, Path.ChangeExtension(file.Location, ".fat")));
+                    }
+                    else
+                    {
+                        FileUtil.CheckAndDeleteFile(Path.Combine(baseDirectory, file.Location));
+                    }
+
+                    //Stops the empty mod file for adding new mods from triggering below.
+                    if (string.IsNullOrWhiteSpace(file.Location))
+                        continue;
+
+                    //Clear generated directory if no more files are associated in it.
+                    string modDirectory = Path.Combine(baseDirectory, Path.GetDirectoryName(file.Location));
+                    if (Directory.GetFiles(modDirectory).Length == 0)
+                        FileUtil.CheckAndDeleteFolder(modDirectory);
+
                 }
 
-                FileUtil.CheckAndDeleteFile(Path.Combine(baseDirectory, file.Location));
-
-                //Clear generated directory too.
-                string modDirectory = Path.Combine(baseDirectory, Path.GetDirectoryName(file.Location));
-                if (Directory.GetFiles(modDirectory).Length == 0)
-                    FileUtil.CheckAndDeleteFolder(modDirectory);
+                MainWindow.LoadedInstance.ModsGUI.Remove(mod);
             }
 
-            MainWindow.LoadedInstance.ModsGUI.Remove(MainWindow.LoadedMod);
             MainWindow.LoadedMod = null;
+            MainWindow.SelectedMods.Clear();
             MainWindow.Save();
         }
 

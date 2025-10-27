@@ -10,6 +10,7 @@ using PitCrewCommon.Utilities;
 using PitCrewCompiler;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -28,6 +29,9 @@ namespace PitCrew.ViewModels
 
         [ObservableProperty]
         public ModGUI loadedMod;
+
+        [ObservableProperty]
+        public ObservableCollection<ModGUI> selectedMods = [];
 
         public UI UI { get; } = new UI();
 
