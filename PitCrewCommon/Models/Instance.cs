@@ -17,7 +17,7 @@ namespace PitCrewCommon.Models
 
         public void LoadFromXML(bool cli = false)
         {
-            string root = Directory.GetParent(GetDirectory()).FullName;
+            string root = FileUtil.GetParentDir(GetDirectory());
 
             if (!File.Exists(Location) || new FileInfo(Location).Length < 1)
                 GenerateDummy();

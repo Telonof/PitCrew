@@ -247,7 +247,7 @@ namespace PitCrew.ViewModels
             if (LoadedInstance != null)
                 version = LoadedInstance.BaseModel.PackageVersion;
 
-            Service.WindowManager.Show(new BigFileWindowViewModel(version, pack.Equals("pack")));
+            Service.WindowManager.Show(new BigFileWindowViewModel(LoadedInstance, version, pack.Equals("pack")));
         }
 
         partial void OnLoadedModChanged(ModGUI value)

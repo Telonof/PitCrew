@@ -83,7 +83,7 @@ namespace PitCrewCompiler.DataInserters
                 {
                     ServerDataUsed = true;
 
-                    string serverPath = Directory.GetParent(xmlFile.ParentMod.ParentInstance.GetDirectory()).FullName;
+                    string serverPath = FileUtil.GetParentDir(xmlFile.ParentMod.ParentInstance.GetDirectory());
                     mergingPath = Path.Combine(serverPath, Constants.SERVER_DATA_FILE);
                     File.Copy(Path.Combine("Assets", Constants.SERVER_DATA_FILE), mergingPath, true);
                 }
@@ -159,6 +159,8 @@ namespace PitCrewCompiler.DataInserters
 
         private void CheckAndUnpackFile(string bigFile, int packageVersion)
         {
+            //By this point BackupAndUnpack has already done the job of copying the oodle file.
+            //So no need for a directory in UnpackBigFile here.
             if (File.Exists(bigFile))
                 BigFileUtil.UnpackBigFile(bigFile, XmlDirectory, packageVersion);
         }

@@ -19,12 +19,6 @@ namespace PitCrewCompiler
 
         public void Run()
         {
-            //Grab oodle file from game if exists
-            if (Instance.PackageVersion == 6 && !File.Exists(Constants.OODLE_FILE))
-            {
-                File.Copy(Path.Combine(Directory.GetParent(Instance.GetDirectory()).FullName, Constants.OODLE_FILE), Constants.OODLE_FILE);
-            }
-
             PercentageCalculator.Reset();
             int priority = 998 - Instance.Mods.Count;
 
@@ -85,13 +79,13 @@ namespace PitCrewCompiler
                 FilesinfosMods.Add(new ModFile(XmlMods[0].ParentMod, "mods/PitCrewBase", 11));
 
                 if (!inserter.ServerDataUsed)
-                    FileUtil.CheckAndDeleteFile(Path.Combine(Directory.GetParent(Instance.GetDirectory()).FullName, Constants.SERVER_DATA_FILE));
+                    FileUtil.CheckAndDeleteFile(Path.Combine(FileUtil.GetParentDir(Instance.GetDirectory()), Constants.SERVER_DATA_FILE));
             }
             else
             {
                 //Delete that server data binary we may have edited.
                 //TODO This stinks if someone is manually editing it.
-                FileUtil.CheckAndDeleteFile(Path.Combine(Directory.GetParent(Instance.GetDirectory()).FullName, Constants.SERVER_DATA_FILE));
+                FileUtil.CheckAndDeleteFile(Path.Combine(FileUtil.GetParentDir(Instance.GetDirectory()), Constants.SERVER_DATA_FILE));
             }
 
             _ = new FilesInfosInserter(Instance.GetDirectory(), FilesinfosMods);
@@ -118,7 +112,7 @@ namespace PitCrewCompiler
                 throw new FileNotFoundException();
             }
 
-            BigFileUtil.UnpackBigFile(unpackingFat, "tmp", Instance.PackageVersion);
+            BigFileUtil.UnpackBigFile(unpackingFat, "tmp", Instance.PackageVersion, FileUtil.GetParentDir(Instance.GetDirectory()));
 
             //Create cstartup if not existing yet
             if (!File.Exists(cstartupFatPath))

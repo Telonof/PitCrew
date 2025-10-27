@@ -22,6 +22,11 @@ namespace PitCrewCommon.Utilities
                 File.Delete(filePath);
         }
 
+        public static string GetParentDir(string folderPath)
+        {
+            return Directory.GetParent(folderPath).FullName;
+        }
+
         public static bool FileInUse(string path)
         {
             if (!File.Exists(path))

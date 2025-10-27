@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using PitCrew.Models;
 using PitCrew.Systems;
 using PitCrewCommon;
 using PitCrewCommon.Utilities;
@@ -19,10 +20,13 @@ namespace PitCrew.ViewModels
 
         private readonly int PackageVersion;
 
-        public BigFileWindowViewModel(int packageVersion, bool pack = false)
+        private readonly InstanceGUI Instance;
+
+        public BigFileWindowViewModel(InstanceGUI instance, int packageVersion, bool pack = false)
         {
             Pack = pack;
             PackageVersion = packageVersion;
+            Instance = instance;
 
             if (pack)
                 UI.PackSettings();
@@ -74,7 +78,11 @@ namespace PitCrew.ViewModels
                 return;
             }
 
-            BigFileUtil.UnpackBigFile(FileText, FolderText, PackageVersion);
+            string baseGameDirectory = "";
+            if (Instance != null)
+                baseGameDirectory = FileUtil.GetParentDir(Instance.BaseModel.GetDirectory());
+
+            BigFileUtil.UnpackBigFile(FileText, FolderText, PackageVersion, baseGameDirectory);
             await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(string.Format(Translatable.Get("bigfile.unpack-success"), FolderText)));
         }
     }

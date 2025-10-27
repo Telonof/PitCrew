@@ -1,9 +1,9 @@
 using Gibbed.Dunia2.FileFormats;
-using Big = Gibbed.Dunia2.FileFormats.Big;
 using Gibbed.IO;
+using Gibbed.ProjectData;
 using System.Globalization;
 using System.Text;
-using Gibbed.ProjectData;
+using Big = Gibbed.Dunia2.FileFormats.Big;
 
 namespace PitCrewCommon.Utilities
 {
@@ -13,13 +13,22 @@ namespace PitCrewCommon.Utilities
     */
     public class BigFileUtil
     {
-        public static void UnpackBigFile(string fatPath, string outputPath, int packageVersion)
+        public static void UnpackBigFile(string fatPath, string outputPath, int packageVersion, string oodleDirectory = "")
         {
-            //Load all file names stored in .filelist
             string project = "The Crew";
+
             if (packageVersion == 6)
+            {
                 project += " 2";
 
+                //Grab oodle file from game if exists
+                if (!File.Exists(Constants.OODLE_FILE) && !string.IsNullOrWhiteSpace(oodleDirectory))
+                {
+                    File.Copy(Path.Combine(oodleDirectory, Constants.OODLE_FILE), Constants.OODLE_FILE);
+                }
+            }
+
+            //Load all file names stored in .filelist
             var hashes = Manager.Load(project).LoadListsFileNames(packageVersion);
 
             BigFile fat;
