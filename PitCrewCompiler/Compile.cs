@@ -76,7 +76,7 @@ namespace PitCrewCompiler
 
                 BinaryInserter inserter = new BinaryInserter(Instance.GetDirectory(), XmlMods);
 
-                FilesinfosMods.Add(new ModFile(XmlMods[0].ParentMod, "mods/PitCrewBase", 11));
+                FilesinfosMods.Add(new ModFile(XmlMods[0].ParentMod, "mods/PitCrewBase", 9));
 
                 if (!inserter.ServerDataUsed)
                     FileUtil.CheckAndDeleteFile(Path.Combine(FileUtil.GetParentDir(Instance.GetDirectory()), Constants.SERVER_DATA_FILE));
