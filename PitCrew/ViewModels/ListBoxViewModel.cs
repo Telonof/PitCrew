@@ -176,17 +176,29 @@ namespace PitCrew.ViewModels
             if (MainWindow.LoadedMod == null)
                 return;
 
-            ModGUI mod = MainWindow.LoadedMod;
+            SortedDictionary<int, ModGUI> mods = [];
 
-            int index = MainWindow.LoadedInstance.ModsGUI.IndexOf(mod);
-            int move = index - 1;
-            if (index == 0)
-                return; //It could be nice to have it loop back, but it's annoying if someone is spamming the button.
+            //only move mods that aren't at the top or bottom of the list.
+            foreach (ModGUI mod in MainWindow.SelectedMods)
+            {
+                int modIndex = MainWindow.LoadedInstance.ModsGUI.IndexOf(mod);
+                if (modIndex == 0)
+                    continue;
 
-            MainWindow.LoadedInstance.ModsGUI.Move(index, move);
+                mods.Add(modIndex, mod);
+            }
 
-            //Done to make it easier to spam mod down or up.
-            MainWindow.LoadedMod = mod;
+            //ensure everything moves from top to bottom.
+            foreach (int modIndex in mods.Keys)
+            {
+                MainWindow.LoadedInstance.ModsGUI.Move(modIndex, modIndex - 1);
+            }
+
+            //Observable collection doesn't have AddRange?
+            foreach (ModGUI mod in mods.Values)
+            {
+                MainWindow.SelectedMods.Add(mod);
+            }
         }
 
         public void MoveModDown()
@@ -194,15 +206,26 @@ namespace PitCrew.ViewModels
             if (MainWindow.LoadedMod == null)
                 return;
 
-            ModGUI mod = MainWindow.LoadedMod;
+            SortedDictionary<int, ModGUI> mods = [];
 
-            int index = MainWindow.LoadedInstance.ModsGUI.IndexOf(mod);
-            int move = index + 1;
-            if (index >= MainWindow.LoadedInstance.ModsGUI.Count - 1)
-                return;
+            foreach (ModGUI mod in MainWindow.SelectedMods)
+            {
+                int modIndex = MainWindow.LoadedInstance.ModsGUI.IndexOf(mod);
+                if (modIndex >= MainWindow.LoadedInstance.ModsGUI.Count - 1)
+                    continue;
 
-            MainWindow.LoadedInstance.ModsGUI.Move(index, move);
-            MainWindow.LoadedMod = mod;
+                mods.Add(modIndex, mod);
+            }
+
+            foreach (int modIndex in mods.Keys.Reverse())
+            {
+                MainWindow.LoadedInstance.ModsGUI.Move(modIndex, modIndex + 1);
+            }
+
+            foreach (ModGUI mod in mods.Values)
+            {
+                MainWindow.SelectedMods.Add(mod);
+            }
         }
     }
 }

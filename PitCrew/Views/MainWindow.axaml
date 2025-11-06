@@ -53,7 +53,7 @@
 			</Grid.ColumnDefinitions>
 			
 			<ListBox Name="ModGUIList" Grid.Column="0" Margin="10,50,0,10" BorderBrush="{Binding UI.ModListBorderColor}" BorderThickness="1" DragDrop.AllowDrop="True"
-			ItemsSource="{Binding LoadedInstance.ModsGUI}" SelectedItem="{Binding LoadedMod, Mode=TwoWay}" SelectionMode="Multiple" SelectedItems="{Binding SelectedMods}">
+			ItemsSource="{Binding LoadedInstance.ModsGUI}" SelectedItem="{Binding LoadedMod, Mode=TwoWay}" SelectionMode="Multiple" SelectedItems="{Binding SelectedMods, Mode=TwoWay}">
 				<ListBox.ContextMenu>
 					<ContextMenu>
 						<MenuItem Name="ListBox_PackageModItem" Header="{Binding Source='modlist.rightclick.package', Converter={StaticResource Translatable}}" Command="{Binding ListBox.PackageMod}"/>
