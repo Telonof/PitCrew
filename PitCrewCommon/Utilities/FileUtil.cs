@@ -27,6 +27,11 @@ namespace PitCrewCommon.Utilities
             return Directory.GetParent(folderPath).FullName;
         }
 
+        public static string GetProcessDir()
+        {
+            return Path.GetDirectoryName(Environment.ProcessPath);
+        }
+
         public static bool FileInUse(string path)
         {
             if (!File.Exists(path))

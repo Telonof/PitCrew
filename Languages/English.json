@@ -137,5 +137,14 @@
     "compiler.merging-file": "Merging file {0} into {1}...",
     "compiler.merging-startup-file": "Merging file {0} into startup...",
     "compiler.no-attribute-in-root": "Cannot find the file attribute inside the root of {0}.",
-    "compiler.success": "All packed up and ready to go!"
+    "compiler.success": "All packed up and ready to go!",
+	
+    "updater.latest-version": "The application is already up to date.",
+    "updater.terminal": "Please run this from the terminal.",
+    "updater.could-not-find-valid-file": "Could not find proper file for your OS.",
+    "updater.modloader-running": "PitCrew is currently running and needs to be closed.",
+    "updater.prompt-modloader-close": "Press any key to close it and continue.",
+    "updater.prompt-updater-close": "Press any key to exit.",
+    "updater.extracting": "Extracting {0}",
+    "updater.finished": "PitCrew has been updated to {0}!"
 }

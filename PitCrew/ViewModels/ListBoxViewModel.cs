@@ -82,7 +82,7 @@ namespace PitCrew.ViewModels
 
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
             {
-                FileName = Path.GetDirectoryName(Environment.ProcessPath),
+                FileName = FileUtil.GetProcessDir(),
                 UseShellExecute = true
             });
         }
