@@ -28,10 +28,6 @@ namespace PitCrewCompiler.DataInserters
             BinaryObjectMerger merger = new BinaryObjectMerger();
             int packageVersion = xmlFiles[0].ParentMod.ParentInstance.PackageVersion;
 
-            //Do not even attempt TC2 merging for now until online is gone
-            if (packageVersion == 6)
-                return;
-
             //Find what pc_ folder the player is using as different copies have different pc_ directories.
             //Used for localization merging.
             string? pc_dir = localizationFolders
@@ -45,6 +41,10 @@ namespace PitCrewCompiler.DataInserters
                 CheckAndUnpackFile(bigFile, packageVersion);
                 
                 bigFile = Path.Combine(directory, pc_dir, $"localization{patch}.fat");
+                CheckAndUnpackFile(bigFile, packageVersion);
+
+                //TC2
+                bigFile = Path.Combine(directory, $"scenaric{patch}.fat");
                 CheckAndUnpackFile(bigFile, packageVersion);
             }
 

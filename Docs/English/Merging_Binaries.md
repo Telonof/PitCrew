@@ -1,8 +1,5 @@
 # Merging Binaries
 
-> [!IMPORTANT]  
-> This feature is not supported in The Crew 2.
-
 This documentation is for being able to merge multiple Far Cry Binaries (.fcb, .bin, .bwo) into each other.
 
 This is needed for The Crew especially since there can only be one of each file, and some binaries in particular house a lot of data that multiple mods may all need, hence the reason we need to be able to merge.
@@ -41,11 +38,11 @@ Each XML file you insert into PitCrew will need to follow a structure like this:
 
 The root of the XML should have an attribute called file which tells PitCrew which file you wish to insert your data into. You can find these paths by extracting any of the global_db's and seeing their relative path inside the unpacked folder.
 
-Setting the `file` attribute to `server` will merge into the binary file found within the Assets folder of PitCrew.
+Setting the `file` attribute to `server` will merge into the binary file found within the Assets folder of PitCrew (only applies for The Crew 1).
 
 Setting the `file` attribute to `localization` will add your string to every language in the game. See more info [here](#localization-file).
 
-From there, there are 3 commands PitCrew will listen to.
+From there, there are 4 commands PitCrew will listen to.
 
 `add` - This will add any child objects of this command as child objects to the object specified in the depth.
 
