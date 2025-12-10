@@ -47,5 +47,7 @@ For unpacking, select your output folder and the .fat file of the archive you wi
 
 For packing, select your input folder and the location you want the .fat file to be saved. You can optionally add an author to the file or turn on/off compression.
 
-## Merging Binaries
+## Merging Files
 To see how to merge binaries, please check [Merging_Binaries](Merging_Binaries.md)
+
+To see how to merge babel databases, please check [Merging_Databases](Merging_Databases.md)

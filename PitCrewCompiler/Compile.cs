@@ -74,7 +74,7 @@ namespace PitCrewCompiler
             {
                 XmlMods = XmlMods.OrderByDescending(mod => mod.Priority).ToList();
 
-                BinaryInserter inserter = new BinaryInserter(Instance.GetDirectory(), XmlMods);
+                FileMerger inserter = new FileMerger(Instance.GetDirectory(), XmlMods);
 
                 FilesinfosMods.Add(new ModFile(XmlMods[0].ParentMod, "mods/PitCrewBase", 9));
 

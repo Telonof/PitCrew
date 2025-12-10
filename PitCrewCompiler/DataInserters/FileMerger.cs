@@ -7,15 +7,17 @@ using System.Xml.Linq;
 
 namespace PitCrewCompiler.DataInserters
 {
-    internal class BinaryInserter
+    internal class FileMerger
     {
         private readonly string XmlDirectory = "xmltemp";
 
         private readonly string OutputFile = "mods/PitCrewBase.fat";
 
-        private readonly Dictionary<string, BinaryObjectFile> ModifiedFiles = [];
+        private readonly Dictionary<string, BinaryObjectFile> ModifiedBinaryFiles = [];
 
-        private readonly HashSet<string> AllowedFiles = [".bin", ".fcb", ".bwo"];
+        private readonly Dictionary<string, BabelDBFile> ModifiedDatabaseFiles = [];
+
+        private readonly HashSet<string> AllowedFiles = [".bin", ".fcb", ".bwo", ".babdb"];
 
         private readonly HashSet<string> localizationFolders = ["pc_steam_ww", "pc_ww", "pc_steam_rus", "pc_rus"];
 
@@ -23,9 +25,10 @@ namespace PitCrewCompiler.DataInserters
 
         public bool ServerDataUsed { get; private set; } = false;
 
-        public BinaryInserter(string directory, List<ModFile> xmlFiles)
+        public FileMerger(string directory, List<ModFile> xmlFiles)
         {
             BinaryObjectMerger merger = new BinaryObjectMerger();
+            BabelDBMerger bdbMerger = new BabelDBMerger();
             int packageVersion = xmlFiles[0].ParentMod.ParentInstance.PackageVersion;
 
             //Find what pc_ folder the player is using as different copies have different pc_ directories.
@@ -76,7 +79,7 @@ namespace PitCrewCompiler.DataInserters
                     continue;
                 }
 
-                string mergingPath = Path.Combine(XmlDirectory, mergerFile);
+                string mergingPath = Path.Combine(XmlDirectory, mergerFile.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar));
 
                 //Handle server-side data
                 if (mergerFile.Equals("server", StringComparison.OrdinalIgnoreCase))
@@ -117,7 +120,10 @@ namespace PitCrewCompiler.DataInserters
                 Logger.Print(string.Format(Translatable.Get("compiler.merging-file"), Path.GetFileName(xmlFile.Location), Path.GetFileName(mergingPath)));
 
                 //Found it, now check the dictonary to see if we already modded it.
-                CheckAndMergeFile(merger, xmlDoc, mergingPath);
+                if (mergingPath.EndsWith(".babdb"))
+                    CheckAndMergeFile(bdbMerger, xmlDoc, mergingPath);
+                else
+                    CheckAndMergeFile(merger, xmlDoc, mergingPath);
 
                 if (!xmlFile.ParentMod.ParentInstance.IsCLI)
                     PercentageCalculator.IncrementProgress();
@@ -130,10 +136,17 @@ namespace PitCrewCompiler.DataInserters
             }
 
             //Convert all the objects back into their files and pack the directory
-            foreach (string moddedFile in ModifiedFiles.Keys)
+            foreach (string moddedFile in ModifiedBinaryFiles.Keys)
             {
                 FileStream stream = File.OpenWrite(moddedFile);
-                ModifiedFiles[moddedFile].Serialize(stream);
+                ModifiedBinaryFiles[moddedFile].Serialize(stream);
+                stream.Close();
+            }
+
+            foreach (string moddedFile in ModifiedDatabaseFiles.Keys)
+            {
+                FileStream stream = File.OpenWrite(moddedFile);
+                ModifiedDatabaseFiles[moddedFile].Serialize(stream);
                 stream.Close();
             }
 
@@ -143,7 +156,7 @@ namespace PitCrewCompiler.DataInserters
 
         private void CheckAndMergeFile(BinaryObjectMerger merger, XDocument inputXML, string outputBinary)
         {
-            if (!ModifiedFiles.ContainsKey(outputBinary))
+            if (!ModifiedBinaryFiles.ContainsKey(outputBinary))
             {
                 BinaryObjectFile binaryObjectFile = new BinaryObjectFile();
                 FileStream stream = File.OpenRead(outputBinary);
@@ -151,10 +164,25 @@ namespace PitCrewCompiler.DataInserters
                 //Expect 1.5 gigs of ram to be used if modding the heavier files.
                 binaryObjectFile.Deserialize(stream);
                 stream.Close();
-                ModifiedFiles.Add(outputBinary, binaryObjectFile);
+                ModifiedBinaryFiles.Add(outputBinary, binaryObjectFile);
             }
-            BinaryObjectFile bof = ModifiedFiles[outputBinary];
+            BinaryObjectFile bof = ModifiedBinaryFiles[outputBinary];
             bof.Root = merger.Merge(bof.Root, inputXML);
+        }
+
+        private void CheckAndMergeFile(BabelDBMerger merger, XDocument inputXML, string outputBinary)
+        {
+            if (!ModifiedDatabaseFiles.ContainsKey(outputBinary))
+            {
+                BabelDBFile bdb = new BabelDBFile();
+                FileStream stream = File.OpenRead(outputBinary);
+                bdb.Deseralize(stream);
+                stream.Close();
+                ModifiedDatabaseFiles.Add(outputBinary, bdb);
+            }
+
+            BabelDBFile babdb = ModifiedDatabaseFiles[outputBinary];
+            ModifiedDatabaseFiles[outputBinary] = merger.Merge(babdb, inputXML);
         }
 
         private void CheckAndUnpackFile(string bigFile, int packageVersion)
