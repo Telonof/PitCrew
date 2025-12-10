@@ -5,6 +5,9 @@
     "rtl": "1",
     
     "language-restart": "PitCrew سيتم تطبيق اللغة بشكل صحيح عند إعادة تشغيل",
+    "game-running": "لعبتك قيد التشغيل حاليًا, لا يمكن الاستمرار.",
+
+    "tc2-warning": "لا يتم دعم تعديل The Crew 2 على Linux. لقد تم تحذيرك.",
     
     "messagebox-title-default": "عن",
 
@@ -13,10 +16,9 @@
     "windowmanager.no-main-window": "لا يمكن العثور على النافذة الرئيسية، كيف حدث هذا؟",
     
     "about.title": "حول",
-    "about.description": "The Crew 1أداة تحميل تعديلات للعبة",
+    "about.description": "The Crew 1 & 2أداة تحميل تعديلات للعبة",
     "about.author": "FTIW:بواسطة",
     "about.translator": "DZ.Blood:الترجمة بواسطة",
-    "about.discord": "TCU Discord انضم إلى",
     
     "modinfo.default-name": "الإعدادات الاصلية",
     "modinfo.default-author": "متنوع",
@@ -90,8 +92,6 @@
     "instances.textinput.title": "إدخال نص",
 
     "server.no-instance": "لم يتم تحميل المثيل.",
-    "server.select-server-folder": "حدد موقع الخادم.",
-    "server.path-set": "تم تعيين مسار الخادم إلى {0}",
     
     "modedit.title": "Metadata نافذة البيانات",
     "modedit.header": "Metadata تعديل البيانات",
@@ -113,7 +113,6 @@
     "menubar.utilities": "أدوات",
     "menubar.unpack": "فك ضغط الأرشيف",
     "menubar.pack": "حزم الأرشيف",
-    "menubar.set-server": "تعيين موقع الخادم",
     "menubar.open-log": "فتح السجلات",
     "menubar.theme": "السمة",
     "menubar.about": "حول",
@@ -122,7 +121,6 @@
     
     "parser.duplicate-file": "{0} هو ملف مكرر، يتم تخطيه.",
     "parser.empty-string": "إما أن الأولوية أو المسار فارغ.",
-    "parser.successful-parse": "تم تحليل الملف {0} بنجاح.",
     "parser.issue-found": "لدى التعديل {0} مشكلة مع الملف {1}.",
     "parser.not-integer": "الأولوية ليست عددًا صحيحًا.",
     "parser.too-low-priority": "الأولوية أقل من 10.",
@@ -138,7 +136,15 @@
     "compiler.no-global-db": "لم يتم العثور على ملفات global_db، (binaries) لا يمكن دمج الملفات الثنائية.",
     "compiler.merging-file": "دمج الملف {0} في {1}...",
     "compiler.merging-startup-file": "(startup) دمج الملف {0} في بدء التشغيل...",
-    "compiler.no-server-found": "يحاول الملف {0} الوصول إلى موقع الخادم. لكن موقع الخادم فارغ أو لا يمكن العثور عليه.",
     "compiler.no-attribute-in-root": "لا يمكن العثور على سمة الملف داخل جذر (root) {0}.",
-    "compiler.success": "تم تعبئة كل شيء وجاهز للذهاب!"
+    "compiler.success": "تم تعبئة كل شيء وجاهز للذهاب!",
+	
+    "updater.latest-version": "التطبيق محدث بالفعل.",
+    "updater.terminal": "(terminal) يرجى تشغيل هذا من المحطة الطرفية.",
+    "updater.could-not-find-valid-file": "لم يتم العثور على الملف المناسب لنظام التشغيل الخاص بك.",
+    "updater.modloader-running": "يعمل حاليًا ويجب إغلاقه PitCrew.",
+    "updater.prompt-modloader-close": "اضغط على أي مفتاح لإغلاقه والاستمرار.",
+    "updater.prompt-updater-close": "اضغط على أي مفتاح للخروج.",
+    "updater.extracting": "استخراج {0}",
+    "updater.finished": "تم تحديث PitCrew إلى {0}!"
 }
