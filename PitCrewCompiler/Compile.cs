@@ -32,7 +32,7 @@ namespace PitCrewCompiler
                 //Update 998 priorities based on order of mod list.
                 for (int i = 0; i < mod.ModFiles.Count; i++)
                 {
-                    ModFile file = mod.ModFiles[i];
+                    ModFile file = new ModFile(mod.ModFiles[i]);
                     if (file.Priority == 998)
                         file.Priority = Math.Max(11, priority);
 

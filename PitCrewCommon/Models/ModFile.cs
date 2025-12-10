@@ -12,5 +12,12 @@
             this.Location = location;
             this.Priority = priority;
         }
+
+        public ModFile(ModFile modFile)
+        {
+            this.ParentMod = modFile.ParentMod;
+            this.Location = modFile.Location;
+            this.Priority = modFile.Priority;
+        }
     }
 }
