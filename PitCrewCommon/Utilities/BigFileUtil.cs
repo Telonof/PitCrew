@@ -47,7 +47,7 @@ namespace PitCrewCommon.Utilities
 
                     if (hashes[entry.NameHash] != null)
                     {
-                        entryName = hashes[entry.NameHash].Replace("/", Path.DirectorySeparatorChar.ToString()).Replace("\\", Path.DirectorySeparatorChar.ToString());
+                        entryName = hashes[entry.NameHash].Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
                         if (entryName.StartsWith(Path.DirectorySeparatorChar.ToString()))
                             entryName = entryName.Substring(1);
                     }

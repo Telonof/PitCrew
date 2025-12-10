@@ -103,6 +103,8 @@ It does **not** accept making new fields, it will only edit/delete fields.
 The delete command will simply delete the specified depth along with any child objects. Deleting the root is not possible.
 
 ## Compiling
+Save the file as a .xml file. Then add the file with the extension to PitCrew to allow it to register.
+
 When compiling, whichever XMLs have the highest priority will merge first. So if you wish to edit an existing mod's data, you will need to set your XMLs priority lower.
 
 ## Localization File
