@@ -60,7 +60,7 @@ namespace PitCrewCommon.Models
             foreach (XElement modFile in element.Elements("file"))
             {
                 //Windows supports both / and \ but Linux only supports /
-                string fileLoc = modFile.Attribute("loc").Value.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+                string fileLoc = modFile.Attribute("loc").Value.Replace('\\', Path.DirectorySeparatorChar);
                 string priority = modFile.Attribute("priority").Value;
 
                 //We don't need the same file added multiple times, one only.
