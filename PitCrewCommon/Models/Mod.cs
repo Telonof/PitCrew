@@ -136,7 +136,9 @@ namespace PitCrewCommon.Models
             //    return;
 
             FileUtil.CheckAndCreateFolder(metadataFolder);
-            File.Copy(mdataPath, fullMetadataPath, true);
+            if (!mdataPath.Equals(fullMetadataPath))
+                File.Copy(mdataPath, fullMetadataPath, true);
+            
             Metadata.Location = fullMetadataPath;
         }
     }
