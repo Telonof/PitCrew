@@ -87,7 +87,7 @@ namespace PitCrew.ViewModels
             UI.ModsTabVisible = true;
             
             //Allow saving and editing but no compiling since oodle support isn't available for Linux.
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && LoadedInstance.BaseModel.PackageVersion == 6)
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && LoadedInstance.BaseModel.PackageVersion == Constants.THECREW_2)
             {
                 Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("tc2-warning")));
                 UI.ModListBorderColor = "Red";

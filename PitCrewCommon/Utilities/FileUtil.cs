@@ -51,7 +51,7 @@ namespace PitCrewCommon.Utilities
         public static bool ProcessRunning(string compareDirectory, int packageVersion)
         {
             string executable = "TheCrew";
-            if (packageVersion == 6)
+            if (packageVersion == Constants.THECREW_2)
                 executable += "2";
 
             Process[] processes = Process.GetProcessesByName(executable);

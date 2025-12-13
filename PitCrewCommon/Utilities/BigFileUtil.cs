@@ -17,7 +17,7 @@ namespace PitCrewCommon.Utilities
         {
             string project = "The Crew";
 
-            if (packageVersion == 6)
+            if (packageVersion == Constants.THECREW_2)
             {
                 project += " 2";
 
@@ -47,7 +47,7 @@ namespace PitCrewCommon.Utilities
 
                     if (hashes[entry.NameHash] != null)
                     {
-                        entryName = hashes[entry.NameHash].Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+                        entryName = hashes[entry.NameHash].Replace("/", Path.DirectorySeparatorChar.ToString()).Replace("\\", Path.DirectorySeparatorChar.ToString());
                         if (entryName.StartsWith(Path.DirectorySeparatorChar.ToString()))
                             entryName = entryName.Substring(1);
                     }
