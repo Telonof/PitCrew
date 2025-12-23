@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 
 namespace PitCrewCommon.Utilities
 {
@@ -57,11 +58,19 @@ namespace PitCrewCommon.Utilities
             Process[] processes = Process.GetProcessesByName(executable);
 
             //Double check if it's the same directory.
-            foreach(Process process in processes)
+            foreach (Process process in processes)
             {
-                string path = Path.Combine(Path.GetDirectoryName(process.MainModule.FileName), "data_win32");
-                if (path.Equals(compareDirectory))
-                    return true;
+                try
+                {
+                    string path = Path.Combine(Path.GetDirectoryName(process.MainModule.FileName), "data_win32");
+                    if (path.Equals(compareDirectory))
+                        return true;
+                }
+                catch (Win32Exception)
+                {
+                    //Program we're not allowed to access.
+                    continue;
+                }
             }
 
             return false;
