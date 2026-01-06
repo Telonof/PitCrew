@@ -17,7 +17,7 @@ namespace PitCrewCommon.Utilities
         {
             string project = "The Crew";
 
-            if (packageVersion == Constants.THECREW_2)
+            if (packageVersion == Constants.THE_CREW_2)
             {
                 project += " 2";
 
