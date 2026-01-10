@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using PitCrewCommon;
 using System;
+using System.Runtime.InteropServices;
 
 namespace PitCrew
 {
@@ -12,14 +13,20 @@ namespace PitCrew
         [STAThread]
         public static void Main(string[] args)
         {
-            //Apparently documentation says this is more than fine.
+            //Apparently documentation says this is more than fine to catch crashes.
             try
             {
                 BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
             }
             catch (Exception ex)
             {
-                Logger.Error(0, $"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+                Logger.Print("====================");
+                Logger.Print("CRASHDUMP");
+                Logger.Print($"Version: {Constants.VERSION}");
+                Logger.Print($"OS: {RuntimeInformation.OSDescription}");
+                Logger.Error(0, $"{ex.Message}");
+                Logger.Print($"Trace: {ex.StackTrace}");
+                Logger.Print("====================");
             }
         }
 
