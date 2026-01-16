@@ -60,6 +60,30 @@ The index attribute is required and tells the merger which row to edit.
 
 The order in which you edit the columns in the row does <ins>not</ins> matter, so long as the name <ins>matches</ins> the column's name (case can be insensitive).
 
+
+## Server IDs
+> [!IMPORTANT]  
+> This section is documentation only regarding The Crew 1 due to the use of The Crew Unlimited server emulator. While some information may be useful, most is not applicable to The Crew 2.
+
+To have things such as brand new vinyls in the shop, missions properly giving rewards, and more, your mod will need to integrate with the server emulator to add IDs to the servers database.
+
+Currently there is two systems in regards to custom IDs, that being custom items and custom missions.
+
+### Items
+PitCrew auto-integrates item additions with your babdb's. For every item you use an add command with inside your mod file, PitCrew will auto-generate an entry into the server's database via addon_items.xml located in the root of your game as well as an entry in the render/phys databases.
+
+### Missions
+Missions do not have any index dependency. Meaning all that is needed to be done regarding custom missions is fill out a xml file with the file attribute as `server_missions`. An example of this is would be:
+
+```xml
+<root file="server_missions">
+  <faction ID="0x20000000FFFFFFFF" Name="Custom" GameplayZone="1" DelockLevel="0" MaxLevel="0" RewardValuesID="0x000000000792BE7F" />
+</root>
+```
+
+To learn more about what to put inside the root node, documentation regarding custom missions has been provided by the TCU Team and can be found [here](../../PitCrewCompiler/Assets/addon_missions.xml).
+
+
 ## Compiling
 Save the file as a `.xml` file and when referencing the file in your mod, ensure the extension is included.
 

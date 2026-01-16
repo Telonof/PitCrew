@@ -1,0 +1,252 @@
+<information info="It is advised you do not alter this XML file. You are free to edit the data inside the comment should you so wish.">
+<!--
+		# FILE INFO #
+			
+			Do not be alarmed! This file has a lot of helpful friendly comments and info to help you. Please take the time to read and understand all this, as it's relatively simple!
+			............................................................................................................................................................................
+			
+			This file contains information for the TCU Server about your addon items.
+			You still have to modify the archetypes, server_archetypes and babdb files of your game install. (PitCrew makes it simple!)
+			This is for the TCU Server to recognize your addon items and know what ID's and indexes they have.
+			
+			- The format follows that of the individual babdb's.
+			- The price of the addon item is dictated by it's TypeId (The Item Pack it belongs to).
+				- If it doesn't associate with a TypeId (ie car body or performance part items), a common price formula will be used.
+			
+			- You can use either normal decimals values, or hexadecimal values. Hexadecimal values MUST have prefix 0x. ( INCORRECT: 000000000793899C, CORRECT: 0x000000000793899C )
+			- ALL hexadecimal values must be *Big Endian* Hexadecimal! You may be used to the FCB Converters' Little Endian Hex values (9F7BCB0600000000), Big Endian would be 0000000006CB7B9F.
+			- HxD is highly recommended to easily deal with Hex values. You can use HxD or https://jmacwhyte.github.io/hexflip/ to flip endianness of Hex values.
+			- Leading zeroes do not have to be preserved in Hex values. (For example: changing 0x000000000793899C to 0x793899C is completey fine.)
+			- Hex values that are all FF's (FF - uint8, FFFF - uint16, FFFFFFFF - uint32, FFFFFFFFFFFFFFFF - uint64) stand for "nothing".
+				They can be simply replaced with blank (""), or the attribute can be avoided completely.
+			
+		# ITEM INDEXING #
+			
+			Render Parts and Physics (Performance) Parts *have* to be added into rendercarpartdb.bin & physcarpartdb.bin respectively (in road66database) for the game to know what their index is.
+			The server and especially your savegame car datas use the item database index for all items instead of their 64 bit ID.
+			Each item's database index is their index/position in rendercarpartdb/physcarpartdb (1st item being at index 0).
+			
+			As of The Crew 1.2.0.0 (latest version), there are a total of 11910 render car parts and 7260 phys car parts.
+			This means the last render item's index is 11909 and last phys item's index is 7259 (because the 1st starts at index 0).
+			The TCU Server and PitCrew are designed to append your addon items after the base game's last render/phys item, i.e. the first renderpart addon item's index would be 11910, 2nd would be 11911, and so on.
+			
+		# ITEM LEVEL #
+			
+			Item levels are pretty straight forward. "WhiteLevel" is a pre-calculated "worth" of the item based on level + quality.
+			The formula for WhiteLevel is as follows: [ Level * Quality Level Coefficient ]. Level Coefficients per Quality ID are available below.
+			
+			CAULevel makes things a bit more complicated (because of it's sloppy implementation). CAULevel usually matches the Level value, until it goes above level 50.
+			The Level value never goes above 50, but CAULevel does, so for example a level 60 part would have Level 50 & CAULevel 60. The absolute part level is the greater value of those 2.
+			
+		# PACK INDEX AND PRICING #
+		
+			.........................................
+			... COLORS, STICKERS, INTERIORS, RIMS ...
+			.........................................
+				
+				Internally, the server_archetypes contain a ton of different item packs that the game's interface doesn't distinguish between.
+				For example: the "Urban" Item Type/category of stickers would contain stickers from several different sticker packs, however the interface just shows them all under "Urban" (1 and 2).
+				
+				You may notice stickers (and other visual items like color, rims, interiors) have different prices, even if they're within the same category (Item Type).
+				That is decided by a field in each item pack called "AbilityToComputePrice". It dictates which "Tuner Zone" price you're paying for this item (in any Tuner shop).
+				
+				Babdb entries must specify this via the "PackIndex" parameter, the values are as following:
+				 - CAbility_CarTuner_Street = 0x0000001C
+				 - CAbility_CarTuner_Dirt = 0x0000001D
+				 - CAbility_CarTuner_Perf = 0x0000001E
+				 - CAbility_CarTuner_Raid = 0x0000001F
+				 - CAbility_CarTuner_Circuit = 0x00000020
+				For example, the "Urban" sticker category/Item Type has the following pricing per "Tuner Zone" (also defined in server_archetypes):
+				 - CAbility_CarTuner_Street (0x0000001C) = 9000
+				 - CAbility_CarTuner_Dirt (0x0000001D) = 9000
+				 - CAbility_CarTuner_Perf (0x0000001E) = 10000
+				 - CAbility_CarTuner_Raid (0x0000001F) = 10000
+				 - CAbility_CarTuner_Circuit (0x00000020) = 11000
+				 
+				Set your PackIndex in the babdb entry (and matching item entry above) according to the AbilityToComputePrice field of the item pack you put your item into in server_archetypes.
+				
+				
+				### Simple Addon Sticker example ###
+				
+				Let's say you want to add a new addon sticker into the "Urban" sticker category with Street Tuner prices.
+				 - Find a StickerPack entity that contains Urban-Item Type stickers, with the StickerPack's AbilityToComputePrice set to CAbility_CarTuner_Street.
+				 - Assign a PackIndex of 0x0000001C to your new sticker item babdb entry (and also in the items node above).
+			 
+			.........................................
+			... CAR BODY PARTS, PERFORMANCE PARTS ...
+			.........................................
+				
+				These kinds of items use a different pricing formula. In server_archetypes, you can find "Zone Prices" per Tuner (Start Price, End Price):
+				 - Steet: 	(450, 1600)							[Start Level: 1]
+				 - Dirt:	(1125, 3400)						[Start Level: 10]
+				 - Perf:	(2200, 5400)						[Start Level: 20]
+				 - Raid:	(3700, 7400)						[Start Level: 30]
+				 - Circuit:	(6000, 9000)						[Start Level: 40]
+				 - Monster, Drift, Dragster same as Circuit.	[Start Level: 40]
+				 
+				These define the price range of car body parts and performance parts.
+				- Start Price is the price for a [Start]-Level item (i.e. Level 10 at the Dirt Tuner), and End Price is the price for a Level 50 item (max level before the CAU DLC).
+				- For all item levels in between [Start] and 50, the price is interpolated. For levels above 50, it's extrapolated past the End price.
+				- The final price is then multiplied by the Quality Ratio (found below) based on the item's QualityID.
+				
+				# FORMULA PSEUDO-CODE #
+					int ItemLevel = ... 				// max of (Level, CAULevel)
+					float QualityRatio = ...			// Quality Ratio for this item's Quality ID (Bronze/Silver/Gold/Platinum).
+					int StartLevel = ...				// Tuner Start Level)
+					int EndLevel = 50;					// Always 50
+					
+					float PriceAlpha = (ItemLevel - StartLevel - 1)  /  (EndLevel - StartLevel - 1);	// Un-interp function: (value - min_value) / (max_value - min_value).
+					float Price = lerp(StartPrice, EndPrice, PriceAlpha);								// Any normal lerp/linear interpolation function.
+					int FinalPrice = floor(Price * QualityRatio);
+				###
+				
+				NOTE: For some reason, despite defining various item Levels for *car body parts*, they're always priced at Start prices only. The TCU Server is designed to match this behavior.
+
+
+	Add your addon items into the <renderparts> or <physparts> nodes at the top of the file, depending on which part db you want to use (render/phys).
+	The ordering of items in each parts node matters!
+	
+	Available item types:
+	 - "color" 				| 	id (uint64), Type (uint32(hash)), ModelId (uint64), PackIndex (uint32), TypeId (uint64)
+	 - "sticker" 			| 	id (uint64), Type (uint32(hash)), ModelId (uint64), PackIndex (uint32), TypeId (uint64)
+	 - "rim"				|	id (uint64), Type (uint32(hash)), ModelId (uint64), PackIndex (uint32), TypeId (uint64)
+	 - "carinteriorpattern"	|	id (uint64), Type (uint32(hash)), ModelId (uint64), PackIndex (uint32), TypeId (uint64), OnlyStitches (bool)
+	 - "licenseplate"		|	id (uint64), Type (uint32(hash)), TypeId (uint64)
+	 - "driverhelmet"		|	id (uint64), ModelID (uint64), DriverID (uint64), PackIndex (uint32), Type (uint32(hash)), TypeId (uint64), NetworkChunck (uint32(hash))
+	 - "driversuit"			|	id (uint64), ModelID (uint64), SlotID (uint64), DriverID (uint64), PackIndex (uint32), Type (uint32(hash)), TypeId (uint64), NetworkChunck (uint32(hash))
+	 - "item"				|	id (uint64), Level (uint8), ModelID (uint64), QualityID (uint64), DressID (uint64), SlotID (uint64), NetworkChunk (uint32(hash)), RimPackIndex (uint32), TypeID (uint64), WhiteLevel (float32), AccelBonus (uint8), TopSpeedBonus (uint8), HandlingBonus (uint8), BrakingBonus (uint8), CAULevel (uint8)
+	
+	Disambiguation:
+	 - "id": The Entity ID of your archetype.
+	 - "PackIndex": Used to specify AbilityToComputePrice of the respective Item Pack this item is part of (in server_archetypes). More info above at the "PACK INDEX AND PRICING" chapter.
+	 - "TypeId": The Item Type of this item. Alternatively, think of it as the category of item. You can find Item Type IDs for each... kind of item (color/sticker/interior/rim etc) below!
+	 - "Type": CRC32 hash of the name of the Type ID, for example: color type 65CEBC8E would link to "_root.$Official_f", and subsequently it's color type entity in archetypes. [Inconsequential to TCU Server]
+	 - "Level": Level of the item, ranging from 1 to 50. If you want to set the item level above 50, use:
+	 - "CAULevel": Must match "Level" until level 50. After 50 it can go higher.
+	 - "WhiteLevel": Worth of the item based on it's level and quality. More in-depth explanation at the start of this file.
+	 - "ModelID": Model ID of the car this item is for exclusively. Use "FFFFFFFFFFFFFFFF" (which is -1 as a signed 64 bit integer) to make it universal for all cars.
+	 - "DressID": Same as Model ID but for the dress (spec) of the car. I believe using "FFFFFFFFFFFFFFFF" would also make it universal.
+	 - "QualityID": ID of the quality of this item (Bronze, Silver, Gold, Platinum). Quality IDs can be found below.
+	 - "SlotID": ID of the car part slot that this item goes into. Slot IDs can be found below.
+	
+	Examples with each kind of item:
+	 - <color id="0x0000000000E618FA" Type="0x65CEBC8E" ModelId="0x000000000037569A" PackIndex="0x1C" TypeId="0x0000000006CB7B9F"/>
+	 - <sticker id="0x0000000007856352" Type="0xEF76C1A4" ModelId="0xFFFFFFFFFFFFFFFF" PackIndex="0x1C" TypeId="0x0000000007847348"/>
+	 - <rim id="0x00000000078484D5" Type="0x65CEBC8E" ModelId="0x0000000000375699" PackIndex="0x1D" TypeId="0x0000000007847356"/>
+	 - <carinteriorpattern id="0x0000000000E22CED" Type="0xCE1F81D7" ModelId="0x00000000003756A0" PackIndex="0x1C" TypeId="0x000000000784754E" OnlyStitches="0"/>
+	 - <licenseplate id="0x000000000785F40F" Type="0x8383C20C" TypeId="0x000000000786464E"/>
+	 - <driverhelmet id="0x0000000007939DC3" ModelID="0xFFFFFFFFFFFFFFFF" DriverID="0xFFFFFFFFFFFFFFFF" PackIndex="0x1C" Type="0x7D5EDD92" TypeId="0x00000000079411A1"/>
+	 - <driversuit id="0x000000000793899C" ModelID="0xFFFFFFFFFFFFFFFF" SlotID="0x000000000793AE54" DriverID="0xFFFFFFFFFFFFFFFF" PackIndex="0xFFFFFFFF" Type="0x9410B07" TypeId="0x0000000007941234" NetworkCnuck="0x8D5AE7E8"/>
+	 - <item id="0x00000000078484D5" Level="1" ModelID="0x0000000000375699" QualityID="0x0000000000B9FE99" DressID="0x0000000000375696" SlotID="0x0000000000B9FE8D" NetworkChunk="0x166B8E90" RimPackIndex="0x1D" TypeID="0x0000000007847356" WhiteLevel="1.0" AccelBonus="0" TopSpeedBonus="0" HandlingBonus="0" BrakingBonus="0" CAULevel="1"/>
+	
+	Note: the <item> kind of item may go in either the renderpart or physpart db, based on what they are.
+	 - Performance parts (with a physpart slot ID, list found below) go into physparts!
+	 - Visual Car body parts go into renderparts!
+
+
+
+
+	# Some helpful IDs #
+
+		COLOR TYPE IDs
+		- 0x0000000006CB7B9F: "Official_f"
+		- 0x000000000540E5DD: "Metallic"
+		- 0x000000000540BFBE: "Matte"
+		- 0x000000000540E5DC: "Standard"
+		- 0x0000000006C9DF8B: "Anodized"
+		- 0x0000000005410D95: "Chameleon"
+		- 0x0000000005410D96: "Chrome"
+		- 0x0000000005410D95: "Pearlescent"
+		- 0x000000000792C244: "League"
+	
+		STICKER TYPE IDs
+		- 0x0000000007847343: "Flaming"
+		- 0x0000000007847344: "Racing"
+		- 0x0000000007847345: "Urban"
+		- 0x0000000007847346: "Tribal"
+		- 0x0000000007847347: "Nature"
+		- 0x0000000007847348: "Animals"
+		- 0x0000000007847349: "Skull"
+		- 0x000000000784734A: "Vintage"
+		- 0x000000000784734B: "Flags"
+		- 0x000000000784734C: "Surf"
+		- 0x00000000078E662E: "Fan-made"
+		- 0x00000000078FF652: "ComCast"
+		- 0x000000000792611E: "Christmas"
+		- 0x000000000792694F: "Ubisoft"
+		- 0x000000000792C26E: "League"
+		- 0x000000000794C280: "Anniversary2Year_CaU"
+	
+		RIM TYPE IDs
+		- 0x0000000007847356: "Official"
+		- 0x000000000784734F: "Road"
+		- 0x0000000007847350: "Off-road"
+		- 0x0000000007847352: "Racing"
+		- 0x0000000007847353: "Exotic"
+		- 0x0000000007847354: "Vintage"
+		- 0x000000000792C316: "League"
+		- 0x0000000007941961: "KTM Official Street"
+		- 0x0000000007941962: "KTM Official FSDTRD"
+		- 0x000000000794195F: "Monster"
+		- 0x0000000007941960: "Dragster"
+		- 0x0000000007942E62: "Kawasaki 450 Official Street"
+		- 0x0000000007942E63: "Kawasaki 450 Official FSDTRD"
+	
+		INTERIOR TYPE IDs
+		- 0x000000000784754E: "Official"
+		- 0x000000000786B069: "Aluminium"
+		- 0x000000000786B06A: "Carbon"
+		- 0x000000000786B06B: "Wood"
+		- 0x000000000786B06C: "Lacquered"
+		- 0x000000000786B06D: "Mixed Aluminium"
+		- 0x00000000078EE980: "Mixed Carbon"
+	
+		QUALITY IDs | LEVEL COEFFICIENTS
+		- Bronze: 		0x0000000000B9FE99 | 1.0
+		- Silver: 		0x0000000000B9FE9A | 1.2
+		- Gold: 		0x0000000000B9FE9B | 1.4
+		- Platinum: 	0x0000000000B9FE9C | 1.8
+		- Unknown: 		0x0000000000B9FE9E | 0.8
+		- CAU Platinum:	0x000000000794A351 | 1.8 		(identical to Platinum)
+	
+		PHYSPART SLOT IDs (11 physpart slots per car | Section 0 = Motor Section, Section 1 = Chassis Section)
+		- MOTORCORE: 					0x00000000003756AA		(Section 0, Slot 0)
+		- CARBURATOR / FUEL INJECTION: 	0x00000000003756AB		(Section 0, Slot 1)
+		- ELECTRONIC / E.C.U.: 			0x00000000003756AC		(Section 0, Slot 2)
+		- EXHAUST: 						0x0000000000375FC2		(Section 0, Slot 3)
+		- CHARGER / AIRSYSTEM: 			0x0000000000375FC5		(Section 0, Slot 5)
+		- GEARBOX: 						0x0000000000375FC7		(Section 0, Slot 6)
+		- TIRES: 						0x0000000000375FCF		(Section 1, Slot 1)
+		- BRAKES: 						0x0000000000375FD1		(Section 1, Slot 2)
+		- SUSPENSION: 					0x0000000000375FD2		(Section 1, Slot 3)
+		- WEIGHT REDUCTION: 			0x0000000000375FD3		(Section 1, Slot 6)
+		- ANTI-ROLL / DIFFERENTIAL: 	0x0000000000375FD4		(Section 1, Slot 7)
+		
+		RENDERPART SLOT IDs FOR CAR BODY PARTS
+		- Front Bumper:					0x0000000000375FDA
+		- Rear Bumper:					0x0000000000375FDB
+		- Skirts:						0x0000000000375FDC
+		- Side Mirror:					0x0000000000375FDD
+		- Rear Wing:					0x0000000000375FDE
+		- Motor Hood:					0x0000000000375FDF
+		- Front Fender:					0x0000000000375FE3
+		- Rear Fender:					0x0000000000375FE4
+		- Rims:							0x0000000000B9FE8D
+		
+		RENDER PART SLOT IDs FOR BIKE BODY PARTS
+		- Swing Arm:					0x0000000007934C80
+		- Front Light:					0x0000000007934C81
+		- Exhaust:						0x0000000007934C82
+		- Mirror:						0x0000000007934C83
+		- Fork:							0x0000000007934C84
+		- Seat:							0x0000000007934C85
+		- Front Fender:					0x0000000007934C86
+		- Fairing:						0x0000000007934C87
+		- Rims:							0x0000000007934C88
+		- Tires:						0x0000000007934C89
+		- Rear Light:					0x0000000007934C8A
+		- AvatarHelmet:					0x000000000793AE53
+		- AvatarTop:					0x000000000793AE54
+		- AvatarBottom:					0x000000000793AE55
+-->
+</information>

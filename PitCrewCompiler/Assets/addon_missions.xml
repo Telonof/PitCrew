@@ -1,0 +1,81 @@
+<information info="It is advised you do not alter this XML file. You are free to edit the data inside the comment should you so wish.">
+<!--
+		# FILE INFO #
+			
+			This file contains basic information for the TCU Server about your addon missions.
+			This information is needed for the TCU Server to recognize the missions when you play them and correctly process the rewards.
+			
+			You still have to modify the missionspawners.entities.bin file, otherwise they won't appear ingame!
+			
+			- You can use either normal decimals values, or hexadecimal values. Hexadecimal values MUST have prefix 0x. ( INCORRECT: 000000000793899C | CORRECT: 0x000000000793899C )
+			- ALL hexadecimal values must be *Big Endian* Hexadecimal! You may be used to the FCB Converters' Little Endian Hex values (9F7BCB0600000000), Big Endian would be 0000000006CB7B9F.
+			- HxD is highly recommended to easily deal with Hex values. You can use HxD or https://jmacwhyte.github.io/hexflip/ to flip endianness of Hex values.
+			- Leading zeroes do not have to be preserved in Hex values. (For example: changing 0x000000000793899C to 0x793899C is completey fine.)
+			- Hex values that are all FF's (FF - uint8, FFFF - uint16, FFFFFFFF - uint32, FFFFFFFFFFFFFFFF - uint64) stand for "nothing".
+				They can be simply replaced with blank (""), or the attribute can be avoided completely.
+			
+			
+		# MISSION REWARDS #
+			
+			RewardValuesID links to the CITEntityRewardValues entity (can be found in archetypes.entities.bin) that defines the reward multipliers.
+			RewardValues IDs can be found below for each type of Mission.
+			
+			- Story Missions use the MaxLevel as the factor for rewards.
+			- Faction Missions & CAU Missions use Player Level as the factor for rewards.
+			
+			
+		# MISSION LEVEL #
+			
+			DelockLevel defines which level the player has to reach to unlock (and therefore be able to play) this mission.
+			MaxLevel is the Mission Level, which will affect the Bucks & XP pay for Story Missions.
+			
+			
+		# SCORE OBJECTIVES #
+			
+			Objectives define the threshold for the Mission Score you're supposed to surpass for each Medal (Bronze/Silver/Gold/Platinum).
+			Faction Missions do not have Score Objectives and do not reward Medals.
+			
+			
+		# GAMEPLAY ZONE #
+			
+			Assigned only for Faction Missions, this defines which one of the 5 regions this mission takes place in.
+			When you beat a Faction Mission, you are rewarded Reputation. Rep is (usually) earned by region, so this defines which region you've earned Rep for.
+			
+			Gameplay Region indexes are as follows:
+			 - 0 = None (Rep will be rewarded for you, but won't be attributed to any specific region)
+			 - 1 = Midwest
+			 - 2 = East Coast
+			 - 3 = The South
+			 - 4 = Mountain States
+			 - 5 = West Coast
+
+
+	Add all your addon missions into the <missions> node. The order does not matter.
+	
+	You can add the following mission types:
+	 - "story"			|	A Story mission							|	ID (uint64), Name (string), DelockLevel (uint32), MaxLevel(uint32), RewardValuesID (uint64), ObjectivePlatinum (uint32), ObjectiveGold (uint32), ObjectiveSilver (uint32), ObjectiveBronze (uint32)
+	 - "faction"		|	A Faction mission						|	ID (uint64), Name (string), GameplayZone (uint8), DelockLevel (uint32), MaxLevel(uint32), RewardValuesID (uint64)
+	 - "cau"			|	A Calling All Units police mission		|	ID (uint64), Name (string), DelockLevel (uint32), MaxLevel(uint32), RewardValuesID (uint64), ObjectivePlatinum (uint32), ObjectiveGold (uint32), ObjectiveSilver (uint32), ObjectiveBronze (uint32)
+	
+	Examples with each mission type:
+	 - <story ID="0x20000000061D4ADB" Name="Mid-B-04" DelockLevel="1" MaxLevel="1" RewardValuesID="0x000000000792BE7C" ObjectivePlatinum="18500" ObjectiveGold="12500" ObjectiveSilver="7500" ObjectiveBronze="1000" />
+	 - <faction ID="0x200000000785166E" Name="Eas-FCT-A-01-S" GameplayZone="2" DelockLevel="1" MaxLevel="10" RewardValuesID="0x000000000792BE7F" />
+	 - <cau ID="0x20000000078AA90E" Name="CaU_Mission_Police_MultiArrest_01_Mid_Street" DelockLevel="1" MaxLevel="3" RewardValuesID="0x000000000792BE7D" ObjectivePlatinum="16500" ObjectiveGold="1400" ObjectiveSilver="9000" ObjectiveBronze="1000" />
+
+
+
+
+
+	# Helpful IDs #
+
+	RewardValues IDs:
+     - Story Mission:				000000000792BE7C
+     - Story Heist Mission:			000000000792BE7D		[AKA Regional finale missions, double pay. Also used for CAU Missions]
+	 - Faction Mission VeryShort:	000000000792BE8E
+     - Faction Mission Short:		000000000792BE7F
+     - Faction Mission Medium:		000000000792BE80
+     - Faction Mission Long:		000000000792BE81
+     - Faction Mission Very Long:	000000000792BE82
+     - Faction Mission Bonus:		000000000792BEB9
+-->
+</information>

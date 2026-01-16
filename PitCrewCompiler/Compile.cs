@@ -70,23 +70,10 @@ namespace PitCrewCompiler
             //Run all inserters
             _ = new StartupInserter(Instance.GetDirectory(), StartupMods);
 
+            XmlMods = XmlMods.OrderByDescending(mod => mod.Priority).ToList();
+            FileMerger inserter = new FileMerger(Instance.GetDirectory(), XmlMods);
             if (XmlMods.Count > 0)
-            {
-                XmlMods = XmlMods.OrderByDescending(mod => mod.Priority).ToList();
-
-                FileMerger inserter = new FileMerger(Instance.GetDirectory(), XmlMods);
-
                 FilesinfosMods.Add(new ModFile(XmlMods[0].ParentMod, "mods/PitCrewBase", 9));
-
-                if (!inserter.ServerDataUsed)
-                    FileUtil.CheckAndDeleteFile(Path.Combine(FileUtil.GetParentDir(Instance.GetDirectory()), Constants.SERVER_DATA_FILE));
-            }
-            else
-            {
-                //Delete that server data binary we may have edited.
-                //TODO This stinks if someone is manually editing it.
-                FileUtil.CheckAndDeleteFile(Path.Combine(FileUtil.GetParentDir(Instance.GetDirectory()), Constants.SERVER_DATA_FILE));
-            }
 
             _ = new FilesInfosInserter(Instance.GetDirectory(), FilesinfosMods);
 
