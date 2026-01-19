@@ -87,7 +87,7 @@
     "modedit.title": "Окно метаданных",
     "modedit.header": "Редактировать метаданные",
     "modedit.id": "ID Мода (Имя файла)",
-    "modedit.title": "Заголовок",
+    "modedit.mod-title": "Заголовок",
     "modedit.author": "Автор",
     "modedit.desc": "Описание",
     "modedit.desc-text": "Пожалуйста, напишите кратко.",

@@ -94,7 +94,7 @@
     "modedit.title": "Metaadat Ablak",
     "modedit.header": "Metadat Szerkesztés",
     "modedit.id": "Mód Azonosító (Fájlnév)",
-    "modedit.title": "Cím",
+    "modedit.mod-title": "Cím",
     "modedit.author": "Készítő",
     "modedit.desc": "Leírás",
     "modedit.desc-text": "Fogd rövidre, kérlek.",

@@ -96,7 +96,7 @@
     "modedit.title": "Metadaten-Fenster",
     "modedit.header": "Metadaten bearbeiten",
     "modedit.id": "Mod ID (Dateiname)",
-    "modedit.title": "Titel",
+    "modedit.mod-title": "Titel",
     "modedit.author": "Autor",
     "modedit.desc": "Beschreibung",
     "modedit.desc-text": "Halte es bitte kurz.",

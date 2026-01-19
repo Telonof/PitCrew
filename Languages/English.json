@@ -96,7 +96,7 @@
     "modedit.title": "Metadata Window",
     "modedit.header": "Edit Metadata",
     "modedit.id": "Mod ID (File Name)",
-    "modedit.title": "Title",
+    "modedit.mod-title": "Title",
     "modedit.author": "Author",
     "modedit.desc": "Description",
     "modedit.desc-text": "Keep it short please.",

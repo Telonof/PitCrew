@@ -96,7 +96,7 @@
     "modedit.title": "Metadane",
     "modedit.header": "Edytuj Metadane",
     "modedit.id": "ID Modyfikacji (File Name)",
-    "modedit.title": "Tytuł",
+    "modedit.mod-title": "Tytuł",
     "modedit.author": "Autor",
     "modedit.desc": "Opis",
     "modedit.desc-text": "Opis musi być krótki.",

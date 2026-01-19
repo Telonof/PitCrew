@@ -87,7 +87,7 @@
     "modedit.title": "Fenêtre de métadonnées",
     "modedit.header": "Modifier les métadonnées",
     "modedit.id": "Mod ID (nom de fichier)",
-    "modedit.title": "Titre",
+    "modedit.mod-title": "Titre",
     "modedit.author": "Auteur ",
     "modedit.desc": "Description",
     "modedit.desc-text": "Gardez-le court s'il vous plaît.",

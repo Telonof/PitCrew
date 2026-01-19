@@ -96,7 +96,7 @@
     "modedit.title": "元数据窗口",
     "modedit.header": "编辑元数据",
     "modedit.id": "模组 ID (文件名)",
-    "modedit.title": "标题",
+    "modedit.mod-title": "标题",
     "modedit.author": "作者",
     "modedit.desc": "描述",
     "modedit.desc-text": "请保持简短。",

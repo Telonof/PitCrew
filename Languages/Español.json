@@ -94,7 +94,7 @@
     "modedit.title": "Ventana de Metadatos",
     "modedit.header": "Editar Metadatos",
     "modedit.id": "ID del Mod (Nombre de Archivo)",
-    "modedit.title": "Título",
+    "modedit.mod-title": "Título",
     "modedit.author": "Autor",
     "modedit.desc": "Descripción",
     "modedit.desc-text": "Sé breve por favor.",

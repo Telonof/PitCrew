@@ -29,7 +29,7 @@
 
         <StackPanel Spacing="38" HorizontalAlignment="Center" Margin="0,60,0,0">
             <TextBlock Text="{Binding Source='modedit.id', Converter={StaticResource Translatable}}" Margin="-14,0,0,0" Classes="rtlm"/>
-            <TextBlock Text="{Binding Source='modedit.title', Converter={StaticResource Translatable}}" Margin="-14,0,0,0" Classes="rtlm"/>
+            <TextBlock Text="{Binding Source='modedit.mod-title', Converter={StaticResource Translatable}}" Margin="-14,0,0,0" Classes="rtlm"/>
             <TextBlock Text="{Binding Source='modedit.author', Converter={StaticResource Translatable}}" Margin="-14,0,0,0" Classes="rtlm"/>
             <TextBlock Text="{Binding Source='modedit.desc', Converter={StaticResource Translatable}}" Margin="-37,0,0,0" Classes="rtlm"/>
             <Button Name="SubmitButton" Content="{Binding ButtonText}" IsDefault="True" Command="{Binding Submit}" Margin="0,40,0,0"/>

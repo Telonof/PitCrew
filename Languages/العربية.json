@@ -96,7 +96,7 @@
     "modedit.title": "Metadata نافذة البيانات",
     "modedit.header": "Metadata تعديل البيانات",
     "modedit.id": "Mod ID (إسم الملف)",
-    "modedit.title": ":العنوان",
+    "modedit.mod-title": ":العنوان",
     "modedit.author": ":المؤلف",
     "modedit.desc": ":الوصف",
     "modedit.desc-text": "أرجو أن يكون مختصرًا",

@@ -96,7 +96,7 @@
     "modedit.title": "Janela de Metadados",
     "modedit.header": "Editar Metadados",
     "modedit.id": "ID do Mod (Nome do Arquivo)",
-    "modedit.title": "Título",
+    "modedit.mod-title": "Título",
     "modedit.author": "Autor",
     "modedit.desc": "Descrição",
     "modedit.desc-text": "Por favor, seja breve.",
