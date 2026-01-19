@@ -32,6 +32,7 @@
         <ListBox Name="InstanceList" Grid.Row="1" Margin="10" BorderBrush="Gray" BorderThickness="1" DragDrop.AllowDrop="True" ItemsSource="{Binding Instances}" SelectedItem="{Binding HighlightedInstance, Mode=TwoWay}">
             <ListBox.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="{Binding Source='instances.open-location', Converter={StaticResource Translatable}}" Command="{Binding OpenLocation}"/>
                     <MenuItem Name="InstanceList_RenameInstanceItem" Header="{Binding Source='instances.renameitem', Converter={StaticResource Translatable}}" Command="{Binding RenameInstance}"/>
                     <MenuItem Name="InstanceList_DeleteInstanceItem" Header="{Binding Source='instances.deleteitem', Converter={StaticResource Translatable}}" Command="{Binding DeleteInstance}"/>
                 </ContextMenu>

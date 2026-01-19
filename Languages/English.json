@@ -80,6 +80,7 @@
     
     "instances.title": "Instance Selection",
     "instances.header": "Select Instance",
+    "instances.open-location": "Open File Location",
     "instances.renameitem": "Rename",
     "instances.deleteitem": "Delete",
     "instances.delete-confirmation": "Are you sure you want to delete this?\nNo actual mod files will be deleted.",

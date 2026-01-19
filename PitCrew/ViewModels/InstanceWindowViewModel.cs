@@ -4,6 +4,7 @@ using PitCrew.Models;
 using PitCrew.Systems;
 using PitCrewCommon;
 using PitCrewCommon.Models;
+using PitCrewCommon.Utilities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -88,6 +89,18 @@ namespace PitCrew.ViewModels
 
             Instances.Add(instance);
             Service.Config.SaveInstance(instance);
+        }
+
+        public void OpenLocation()
+        {
+            if (HighlightedInstance == null)
+                return;
+
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+            {
+                FileName = FileUtil.GetParentDir(HighlightedInstance.Location),
+                UseShellExecute = true
+            });
         }
 
         public async void RenameInstance()
