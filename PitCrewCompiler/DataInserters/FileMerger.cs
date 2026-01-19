@@ -63,7 +63,7 @@ namespace PitCrewCompiler.DataInserters
                 FileUtil.CheckAndDeleteFile(item);
             }
 
-            BigFileUtil.RepackBigFile(MergingFolder, Path.Combine(gameDirectory, OutputFile), "PitCrew");
+            BigFileUtil.RepackBigFile(MergingFolder, Path.Combine(gameDirectory, OutputFile), "PitCrew", PackageVersion);
             FileUtil.CheckAndDeleteFolder(MergingFolder);
         }
 

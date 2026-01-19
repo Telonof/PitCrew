@@ -68,7 +68,7 @@ namespace PitCrewCommon.Utilities
             }
         }
 
-        public static void RepackBigFile(string inputFolder, string outputFatFile, string? author = null, bool compress = true)
+        public static void RepackBigFile(string inputFolder, string outputFatFile, string? author = null, int packageVersion = 5, bool compress = true)
         {
             inputFolder = inputFolder.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             byte[]? authorHex = null;
@@ -151,6 +151,8 @@ namespace PitCrewCommon.Utilities
                         }
                         entry.author = result;
                     }
+                    if (packageVersion == 6 && compress)
+                        entry.CompressionScheme = Big.CompressionScheme.oodle;
 
                     using (var input = File.OpenRead(pendingEntry.FullPath))
                     {

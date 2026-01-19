@@ -73,7 +73,7 @@ namespace PitCrew.ViewModels
 
             if (Pack)
             {
-                BigFileUtil.RepackBigFile(FolderText, FileText, AuthorText, Compression);
+                BigFileUtil.RepackBigFile(FolderText, FileText, AuthorText, PackageVersion, Compression);
                 await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(string.Format(Translatable.Get("bigfile.pack-success"), FileText)));
                 return;
             }
