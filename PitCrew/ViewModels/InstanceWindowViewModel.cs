@@ -96,9 +96,14 @@ namespace PitCrew.ViewModels
             if (HighlightedInstance == null)
                 return;
 
+            string folderPath = FileUtil.GetParentDir(HighlightedInstance.Location);
+
+            if (!Directory.Exists(folderPath))
+                return;
+
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
             {
-                FileName = FileUtil.GetParentDir(HighlightedInstance.Location),
+                FileName = folderPath,
                 UseShellExecute = true
             });
         }
