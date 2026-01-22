@@ -10,13 +10,13 @@
 			This is for the TCU Server to recognize your addon items and know what ID's and indexes they have.
 			
 			- The format follows that of the individual babdb's.
-			- The price of the addon item is dictated by it's TypeId (The Item Pack it belongs to).
-				- If it doesn't associate with a TypeId (ie car body or performance part items), a common price formula will be used.
+			- The price of the addon item is dictated by it's TypeId (The Item Category it belongs to) and PackIndex (explained below).
+				- If it doesn't associate with a TypeId (ie car body or performance part items), a common car part price formula will be used.
 			
-			- You can use either normal decimals values, or hexadecimal values. Hexadecimal values MUST have prefix 0x. ( INCORRECT: 000000000793899C, CORRECT: 0x000000000793899C )
+			- You can use either normal decimal values, or hexadecimal values. Hexadecimal values MUST have prefix 0x. ( INCORRECT: 000000000793899C, CORRECT: 0x000000000793899C )
 			- ALL hexadecimal values must be *Big Endian* Hexadecimal! You may be used to the FCB Converters' Little Endian Hex values (9F7BCB0600000000), Big Endian would be 0000000006CB7B9F.
 			- HxD is highly recommended to easily deal with Hex values. You can use HxD or https://jmacwhyte.github.io/hexflip/ to flip endianness of Hex values.
-			- Leading zeroes do not have to be preserved in Hex values. (For example: changing 0x000000000793899C to 0x793899C is completey fine.)
+			- Leading zeroes do not have to be preserved in Hex values. (For example: changing 0x000000000793899C to 0x793899C is completely fine.)
 			- Hex values that are all FF's (FF - uint8, FFFF - uint16, FFFFFFFF - uint32, FFFFFFFFFFFFFFFF - uint64) stand for "nothing".
 				They can be simply replaced with blank (""), or the attribute can be avoided completely.
 			
@@ -107,14 +107,14 @@
 	The ordering of items in each parts node matters!
 	
 	Available item types:
-	 - "color" 				| 	id (uint64), Type (uint32(hash)), ModelId (uint64), PackIndex (uint32), TypeId (uint64)
-	 - "sticker" 			| 	id (uint64), Type (uint32(hash)), ModelId (uint64), PackIndex (uint32), TypeId (uint64)
-	 - "rim"				|	id (uint64), Type (uint32(hash)), ModelId (uint64), PackIndex (uint32), TypeId (uint64)
-	 - "carinteriorpattern"	|	id (uint64), Type (uint32(hash)), ModelId (uint64), PackIndex (uint32), TypeId (uint64), OnlyStitches (bool)
-	 - "licenseplate"		|	id (uint64), Type (uint32(hash)), TypeId (uint64)
-	 - "driverhelmet"		|	id (uint64), ModelID (uint64), DriverID (uint64), PackIndex (uint32), Type (uint32(hash)), TypeId (uint64), NetworkChunck (uint32(hash))
-	 - "driversuit"			|	id (uint64), ModelID (uint64), SlotID (uint64), DriverID (uint64), PackIndex (uint32), Type (uint32(hash)), TypeId (uint64), NetworkChunck (uint32(hash))
-	 - "item"				|	id (uint64), Level (uint8), ModelID (uint64), QualityID (uint64), DressID (uint64), SlotID (uint64), NetworkChunk (uint32(hash)), RimPackIndex (uint32), TypeID (uint64), WhiteLevel (float32), AccelBonus (uint8), TopSpeedBonus (uint8), HandlingBonus (uint8), BrakingBonus (uint8), CAULevel (uint8)
+	 - "color" 				| 	id (uint64), Type (uint32), ModelId (uint64), PackIndex (uint32), TypeId (uint64)
+	 - "sticker" 			| 	id (uint64), Type (uint32), ModelId (uint64), PackIndex (uint32), TypeId (uint64)
+	 - "rim"				|	id (uint64), Type (uint32), ModelId (uint64), PackIndex (uint32), TypeId (uint64)
+	 - "carinteriorpattern"	|	id (uint64), Type (uint32), ModelId (uint64), PackIndex (uint32), TypeId (uint64), OnlyStitches (bool)
+	 - "licenseplate"		|	id (uint64), Type (uint32), TypeId (uint64)
+	 - "driverhelmet"		|	id (uint64), ModelID (uint64), DriverID (uint64), PackIndex (uint32), Type (uint32), TypeId (uint64), NetworkChunck (uint32)
+	 - "driversuit"			|	id (uint64), ModelID (uint64), SlotID (uint64), DriverID (uint64), PackIndex (uint32), Type (uint32), TypeId (uint64), NetworkChunck (uint32)
+	 - "item"				|	id (uint64), Level (uint8), ModelID (uint64), QualityID (uint64), DressID (uint64), SlotID (uint64), NetworkChunk (uint32), RimPackIndex (uint32), TypeID (uint64), WhiteLevel (float32), AccelBonus (uint8), TopSpeedBonus (uint8), HandlingBonus (uint8), BrakingBonus (uint8), CAULevel (uint8)
 	
 	Disambiguation:
 	 - "id": The Entity ID of your archetype.
@@ -124,8 +124,8 @@
 	 - "Level": Level of the item, ranging from 1 to 50. If you want to set the item level above 50, use:
 	 - "CAULevel": Must match "Level" until level 50. After 50 it can go higher.
 	 - "WhiteLevel": Worth of the item based on it's level and quality. More in-depth explanation at the start of this file.
-	 - "ModelID": Model ID of the car this item is for exclusively. Use "FFFFFFFFFFFFFFFF" (which is -1 as a signed 64 bit integer) to make it universal for all cars.
-	 - "DressID": Same as Model ID but for the dress (spec) of the car. I believe using "FFFFFFFFFFFFFFFF" would also make it universal.
+	 - "ModelID": Model ID of the car this item is for exclusively. Use "FFFFFFFFFFFFFFFF" (which is -1 as a signed 64 bit integer) or blank "" to make it universal for all cars.
+	 - "DressID": Same as Model ID but for the dress (spec) of the car. Use "FFFFFFFFFFFFFFFF" or blank "" to make it universal for all specs.
 	 - "QualityID": ID of the quality of this item (Bronze, Silver, Gold, Platinum). Quality IDs can be found below.
 	 - "SlotID": ID of the car part slot that this item goes into. Slot IDs can be found below.
 	
@@ -139,7 +139,7 @@
 	 - <driversuit id="0x000000000793899C" ModelID="0xFFFFFFFFFFFFFFFF" SlotID="0x000000000793AE54" DriverID="0xFFFFFFFFFFFFFFFF" PackIndex="0xFFFFFFFF" Type="0x9410B07" TypeId="0x0000000007941234" NetworkCnuck="0x8D5AE7E8"/>
 	 - <item id="0x00000000078484D5" Level="1" ModelID="0x0000000000375699" QualityID="0x0000000000B9FE99" DressID="0x0000000000375696" SlotID="0x0000000000B9FE8D" NetworkChunk="0x166B8E90" RimPackIndex="0x1D" TypeID="0x0000000007847356" WhiteLevel="1.0" AccelBonus="0" TopSpeedBonus="0" HandlingBonus="0" BrakingBonus="0" CAULevel="1"/>
 	
-	Note: the <item> kind of item may go in either the renderpart or physpart db, based on what they are.
+	Note: the <item> kind of item may go in either the renderpart or physpart db, based on what it is.
 	 - Performance parts (with a physpart slot ID, list found below) go into physparts!
 	 - Visual Car body parts go into renderparts!
 
@@ -156,7 +156,6 @@
 		- 0x0000000006C9DF8B: "Anodized"
 		- 0x0000000005410D95: "Chameleon"
 		- 0x0000000005410D96: "Chrome"
-		- 0x0000000005410D95: "Pearlescent"
 		- 0x000000000792C244: "League"
 	
 		STICKER TYPE IDs

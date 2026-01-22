@@ -7,10 +7,10 @@
 			
 			You still have to modify the missionspawners.entities.bin file, otherwise they won't appear ingame!
 			
-			- You can use either normal decimals values, or hexadecimal values. Hexadecimal values MUST have prefix 0x. ( INCORRECT: 000000000793899C | CORRECT: 0x000000000793899C )
+			- You can use either normal decimal values, or hexadecimal values. Hexadecimal values MUST have prefix 0x. ( INCORRECT: 000000000793899C | CORRECT: 0x000000000793899C )
 			- ALL hexadecimal values must be *Big Endian* Hexadecimal! You may be used to the FCB Converters' Little Endian Hex values (9F7BCB0600000000), Big Endian would be 0000000006CB7B9F.
 			- HxD is highly recommended to easily deal with Hex values. You can use HxD or https://jmacwhyte.github.io/hexflip/ to flip endianness of Hex values.
-			- Leading zeroes do not have to be preserved in Hex values. (For example: changing 0x000000000793899C to 0x793899C is completey fine.)
+			- Leading zeroes do not have to be preserved in Hex values. (For example: changing 0x000000000793899C to 0x793899C is completely fine.)
 			- Hex values that are all FF's (FF - uint8, FFFF - uint16, FFFFFFFF - uint32, FFFFFFFFFFFFFFFF - uint64) stand for "nothing".
 				They can be simply replaced with blank (""), or the attribute can be avoided completely.
 			
@@ -20,7 +20,7 @@
 			RewardValuesID links to the CITEntityRewardValues entity (can be found in archetypes.entities.bin) that defines the reward multipliers.
 			RewardValues IDs can be found below for each type of Mission.
 			
-			- Story Missions use the MaxLevel as the factor for rewards.
+			- Story Missions use MaxLevel as the factor for rewards.
 			- Faction Missions & CAU Missions use Player Level as the factor for rewards.
 			
 			
@@ -53,9 +53,9 @@
 	Add all your addon missions into the <missions> node. The order does not matter.
 	
 	You can add the following mission types:
-	 - "story"			|	A Story mission							|	ID (uint64), Name (string), DelockLevel (uint32), MaxLevel(uint32), RewardValuesID (uint64), ObjectivePlatinum (uint32), ObjectiveGold (uint32), ObjectiveSilver (uint32), ObjectiveBronze (uint32)
-	 - "faction"		|	A Faction mission						|	ID (uint64), Name (string), GameplayZone (uint8), DelockLevel (uint32), MaxLevel(uint32), RewardValuesID (uint64)
-	 - "cau"			|	A Calling All Units police mission		|	ID (uint64), Name (string), DelockLevel (uint32), MaxLevel(uint32), RewardValuesID (uint64), ObjectivePlatinum (uint32), ObjectiveGold (uint32), ObjectiveSilver (uint32), ObjectiveBronze (uint32)
+	 - "story"			|	A Story mission							|	ID (uint64), Name (string), DelockLevel (uint32), MaxLevel (uint32), RewardValuesID (uint64), ObjectivePlatinum (uint32), ObjectiveGold (uint32), ObjectiveSilver (uint32), ObjectiveBronze (uint32)
+	 - "faction"		|	A Faction mission						|	ID (uint64), Name (string), GameplayZone (uint8), DelockLevel (uint32), MaxLevel (uint32), RewardValuesID (uint64)
+	 - "cau"			|	A Calling All Units police mission		|	ID (uint64), Name (string), DelockLevel (uint32), MaxLevel (uint32), RewardValuesID (uint64), ObjectivePlatinum (uint32), ObjectiveGold (uint32), ObjectiveSilver (uint32), ObjectiveBronze (uint32)
 	
 	Examples with each mission type:
 	 - <story ID="0x20000000061D4ADB" Name="Mid-B-04" DelockLevel="1" MaxLevel="1" RewardValuesID="0x000000000792BE7C" ObjectivePlatinum="18500" ObjectiveGold="12500" ObjectiveSilver="7500" ObjectiveBronze="1000" />
