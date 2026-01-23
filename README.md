@@ -1,4 +1,4 @@
-﻿﻿# PitCrew
+# PitCrew
 
 PitCrew is a simple mod loader for the game "The Crew" and "The Crew 2" written in C#. 
 
