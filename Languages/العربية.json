@@ -80,6 +80,7 @@
     
     "instances.title": "إختيار مثال",
     "instances.header": "إختار المثال",
+    "instances.open-location": "فتح موقع الملف",
     "instances.renameitem": "إعادة تسمية",
     "instances.deleteitem": "حذف",
     "instances.delete-confirmation": "هل أنت متأكد من رغبتك في حذف هذا؟\nلن تُحذف أي ملفات تعديل فعلية",
@@ -134,9 +135,12 @@
     "compiler.file-not-found": "لم يتم العثور على الملف المدخل.",
     "compiler.file-not-found-in-xml": "لا يمكن العثور على الملف {0}.",
     "compiler.no-global-db": "لم يتم العثور على ملفات global_db، (binaries) لا يمكن دمج الملفات الثنائية.",
+    "compiler.forbid-databases": " babdb قد يؤدي تعديل {0} بشكل مباشر إلى مشاكل كبيرة تتعلق بملفات الحفظ، لذا يرجى إجراء تغييراتك فقط باستخدام ملفات",
+    "compiler.too-many-ids": "لقد قمت بتحميل عدد كبير جدًا من المعرفات، سيتم إدراج {0} فقط من بين {1}",
     "compiler.merging-file": "دمج الملف {0} في {1}...",
     "compiler.merging-startup-file": "(startup) دمج الملف {0} في بدء التشغيل...",
     "compiler.no-attribute-in-root": "لا يمكن العثور على سمة الملف داخل جذر (root) {0}.",
+    "compiler.xml-warning": ". لا تقم بتعديل أي شيء إلا إذا كنت بحاجة إلى ذلك.TCU هذا الملف مخصص للاستخدام في محاكي خادم.PitCrew تم إنشاء كل شيء في هذه العقدة تلقائيًا بواسطة",
     "compiler.success": "تم تعبئة كل شيء وجاهز للذهاب!",
 	
     "updater.latest-version": "التطبيق محدث بالفعل.",
