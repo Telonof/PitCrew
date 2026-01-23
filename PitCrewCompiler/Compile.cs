@@ -44,8 +44,7 @@ namespace PitCrewCompiler
 
                 foreach (ModFile file in files)
                 {
-                    if (!Instance.IsCLI)
-                        PercentageCalculator.IncrementTotal();
+                    PercentageCalculator.IncrementTotal();
 
                     if (file.Location.EndsWith(".xml"))
                     {
@@ -77,8 +76,7 @@ namespace PitCrewCompiler
 
             _ = new FilesInfosInserter(Instance.GetDirectory(), FilesinfosMods);
 
-            if (!Instance.IsCLI)
-                PercentageCalculator.IncrementProgress(FilesinfosMods.Count);
+            PercentageCalculator.IncrementProgress(FilesinfosMods.Count);
 
             Logger.Print(Translatable.Get("compiler.success"));
         }

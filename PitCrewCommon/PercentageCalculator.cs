@@ -12,7 +12,7 @@
         public static void IncrementProgress(int amount = 1)
         {
             CurrentPercentage += amount;
-            CurrentChange.Invoke(CurrentPercentage);
+            CurrentChange?.Invoke(CurrentPercentage);
         }
 
         public static void Reset()
@@ -24,7 +24,7 @@
         public static void IncrementTotal(int amount = 1)
         {
             TotalPercentage += amount;
-            TotalChange.Invoke(TotalPercentage);
+            TotalChange?.Invoke(TotalPercentage);
         }
     }
 }

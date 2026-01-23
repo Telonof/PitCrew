@@ -31,9 +31,7 @@ namespace PitCrewCompiler.DataInserters
                 }
 
                 FileUtil.CheckAndDeleteFolder("moddata");
-
-                if (!file.ParentMod.ParentInstance.IsCLI)
-                    PercentageCalculator.IncrementProgress();
+                PercentageCalculator.IncrementProgress();
             }
         }
     }
