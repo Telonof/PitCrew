@@ -201,13 +201,14 @@ namespace PitCrewCompiler.DataInserters
 
                 foreach (XmlFile subKey in mergingFcbs[key].Keys)
                 {
-                    bof.Root = merger.Merge(bof.Root, subKey.XmlData);
                     //Only allow files that were added by the user to count as progress, not the localization files added automatically.
                     if (mergingFcbs[key][subKey])
                     {
                         PercentageCalculator.IncrementProgress();
                         Logger.Print(string.Format(Translatable.Get("compiler.merging-file"), Path.GetFileName(subKey.Location), Path.GetFileName(key)));
                     }
+
+                    bof.Root = merger.Merge(bof.Root, subKey.XmlData);
                 }
 
                 stream = File.OpenWrite(key);
