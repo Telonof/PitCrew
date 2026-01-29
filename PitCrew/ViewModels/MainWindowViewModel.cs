@@ -176,23 +176,24 @@ namespace PitCrew.ViewModels
                 path = files[0];
             }
 
-            Mod mod = new Mod(LoadedInstance.BaseModel);
-            mod.LoadFromMData(path, true);
-
             string Id = Path.GetFileNameWithoutExtension(path);
             ModGUI? existingMod = LoadedInstance.ModsGUI.FirstOrDefault(modGUI => modGUI.BaseModel.Id == Id);
-            ModGUI modGUI = new ModGUI(mod);
+
             if (existingMod != null)
             {
                 var result = new MessageBoxViewModel(Translatable.Get("importmod.overwrite-old-mod"), MessageBoxViewModel.ButtonType.YesNo);
                 await Service.WindowManager.ShowDialog(this, result);
 
                 if (result.Result != MessageBoxViewModel.ResultType.OK)
-                {
-                    LoadedInstance.BaseModel.Mods.Remove(mod);
                     return;
-                }
+            }
 
+            Mod mod = new Mod(LoadedInstance.BaseModel);
+            mod.LoadFromMData(path, true);
+            ModGUI modGUI = new ModGUI(mod);
+
+            if (existingMod != null)
+            {
                 existingMod.ModFilesGUI = modGUI.ModFilesGUI;
                 existingMod.Name = modGUI.Name;
                 existingMod.Author = modGUI.Author;
