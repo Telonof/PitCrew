@@ -43,7 +43,7 @@ namespace PitCrewCommon.Utilities
             {
                 foreach (Big.Entry entry in fat.Entries)
                 {
-                    string entryName = Path.Combine("unknown", entry.NameHash.ToString("X8"));
+                    string entryName = Path.Combine("unknown", entry.NameHash.ToString("X16"));
 
                     if (hashes[entry.NameHash] != null)
                     {
