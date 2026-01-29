@@ -15,6 +15,8 @@ namespace PitCrewCommon.Models
 
         public string Location { get; set; }
 
+        public long InstallTime { get; set; }
+
         public List<string[]> FoundModInfo { get; set; } = [];
 
         public Metadata(string location)
@@ -53,7 +55,7 @@ namespace PitCrewCommon.Models
             }
         }
 
-        public void Save()
+        private XElement Generate(bool installed)
         {
             XElement root = new XElement("metadata");
 
@@ -76,6 +78,9 @@ namespace PitCrewCommon.Models
             }
             root.Add(descriptions);
 
+            if (installed)
+                root.Add(new XElement("installTime", InstallTime));
+
             //Get Files
             XElement files = new XElement("files");
             foreach (string[] file in FoundModInfo)
@@ -87,10 +92,15 @@ namespace PitCrewCommon.Models
             }
             root.Add(files);
 
+            return root;
+        }
+
+        public void Save(bool install = true)
+        {
             FileUtil.CheckAndCreateFolder(Path.GetDirectoryName(Location));
 
             XDocument xmlDoc = new XDocument();
-            xmlDoc.Add(root);
+            xmlDoc.Add(Generate(install));
             xmlDoc.Save(Location);
         }
     }

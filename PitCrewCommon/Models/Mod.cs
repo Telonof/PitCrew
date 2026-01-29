@@ -140,6 +140,7 @@ namespace PitCrewCommon.Models
                 File.Copy(mdataPath, fullMetadataPath, true);
             
             Metadata.Location = fullMetadataPath;
+            Metadata.InstallTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         }
     }
 }

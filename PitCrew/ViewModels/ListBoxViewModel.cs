@@ -70,8 +70,9 @@ namespace PitCrew.ViewModels
             }
 
             //Add metadata to zip
-            metadata.Save();
+            metadata.Save(false);
             zip.CreateEntryFromFile(Path.Combine(baseDirectory, Constants.METADATA_FOLDER, $"{modId}.mdata"), $"{modId}.mdata");
+            metadata.Save();
 
             zip.Dispose();
 
