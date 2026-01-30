@@ -63,6 +63,42 @@ namespace PitCrew.ViewModels
             await Service.WindowManager.ShowDialog(this, new AboutWindowViewModel());
         }
 
+        public async void DownloadAndInstall(string id)
+        {
+            if (LoadedInstance == null)
+            {
+                await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("server.no-instance")));
+                return;
+            }
+
+            string zipTempFolder = "!PitCrewZipTempFolder";
+            FileUtil.CheckAndCreateFolder(zipTempFolder);
+
+            using Stream download = await Service.DownloadManager.DownloadMod(id);
+
+            using ZipArchive archive = new ZipArchive(download, ZipArchiveMode.Read);
+
+            List<string> mdatas = [];
+            foreach (ZipArchiveEntry entry in archive.Entries)
+            {
+                using StreamReader file = new StreamReader(entry.Open());
+
+                File.WriteAllText(Path.Combine(zipTempFolder, entry.Name), file.ReadToEnd());
+
+                if (Path.GetExtension(entry.Name).Equals(".mdata"))
+                {
+                    mdatas.Add(entry.Name);
+                }
+            }
+
+            foreach (string file in mdatas)
+            {
+                ImportMod(Path.Combine(zipTempFolder, file));
+            }
+
+            FileUtil.CheckAndDeleteFolder(zipTempFolder);
+        }
+
         public async void InstanceWindow()
         {
             var model = new InstanceWindowViewModel(this);

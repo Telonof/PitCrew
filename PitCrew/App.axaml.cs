@@ -26,6 +26,7 @@ namespace PitCrew
             services.AddSingleton<IWindowService, WindowManager>();
             services.AddSingleton<ViewLocator>();
             services.AddSingleton<ConfigManagerGUI>();
+            services.AddSingleton<DownloadManager>();
             Ioc.Default.ConfigureServices(services.BuildServiceProvider());
         }
 
