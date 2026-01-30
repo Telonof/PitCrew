@@ -158,6 +158,8 @@ namespace PitCrew.ViewModels
                 return;
             }
 
+            string[] files = [path];
+
             string zipTempFolder = "!PitCrewZipTempFolder";
 
             //If a zip was given, extract it to a temporary folder first then run as if it was mdata.
@@ -165,43 +167,44 @@ namespace PitCrew.ViewModels
             {
                 ZipFile.ExtractToDirectory(path, zipTempFolder, true);
 
-                string[] files = Directory.GetFiles(zipTempFolder, "*.mdata");
+                files = Directory.GetFiles(zipTempFolder, "*.mdata");
                 if (files.Length == 0)
                 {
                     await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("importmod.invalid-zip")));
                     FileUtil.CheckAndDeleteFolder(zipTempFolder);
                     return;
                 }
-
-                path = files[0];
             }
 
-            string Id = Path.GetFileNameWithoutExtension(path);
-            ModGUI? existingMod = LoadedInstance.ModsGUI.FirstOrDefault(modGUI => modGUI.BaseModel.Id == Id);
-
-            if (existingMod != null)
+            foreach (string file in files)
             {
-                var result = new MessageBoxViewModel(Translatable.Get("importmod.overwrite-old-mod"), MessageBoxViewModel.ButtonType.YesNo);
-                await Service.WindowManager.ShowDialog(this, result);
+                string Id = Path.GetFileNameWithoutExtension(file);
+                ModGUI? existingMod = LoadedInstance.ModsGUI.FirstOrDefault(modGUI => modGUI.BaseModel.Id == Id);
 
-                if (result.Result != MessageBoxViewModel.ResultType.OK)
-                    return;
-            }
+                if (existingMod != null)
+                {
+                    var result = new MessageBoxViewModel(Translatable.Get("importmod.overwrite-old-mod"), MessageBoxViewModel.ButtonType.YesNo);
+                    await Service.WindowManager.ShowDialog(this, result);
 
-            Mod mod = new Mod(LoadedInstance.BaseModel);
-            mod.LoadFromMData(path, true);
-            ModGUI modGUI = new ModGUI(mod);
+                    if (result.Result != MessageBoxViewModel.ResultType.OK)
+                        continue;
+                }
 
-            if (existingMod != null)
-            {
-                existingMod.ModFilesGUI = modGUI.ModFilesGUI;
-                existingMod.Name = modGUI.Name;
-                existingMod.Author = modGUI.Author;
-                existingMod.Description = modGUI.Description;
-            }
-            else
-            {
-                LoadedInstance.ModsGUI.Insert(0, modGUI);
+                Mod mod = new Mod(LoadedInstance.BaseModel);
+                mod.LoadFromMData(file, true);
+                ModGUI modGUI = new ModGUI(mod);
+
+                if (existingMod != null)
+                {
+                    existingMod.ModFilesGUI = modGUI.ModFilesGUI;
+                    existingMod.Name = modGUI.Name;
+                    existingMod.Author = modGUI.Author;
+                    existingMod.Description = modGUI.Description;
+                }
+                else
+                {
+                    LoadedInstance.ModsGUI.Insert(0, modGUI);
+                }
             }
             
             if (LoadedMod == null)
