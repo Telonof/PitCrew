@@ -1,4 +1,6 @@
-﻿using PitCrewCommon;
+﻿using Gibbed.Dunia2.FileFormats;
+using Gibbed.Dunia2.FileFormats.Big;
+using PitCrewCommon;
 using PitCrewCommon.Models;
 using PitCrewCommon.Utilities;
 using PitCrewCompiler.DataInserters;
@@ -63,6 +65,7 @@ namespace PitCrewCompiler
             }
 
             BackupAndUnpack();
+            ExtractMergingItems();
 
             //Run all inserters
             _ = new StartupInserter(Instance.GetDirectory(), StartupMods);
@@ -77,6 +80,44 @@ namespace PitCrewCompiler
             PercentageCalculator.IncrementProgress(FilesinfosMods.Count);
 
             Logger.Print(Translatable.Get("compiler.success"));
+        }
+
+        private void ExtractMergingItems()
+        {
+            if (Instance.PackageVersion != Constants.THE_CREW_2)
+                return;
+
+            FileUtil.CheckAndCreateFolder(Constants.MERGING_FOLDER);
+
+            for (int i = 0; i < FilesinfosMods.Count; i++)
+            {
+                BigFile fat = new BigFile();
+                using FileStream fatStream = File.OpenRead(Path.Combine(Instance.GetDirectory(), Path.ChangeExtension(FilesinfosMods[i].Location, ".fat")));
+                using FileStream datStream = File.OpenRead(Path.Combine(Instance.GetDirectory(), Path.ChangeExtension(FilesinfosMods[i].Location, ".dat")));
+                fat.Deserialize(fatStream);
+
+                foreach (Entry entry in fat.Entries)
+                {
+                    if (entry.CompressionScheme != CompressionScheme.Zlib)
+                        continue;
+
+                    using FileStream outputStream = File.OpenWrite(Path.Combine(Constants.MERGING_FOLDER, entry.NameHash.ToString("X16") + ".xml"));
+
+                    Entry xmlEntry = new Entry
+                    {
+                        NameHash = entry.NameHash,
+                        UncompressedSize = entry.UncompressedSize,
+                        CompressedSize = entry.CompressedSize,
+                        Offset = entry.Offset,
+                        CompressionScheme = CompressionScheme.oodle
+                    };
+
+                    EntryDecompression.Decompress(xmlEntry, datStream, outputStream);
+                    PercentageCalculator.IncrementTotal();
+
+                    XmlMods.Add(new ModFile { Priority = FilesinfosMods[i].Priority, Location = outputStream.Name });
+                }
+            }
         }
 
         private void BackupAndUnpack()
