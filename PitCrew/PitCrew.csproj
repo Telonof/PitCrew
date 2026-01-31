@@ -28,7 +28,7 @@
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
-    <PackageReference Include="URIScheme" Version="5.0.0" />
+    <PackageReference Include="URISchemeTools" Version="1.0.2" />
     <PackageReference Include="Xaml.Behaviors" Version="11.3.9.3" />
   </ItemGroup>
 

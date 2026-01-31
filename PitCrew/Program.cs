@@ -1,7 +1,9 @@
 ﻿using Avalonia;
 using PitCrewCommon;
 using System;
+using System.IO.Pipes;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace PitCrew
 {
@@ -13,6 +15,10 @@ namespace PitCrew
         [STAThread]
         public static void Main(string[] args)
         {
+            //It acted solely as a client to install mods to.
+            if (CreateNamedClient(args))
+                return;
+
             //Apparently documentation says this is more than fine to catch crashes.
             try
             {
@@ -28,6 +34,25 @@ namespace PitCrew
                 Logger.Print($"Trace: {ex.StackTrace}");
                 Logger.Print("====================");
             }
+        }
+
+        private static bool CreateNamedClient(string[] args)
+        {
+            if (args.Length <= 0)
+                return false;
+
+            using NamedPipeClientStream client = new NamedPipeClientStream(".", "pitcrewlistener", PipeDirection.InOut, PipeOptions.Asynchronous);
+            client.Connect(100);
+
+            if (client.IsConnected)
+            {
+                byte[] data = Encoding.UTF8.GetBytes(args[0]);
+                byte[] dataLength = BitConverter.GetBytes(data.Length);
+                client.Write(dataLength, 0, dataLength.Length);
+                client.Write(data, 0, data.Length);
+            }
+
+            return true;
         }
 
         // Avalonia configuration, don't remove; also used by visual designer.
