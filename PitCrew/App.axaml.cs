@@ -12,7 +12,10 @@ using PitCrew.Systems;
 using PitCrew.ViewModels;
 using PitCrew.Views;
 using PitCrewCommon;
+using System;
+using System.IO;
 using System.Linq;
+using URIScheme;
 
 namespace PitCrew
 {
@@ -26,7 +29,17 @@ namespace PitCrew
             services.AddSingleton<IWindowService, WindowManager>();
             services.AddSingleton<ViewLocator>();
             services.AddSingleton<ConfigManagerGUI>();
+            services.AddSingleton<DownloadManager>();
             Ioc.Default.ConfigureServices(services.BuildServiceProvider());
+
+            //Register for URL hooks
+            Environment.CurrentDirectory = Path.GetDirectoryName(Environment.ProcessPath);
+            var service = URISchemeServiceFactory.GetURISchemeSerivce("pitcrew", "PitCrew", Environment.ProcessPath);
+
+            if (service.CheckAny())
+                service.Delete();
+
+            service.Set();
         }
 
         public override void OnFrameworkInitializationCompleted()

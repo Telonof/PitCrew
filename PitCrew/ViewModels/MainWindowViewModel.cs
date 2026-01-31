@@ -13,8 +13,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Compression;
+using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PitCrew.ViewModels
@@ -39,6 +41,7 @@ namespace PitCrew.ViewModels
 
         public MainWindowViewModel()
         {
+            CreateNamedServer();
             SwitchTheme(Service.Config.GetSetting(ConfigKey.Theme));
             ListBox = new ListBoxViewModel(this);
 
@@ -61,6 +64,36 @@ namespace PitCrew.ViewModels
         public async void AboutWindow()
         {
             await Service.WindowManager.ShowDialog(this, new AboutWindowViewModel());
+        }
+
+        public async void DownloadAndInstall(int id)
+        {
+            if (LoadedInstance == null)
+            {
+                await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("server.no-instance")));
+                return;
+            }
+
+            string zipTempFolder = "!PitCrewZipTempFolder";
+            FileUtil.CheckAndCreateFolder(zipTempFolder);
+
+            using ZipArchive archive = await Service.DownloadManager.DownloadMod(id);
+
+            List<string> mdatas = [];
+            foreach (ZipArchiveEntry entry in archive.Entries)
+            {
+                using StreamReader file = new StreamReader(entry.Open());
+
+                File.WriteAllText(Path.Combine(zipTempFolder, entry.Name), file.ReadToEnd());
+
+                if (Path.GetExtension(entry.Name).Equals(".mdata"))
+                    mdatas.Add(entry.Name);
+            }
+
+            foreach (string file in mdatas)
+            {
+                ImportMod(Path.Combine(zipTempFolder, file));
+            }
         }
 
         public async void InstanceWindow()
@@ -332,6 +365,39 @@ namespace PitCrew.ViewModels
             app.Styles.Add(newStyle);
 
             Service.Config.SetSetting(ConfigKey.Theme, theme);
+        }
+
+        private async void CreateNamedServer()
+        {
+            while (true)
+            {
+                using var server = new NamedPipeServerStream("pitcrewlistener");
+                await server.WaitForConnectionAsync();
+
+                byte[] streamLengthBuf = new byte[4];
+                server.ReadAtLeast(streamLengthBuf, 4);
+
+                int streamLength = BitConverter.ToInt32(streamLengthBuf);
+
+                byte[] data = new byte[streamLength];
+                await server.ReadAtLeastAsync(data, streamLength, false);
+                ParseIncomingMessage(Encoding.UTF8.GetString(data));
+            }
+        }
+
+        private async void ParseIncomingMessage(string message)
+        {
+            string[] split = message.Split("//")[1].Split('/');
+
+            switch (split[0].ToLower())
+            {
+                case "install":
+                    if (!int.TryParse(split[1], out int id))
+                        return;
+                    DownloadAndInstall(id);
+                    return;
+                //more will go here, potentially.
+            }
         }
     }
 

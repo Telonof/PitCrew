@@ -91,6 +91,9 @@
     "instances.instance-already-found": "Instance already exists.",
     "instances.textinput.header": "Please input the name:",
     "instances.textinput.title": "Text Input",
+	
+	"download.failed": "The download has failed, double check you can install mods through ModWorkshop.",
+	"download.not-a-zip": "The download requested is not a valid ZIP file, cancelling download.",
     
     "server.no-instance": "Instance not loaded.",
     
