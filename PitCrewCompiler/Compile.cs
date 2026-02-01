@@ -92,8 +92,8 @@ namespace PitCrewCompiler
             for (int i = 0; i < FilesinfosMods.Count; i++)
             {
                 BigFile fat = new BigFile();
-                using FileStream fatStream = File.OpenRead(Path.Combine(Instance.GetDirectory(), Path.ChangeExtension(FilesinfosMods[i].Location, ".fat")));
-                using FileStream datStream = File.OpenRead(Path.Combine(Instance.GetDirectory(), Path.ChangeExtension(FilesinfosMods[i].Location, ".dat")));
+                using FileStream fatStream = File.OpenRead(Path.Combine(Instance.GetDirectory(), $"{FilesinfosMods[i].Location}.fat"));
+                using FileStream datStream = File.OpenRead(Path.Combine(Instance.GetDirectory(), $"{FilesinfosMods[i].Location}.dat"));
                 fat.Deserialize(fatStream);
 
                 foreach (Entry entry in fat.Entries)

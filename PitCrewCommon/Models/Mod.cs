@@ -105,10 +105,10 @@ namespace PitCrewCommon.Models
                 FileUtil.CheckAndCreateFolder(Path.Combine(baseDirectory, "mods", Id, Path.GetDirectoryName(modInfo[1])));
 
                 string currentFileLoc = Path.Combine(Path.GetDirectoryName(mdataPath), Path.GetFileName(modInfo[1]));
-                string newFileLoc = Path.Combine(baseDirectory, newLocation);
+                string newFileLoc = Path.Combine(baseDirectory, $"{newLocation}.fat");
 
-                if (!Path.HasExtension(currentFileLoc))
-                    currentFileLoc = Path.ChangeExtension(currentFileLoc, ".fat");
+                if (!Path.GetExtension(currentFileLoc).Equals(".xml"))
+                    currentFileLoc = $"{currentFileLoc}.fat";
 
                 //Warn and don't copy
                 if (!File.Exists(currentFileLoc))
@@ -118,11 +118,7 @@ namespace PitCrewCommon.Models
                 }
 
                 if (Path.GetExtension(currentFileLoc).Equals(".fat"))
-                {
                     File.Copy(Path.ChangeExtension(currentFileLoc, ".dat"), Path.ChangeExtension(newFileLoc, ".dat"), true);
-                    File.Copy(currentFileLoc, Path.ChangeExtension(newFileLoc, ".fat"), true);
-                    continue;
-                }
                 
                 File.Copy(currentFileLoc, newFileLoc, true);
             }

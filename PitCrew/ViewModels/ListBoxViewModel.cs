@@ -131,8 +131,8 @@ namespace PitCrew.ViewModels
                 {
                     if (!Path.HasExtension(file.Location))
                     {
-                        FileUtil.CheckAndDeleteFile(Path.Combine(baseDirectory, Path.ChangeExtension(file.Location, ".dat")));
-                        FileUtil.CheckAndDeleteFile(Path.Combine(baseDirectory, Path.ChangeExtension(file.Location, ".fat")));
+                        FileUtil.CheckAndDeleteFile(Path.Combine(baseDirectory, $"{file.Location}.dat"));
+                        FileUtil.CheckAndDeleteFile(Path.Combine(baseDirectory, $"{file.Location}.fat"));
                     }
                     else
                     {

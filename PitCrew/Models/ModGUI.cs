@@ -130,7 +130,7 @@ namespace PitCrew.Models
             if (Path.GetExtension(location).Equals(".xml"))
                 return hashes;
 
-            location = Path.Combine(BaseModel.ParentInstance.GetDirectory(), Path.ChangeExtension(location, ".fat"));
+            location = Path.Combine(BaseModel.ParentInstance.GetDirectory(), $"{location}.fat");
 
             using (FileStream stream = new FileStream(location, FileMode.Open))
             {
