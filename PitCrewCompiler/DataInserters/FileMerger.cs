@@ -98,7 +98,13 @@ namespace PitCrewCompiler.DataInserters
             bool isCrew1 = PackageVersion == 5;
             try
             {
-                doc = XDocument.Load(Path.Combine(GameDirectory, modFile.Location));
+                if (modFile.FileData != null)
+                {
+                    doc = XDocument.Load(modFile.FileData);
+                    modFile.FileData.Dispose();
+                }
+                else
+                    doc = XDocument.Load(Path.Combine(GameDirectory, modFile.Location));
             }
             catch (XmlException e)
             {

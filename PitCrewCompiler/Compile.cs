@@ -87,8 +87,6 @@ namespace PitCrewCompiler
             if (Instance.PackageVersion != Constants.THE_CREW_2)
                 return;
 
-            FileUtil.CheckAndCreateFolder(Constants.MERGING_FOLDER);
-
             for (int i = 0; i < FilesinfosMods.Count; i++)
             {
                 BigFile fat = new BigFile();
@@ -101,7 +99,8 @@ namespace PitCrewCompiler
                     if (entry.CompressionScheme != CompressionScheme.Zlib)
                         continue;
 
-                    using FileStream outputStream = File.OpenWrite(Path.Combine(Constants.MERGING_FOLDER, entry.NameHash.ToString("X16") + ".xml"));
+                    string name = Path.GetFileNameWithoutExtension(FilesinfosMods[i].Location);
+                    Stream outputStream = new MemoryStream();
 
                     Entry xmlEntry = new Entry
                     {
@@ -115,7 +114,9 @@ namespace PitCrewCompiler
                     EntryDecompression.Decompress(xmlEntry, datStream, outputStream);
                     PercentageCalculator.IncrementTotal();
 
-                    XmlMods.Add(new ModFile { Priority = FilesinfosMods[i].Priority, Location = outputStream.Name });
+                    outputStream.Seek(0, SeekOrigin.Begin);
+
+                    XmlMods.Add(new ModFile { Priority = FilesinfosMods[i].Priority, FileData = outputStream, Location = name});
                 }
             }
         }
