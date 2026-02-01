@@ -59,6 +59,9 @@ namespace PitCrew.ViewModels
 
             LoadedInstance = new InstanceGUI(new Instance(path), "");
             LoadInstance();
+
+            if (Environment.GetCommandLineArgs().Length > 1)
+                ParseIncomingMessage(Environment.GetCommandLineArgs()[1]);
         }
 
         public async void AboutWindow()

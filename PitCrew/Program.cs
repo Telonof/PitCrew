@@ -42,16 +42,19 @@ namespace PitCrew
                 return false;
 
             using NamedPipeClientStream client = new NamedPipeClientStream(".", "pitcrewlistener", PipeDirection.InOut, PipeOptions.Asynchronous);
-            client.Connect(100);
-
-            if (client.IsConnected)
+            try
             {
-                byte[] data = Encoding.UTF8.GetBytes(args[0]);
-                byte[] dataLength = BitConverter.GetBytes(data.Length);
-                client.Write(dataLength, 0, dataLength.Length);
-                client.Write(data, 0, data.Length);
+                client.Connect(100);
+            }
+            catch (TimeoutException e)
+            {
+                return false;
             }
 
+            byte[] data = Encoding.UTF8.GetBytes(args[0]);
+            byte[] dataLength = BitConverter.GetBytes(data.Length);
+            client.Write(dataLength, 0, dataLength.Length);
+            client.Write(data, 0, data.Length);
             return true;
         }
 
