@@ -105,10 +105,13 @@ namespace PitCrewCommon.Models
                 FileUtil.CheckAndCreateFolder(Path.Combine(baseDirectory, "mods", Id, Path.GetDirectoryName(modInfo[1])));
 
                 string currentFileLoc = Path.Combine(Path.GetDirectoryName(mdataPath), Path.GetFileName(modInfo[1]));
-                string newFileLoc = Path.Combine(baseDirectory, $"{newLocation}.fat");
+                string newFileLoc = Path.Combine(baseDirectory, newLocation);
 
                 if (!Path.GetExtension(currentFileLoc).Equals(".xml"))
+                {
                     currentFileLoc = $"{currentFileLoc}.fat";
+                    newFileLoc = $"{newFileLoc}.fat";
+                }
 
                 //Warn and don't copy
                 if (!File.Exists(currentFileLoc))
