@@ -119,7 +119,9 @@
     "menubar.pack": "Pack Archive",
     "menubar.open-log": "Open Logs",
     "menubar.theme": "Theme",
+    "menubar.help": "Help",
     "menubar.about": "About",
+    "menubar.update-check": "Check for Updates",
     "menubar.lighttheme": "Light",
     "menubar.darktheme": "Dark",
         
@@ -147,6 +149,7 @@
     "compiler.success": "All packed up and ready to go!",
 	
     "updater.latest-version": "The application is already up to date.",
+    "updater.prompt": "Do you wish to update to {0}?",
     "updater.terminal": "Please run this from the terminal.",
     "updater.could-not-find-valid-file": "Could not find proper file for your OS.",
     "updater.modloader-running": "PitCrew is currently running and needs to be closed.",

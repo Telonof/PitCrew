@@ -11,12 +11,14 @@ using PitCrewCompiler;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace PitCrew.ViewModels
@@ -67,6 +69,43 @@ namespace PitCrew.ViewModels
         public async void AboutWindow()
         {
             await Service.WindowManager.ShowDialog(this, new AboutWindowViewModel());
+        }
+
+        public async void UpdateChecker()
+        {
+            JsonElement response = Updater.GrabLatestVersion();
+            string githubVer = Updater.GrabUpdateName(response);
+            
+            if (string.IsNullOrWhiteSpace(githubVer))
+            {
+                await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("updater.latest-version")));
+                return;
+            }
+
+            var result = new MessageBoxViewModel(string.Format(Translatable.Get("updater.prompt"), githubVer), MessageBoxViewModel.ButtonType.YesNo);
+            await Service.WindowManager.ShowDialog(this, result);
+            if (result.Result != MessageBoxViewModel.ResultType.OK)
+                return;
+
+            string success = Updater.GrabZIPFile(response, githubVer).Result;
+
+            if (string.IsNullOrWhiteSpace(success))
+            {
+                await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("updater.could-not-find-valid-file")));
+                return;
+            }
+
+            //TODO this is a shit workaround that should maybe be moved to a .bat/.sh
+            string updaterProgram = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? "./PitCrewUpdater" : "PitCrewUpdater.exe";
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = updaterProgram,
+                UseShellExecute = true,
+                Arguments = $"{success} {githubVer}"
+            };
+
+            Process.Start(psi);
+            Environment.Exit(0);
         }
 
         public async void DownloadAndInstall(int id)

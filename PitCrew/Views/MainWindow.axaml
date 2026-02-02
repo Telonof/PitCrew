@@ -31,7 +31,10 @@
 					<MenuItem Name="LightThemeMenuButton" Header="{Binding Source='menubar.lighttheme', Converter={StaticResource Translatable}}" Command="{Binding SwitchTheme}" CommandParameter="Light"/>
 					<MenuItem Name="DarkThemeMenuButton" Header="{Binding Source='menubar.darktheme', Converter={StaticResource Translatable}}" Command="{Binding SwitchTheme}" CommandParameter="Dark"/>
 				</MenuItem>
-				<MenuItem Name="AboutMenuButton" Header="{Binding Source='menubar.about', Converter={StaticResource Translatable}}" Command="{Binding AboutWindow}"/>
+				<MenuItem Header="{Binding Source='menubar.help', Converter={StaticResource Translatable}}">
+					<MenuItem Name="AboutMenuButton" Header="{Binding Source='menubar.about', Converter={StaticResource Translatable}}" Command="{Binding AboutWindow}"/>
+					<MenuItem Header="{Binding Source='menubar.update-check', Converter={StaticResource Translatable}}" Command="{Binding UpdateChecker}"/>
+				</MenuItem>
 				<MenuItem Name="LanguageMenuButton" Classes="SubItems" ItemsSource="{Binding Languages}">
 					<MenuItem.Header>
 						<Image Width="19" Margin="0,1,0,0" Source="avares://PitCrew/Assets/language_icon.png"/>
@@ -51,7 +54,7 @@
 				<ColumnDefinition Width="0.6*"/>
 				<ColumnDefinition Width="0.4*"/>
 			</Grid.ColumnDefinitions>
-			
+
 			<ListBox Name="ModGUIList" Grid.Column="0" Margin="10,50,0,10" BorderBrush="{Binding UI.ModListBorderColor}" BorderThickness="1" DragDrop.AllowDrop="True"
 			ItemsSource="{Binding LoadedInstance.ModsGUI}" SelectedItem="{Binding LoadedMod, Mode=TwoWay}" SelectionMode="Multiple" SelectedItems="{Binding SelectedMods, Mode=TwoWay}">
 				<ListBox.ContextMenu>

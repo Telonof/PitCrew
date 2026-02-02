@@ -1,8 +1,6 @@
 ﻿using PitCrewCommon;
 using PitCrewCommon.Utilities;
 using System.Diagnostics;
-using System.IO.Compression;
-using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
@@ -14,6 +12,14 @@ namespace PitCrewUpdater
         {
             ConfigManager config = new ConfigManager();
             Translatable.Initialize(config.GetSetting(ConfigKey.Language) + ".json");
+            
+            SetupOnClose();
+
+            if (args.Length == 2)
+            {
+                ExtractAndClose(args[0], args[1]);
+                return;
+            }
 
             //Because this uses Console.ReadKey we need to request they open it from the terminal.
             if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("TERM")) && RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -21,19 +27,10 @@ namespace PitCrewUpdater
                 Logger.Error(401, Translatable.Get("updater.terminal"));
                 return;
             }
+            
+            JsonElement response = Updater.GrabLatestVersion();
 
-            SetupOnClose();
-
-            string filename = "";
-            Task<Stream> file = null;
-            HttpClient client = new HttpClient();
-
-            //https://docs.github.com/en/rest/using-the-rest-api/troubleshooting-the-rest-api?apiVersion=2022-11-28#user-agent-required
-            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("PitCrewUpdater", Constants.VERSION));
-
-            JsonElement response = FetchGithubRelease(client);
-
-            string githubVer = response.GetProperty("tag_name").ToString();
+            string githubVer = Updater.GrabUpdateName(response);
 
             if (githubVer.Equals(Constants.VERSION))
             {
@@ -42,24 +39,9 @@ namespace PitCrewUpdater
             }
 
             //Find zip file for either Linux or Windows to download.
-            foreach (JsonElement item in response.GetProperty("assets").EnumerateArray())
-            {
-                filename = Path.GetFileNameWithoutExtension(item.GetProperty("name").ToString());
+            string updateFolder = Updater.GrabZIPFile(response, githubVer).Result;
 
-                if (filename.Contains("Linux") && RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    file = client.GetStreamAsync(item.GetProperty("browser_download_url").ToString());
-                    break;
-                }
-                
-                if (filename.Contains("Windows") && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    file = client.GetStreamAsync(item.GetProperty("browser_download_url").ToString());
-                    break;
-                }
-            }
-
-            if (file == null)
+            if (string.IsNullOrWhiteSpace(updateFolder))
             {
                 PrintAndWait(Translatable.Get("updater.could-not-find-valid-file"));
                 return;
@@ -76,12 +58,14 @@ namespace PitCrewUpdater
                 PrintAndWait(Translatable.Get("updater.modloader-running"), Translatable.Get("updater.prompt-modloader-close"));
                 process.Kill();
             }
+            
+            ExtractAndClose(updateFolder, githubVer);
+        }
 
-            Logger.Print(string.Format(Translatable.Get("updater.extracting"), githubVer));
-
+        private static void ExtractAndClose(string updateFolder, string githubVer)
+        {
             //Move every file but the updater itself since it's in use.
-            ZipFile.ExtractToDirectory(file.Result, FileUtil.GetProcessDir(), true);
-            string extractedFolder = Path.Combine(FileUtil.GetProcessDir(), filename);
+            string extractedFolder = Path.Combine(FileUtil.GetProcessDir(), updateFolder);
 
             foreach (string extractedFile in Directory.GetFiles(extractedFolder, "*", SearchOption.AllDirectories))
             {
@@ -90,14 +74,6 @@ namespace PitCrewUpdater
 
                 File.Move(extractedFile, Path.Combine(FileUtil.GetProcessDir(), Path.GetRelativePath(extractedFolder, extractedFile)), true);
             }
-
-            PrintAndWait(string.Format(Translatable.Get("updater.finished"), githubVer));
-        }
-
-        private static JsonElement FetchGithubRelease(HttpClient client)
-        {
-            Task<string> result = client.GetStringAsync("https://api.github.com/repos/Telonof/PitCrew/releases/latest");
-            return JsonSerializer.Deserialize<JsonElement>(result.Result);
         }
 
         private static void PrintAndWait(string message, string continueMessage = "")
@@ -119,7 +95,7 @@ namespace PitCrewUpdater
                     Process.Start(new ProcessStartInfo
                     {
                         FileName = "cmd.exe",
-                        Arguments = "/c timeout /t 1 && move /Y PitCrew-Windows\\PitCrewUpdater.exe . & rmdir /S /Q PitCrew-Windows",
+                        Arguments = "/c timeout /t 1 && move /Y PitCrew-Windows\\PitCrewUpdater.exe . & rmdir /S /Q PitCrew-Windows & PitCrew.exe",
                         WorkingDirectory = FileUtil.GetProcessDir(),
                         CreateNoWindow = true
                     });
@@ -129,7 +105,7 @@ namespace PitCrewUpdater
                     Process.Start(new ProcessStartInfo
                     {
                         FileName = "/bin/bash",
-                        Arguments = "-c \"mv PitCrew-Linux/PitCrewUpdater ./PitCrewUpdater ; rm -r PitCrew-Linux\"",
+                        Arguments = "-c \"mv PitCrew-Linux/PitCrewUpdater ./PitCrewUpdater ; rm -r PitCrew-Linux; ./PitCrew\"",
                         WorkingDirectory = FileUtil.GetProcessDir(),
                         CreateNoWindow = true,
                         UseShellExecute = false
