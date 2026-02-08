@@ -92,6 +92,9 @@
     "instances.textinput.header": ":الرجاء إدخال الأسم",
     "instances.textinput.title": "إدخال نص",
 
+	"download.failed": "ModWorkshop لقد فشل التنزيل، يرجى التأكد من إمكانية تثبيت التعديلات من خلال",
+	"download.not-a-zip": "لذا سيتم إلغاء التنزيل,ZIP الملف المطلوب تنزيله ليس ملف",
+
     "server.no-instance": "لم يتم تحميل المثيل.",
     
     "modedit.title": "Metadata نافذة البيانات",
@@ -116,7 +119,9 @@
     "menubar.pack": "حزم الأرشيف",
     "menubar.open-log": "فتح السجلات",
     "menubar.theme": "السمة",
+    "menubar.help": "مساعدة",
     "menubar.about": "حول",
+    "menubar.update-check": "تحقق من وجود تحديثات",
     "menubar.lighttheme": "فاتح",
     "menubar.darktheme": "قاتم",
     
@@ -144,6 +149,7 @@
     "compiler.success": "تم تعبئة كل شيء وجاهز للذهاب!",
 	
     "updater.latest-version": "التطبيق محدث بالفعل.",
+    "updater.prompt": "هل ترغب في التحديث إلى {0}؟",
     "updater.terminal": "(terminal) يرجى تشغيل هذا من المحطة الطرفية.",
     "updater.could-not-find-valid-file": "لم يتم العثور على الملف المناسب لنظام التشغيل الخاص بك.",
     "updater.modloader-running": "يعمل حاليًا ويجب إغلاقه PitCrew.",
