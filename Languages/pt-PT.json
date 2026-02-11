@@ -3,38 +3,30 @@
     "notice-1": "If you are translating this program please put your username on translation-author above, this message will not be seen inside PitCrew.",
     "notice-2": "Set to 1 below if your language goes right to left. It will auto-set to 0 if you don't include the rtl object below.",
     "rtl": "0",
-
     "language-restart": "O idioma será aplicado corretamente após reiniciar o PitCrew.",
-
+    "game-running": "Your game is currently running, cannot continue.",
+    "tc2-warning": "Modding The Crew 2 on Linux isn't supported. You have been warned.",
     "messagebox-title-default": "Informação",
-
     "logs.title": "Logs",
-
     "windowmanager.no-main-window": "Não foi possível encontrar a janela principal. Como isso aconteceu?",
-
     "about.title": "Sobre",
     "about.description": "Um carregador de mods para The Crew 1",
     "about.author": "Por: FTIW",
     "about.translator": "Traduzido por: ",
-    "about.discord": "Junte-se ao Discord do TCU",
-
     "modinfo.default-name": "Padrão",
     "modinfo.default-author": "Vários",
     "modinfo.default-description": "Coleção de todos os arquivos não classificados.",
-
     "filelist.priority-no-edit-before-path": "Você não pode editar a prioridade antes do caminho.",
     "filelist.priority-less-than-ten": "A prioridade não pode ser menor que 10.",
     "filelist.unable-to-find-file": "Não foi possível encontrar {0}",
     "filelist.already-in-use": "O mod {0} já está usando isto.",
     "filelist.filepath": "Caminho do Arquivo",
     "filelist.priority": "Prioridade",
-
     "conflictbox.default": "Adicione seu jogo na guia Instâncias.\nClique duas vezes no jogo na lista para selecioná-lo.",
     "conflictbox.no-mods": "Adicione seus mods arrastando e soltando os arquivos zip na área destacada em azul.\nOu clicando em Mods -> Importar",
     "conflictbox.no-conflicts": "Lembre-se de clicar em Compilar para aplicar seus mods ao jogo.",
     "conflictbox.conflicting": "Estes mods estão em conflito:",
     "conflictbox.startupfile": "STARTUP FILE",
-
     "button.save": "Salvar",
     "button.compile": "Compilar",
     "button.add": "Adicionar",
@@ -42,23 +34,19 @@
     "button.yes": "Sim",
     "button.no": "Não",
     "button.cancel": "Cancelar",
-
     "modlist.packagemod.no-metadata": "Não foi possível encontrar metadados adequados.\nPor favor, edite este mod.",
     "modlist.packagemod.empty-mod": "Nenhum arquivo para empacotar.",
     "modlist.packagemod.file-in-use": "O mod empacotado que está sendo sobrescrito está em uso.\nPor favor, feche o arquivo.",
     "modlist.packagemod.success": "Mod empacotado para compartilhamento em {0}.zip\nAbrir no explorador de arquivos?",
     "modlist.deletemod-warning": "Tem certeza de que deseja excluir isto?\nOs metadados e todos os arquivos do mod serão removidos.",
-
     "modlist.rightclick.package": "Empacotar Mod",
     "modlist.rightclick.edit": "Editar Metadados",
     "modlist.rightclick.delete": "Excluir Mod",
-
     "importmod.filechooser.title": "Por favor selecione um arquivo .mdata ou zip",
     "importmod.filechooser.filefilter": "Metadados do Mod",
     "importmod.invalid-extension": "Extensão de arquivo incorreta.",
     "importmod.invalid-zip": "Arquivo zip inválido, não foi possível encontrar .mdata.",
     "importmod.overwrite-old-mod": "Já existe um mod com este ID.\nSobrescrever?",
-
     "bigfile.unpacktitle": "Desempacotar Arquivos Grandes",
     "bigfile.packtitle": "Empacotar Arquivos Grandes",
     "bigfile.inputfile": "Arquivo Fat de Entrada*:",
@@ -75,9 +63,9 @@
     "bigfile.select-folder": "Por favor selecione a pasta",
     "bigfile.unpack-success": "Arquivo desempacotado em {0}",
     "bigfile.pack-success": "Pasta empacotada em {0}",
-
     "instances.title": "Seleção de Instância",
     "instances.header": "Selecionar Instância",
+    "instances.open-location": "Open File Location",
     "instances.renameitem": "Renomear",
     "instances.deleteitem": "Excluir",
     "instances.delete-confirmation": "Tem certeza de que deseja excluir isto?\nNenhum arquivo de mod será excluído.",
@@ -88,11 +76,9 @@
     "instances.instance-already-found": "Instância já existe.",
     "instances.textinput.header": "Por favor insira o nome:",
     "instances.textinput.title": "Entrada de Texto",
-
+    "download.failed": "The download has failed, double check you can install mods through ModWorkshop.",
+    "download.not-a-zip": "The download requested is not a valid ZIP file, cancelling download.",
     "server.no-instance": "Instância não carregada.",
-    "server.select-server-folder": "Selecione a localização do servidor.",
-    "server.path-set": "Caminho do servidor definido como {0}",
-
     "modedit.title": "Janela de Metadados",
     "modedit.header": "Editar Metadados",
     "modedit.id": "ID do Mod (Nome do Arquivo)",
@@ -105,7 +91,6 @@
     "modedit.mod-exists": "O ID do mod já existe.",
     "modedit.no-whitespace-allowed": "O ID não pode conter espaços em branco.",
     "modedit.no-blank-fields": "Todos os campos devem ser preenchidos.",
-
     "menubar.instances": "Instâncias",
     "menubar.mods": "Mods",
     "menubar.newmod": "Novo",
@@ -113,21 +98,19 @@
     "menubar.utilities": "Utilidades",
     "menubar.unpack": "Desempacotar Arquivo",
     "menubar.pack": "Empacotar Arquivo",
-    "menubar.set-server": "Definir Local do Servidor",
     "menubar.open-log": "Abrir Logs",
     "menubar.theme": "Tema",
+    "menubar.help": "Help",
     "menubar.about": "Sobre",
+    "menubar.update-check": "Check for Updates",
     "menubar.lighttheme": "Claro",
     "menubar.darktheme": "Escuro",
-
     "parser.duplicate-file": "{0} é um arquivo duplicado, ignorando.",
     "parser.empty-string": "Prioridade ou caminho vazios.",
-    "parser.successful-parse": "Arquivo {0} analisado com sucesso.",
     "parser.issue-found": "O mod {0} tem um problema com o arquivo {1}.",
     "parser.not-integer": "A prioridade não é um número inteiro.",
     "parser.too-low-priority": "A prioridade é menor que 10.",
     "parser.bad-metadata": "Os metadados de um mod são inválidos.",
-
     "compiler.usage": "Uso",
     "compiler.file": "arquivo",
     "compiler.cannot-find-id": "Um mod não tem ID associado.",
@@ -136,9 +119,20 @@
     "compiler.file-not-found": "O arquivo informado não pode ser encontrado.",
     "compiler.file-not-found-in-xml": "Não foi possível encontrar o arquivo {0}.",
     "compiler.no-global-db": "Nenhum arquivo global_db foi encontrado, não é possível mesclar binários.",
+    "compiler.forbid-databases": "Modifying {0} directly could cause massive issues regarding save files, please only make your changes with babdb files.",
+    "compiler.too-many-ids": "You have far too many ids loaded, only {0} will be inserted out of {1}.",
     "compiler.merging-file": "Mesclando o arquivo {0} em {1}...",
     "compiler.merging-startup-file": "Mesclando o arquivo {0} no startup...",
-    "compiler.no-server-found": "O arquivo {0} está tentando acessar a localização do servidor, mas o caminho do servidor está vazio ou não foi encontrado.",
     "compiler.no-attribute-in-root": "Não foi possível encontrar o atributo file na raiz de {0}.",
-    "compiler.success": "Tudo empacotado e pronto para usar!"
+    "compiler.xml-warning": "Everything in this node has been auto-generated by PitCrew for use in the TCU server emulator. Do not edit anything if you don't need to.",
+    "compiler.success": "Tudo empacotado e pronto para usar!",
+    "updater.latest-version": "The application is already up to date.",
+    "updater.prompt": "Do you wish to update to {0}?",
+    "updater.terminal": "Please run this from the terminal.",
+    "updater.could-not-find-valid-file": "Could not find proper file for your OS.",
+    "updater.modloader-running": "PitCrew is currently running and needs to be closed.",
+    "updater.prompt-modloader-close": "Press any key to close it and continue.",
+    "updater.prompt-updater-close": "Press any key to exit.",
+    "updater.extracting": "Extracting {0}",
+    "updater.finished": "PitCrew has been updated to {0}!"
 }
