@@ -3,38 +3,30 @@
     "notice-1": "If you are translating this program please put your username on translation-author above, this message will not be seen inside PitCrew.",
     "notice-2": "Set to 1 below if your language goes right to left. It will auto-set to 0 if you don't include the rtl object below.",
     "rtl": "0",
-    
     "language-restart": "Zmiana języka zostanie zaaplikowana po restarcie PitCrew.",
-    
+    "game-running": "Your game is currently running, cannot continue.",
+    "tc2-warning": "Modding The Crew 2 on Linux isn't supported. You have been warned.",
     "messagebox-title-default": "Informacje",
-    
     "logs.title": "Logi",
-
     "windowmanager.no-main-window": "Nie można odnaleźć głównego okna (czemu się tak stało?)",
-
     "about.title": "O PitCrew",
     "about.description": "Modloader do The Crew 1",
     "about.author": "Autor: FTIW",
     "about.translator": "Przetłumaczono przez: ",
-    "about.discord": "Dołącz do discord The Crew Unlimited",
-    
     "modinfo.default-name": "Domyślna nazwa",
     "modinfo.default-author": "Różni autorzy",
     "modinfo.default-description": "Kolekcja nieposortowanych plików.",
-    
     "filelist.priority-no-edit-before-path": "Nie możesz zmienić priorytetu przed ustawieniem ścieżki.",
     "filelist.priority-less-than-ten": "Priorytet nie może być niższy niż 10.",
     "filelist.unable-to-find-file": "Nie można odnaleźć {0}",
     "filelist.already-in-use": "Modyfikacja {0} już tego używa.",
     "filelist.filepath": "Ścieżka do pliku",
     "filelist.priority": "Priorytet",
-    
     "conflictbox.default": "Dodaj grę w zakładce Instancje.\nKliknij 2 razy grę z listy by ją wybrać.",
     "conflictbox.no-mods": "Dodaj modyfikacje przez przeciągnięcie plików .zip do niebieskiego okna.\nLub przez kliknięcie Modyfikacje -> Importuj",
     "conflictbox.no-conflicts": "Pamiętaj by kliknąć Kompiluj by zaaplikować zmiany.",
     "conflictbox.conflicting": "Te modyfikacje są w konflikcie:",
     "conflictbox.startupfile": "PLIK STARTOWY",
-
     "button.save": "Zapisz",
     "button.compile": "Kompiluj",
     "button.add": "Dodaj",
@@ -42,23 +34,19 @@
     "button.yes": "Tak",
     "button.no": "Nie",
     "button.cancel": "Anuluj",
-    
     "modlist.packagemod.no-metadata": "Nie można znaleźć prawidłowych metadanych.\nEdytuj modyfikacje.",
     "modlist.packagemod.empty-mod": "Brak plików do spakowania.",
     "modlist.packagemod.file-in-use": "Spakowany mod, którego próbujesz nadpisać jest już w użyciu.\nZamknij plik.",
     "modlist.packagemod.success": "Modyfikacja spakowana do udostępniania jako {0}.zip\nWyświetlić w eksploratorze?",
     "modlist.deletemod-warning": "Czy jesteś pewien że chcesz to usunać?\nMetadane i wszystkie pliki modyfikacji zostaną usunięte.",
-    
     "modlist.rightclick.package": "Spakuj modyfikacje",
     "modlist.rightclick.edit": "Edytuj metadane",
     "modlist.rightclick.delete": "Usuń modyfikacje",
-    
     "importmod.filechooser.title": "Wyznacz plik .mdata lub .zip",
     "importmod.filechooser.filefilter": "Metadane Modyfikacji",
     "importmod.invalid-extension": "Złe rozszerzenie pliku.",
     "importmod.invalid-zip": "Niepoprawny plik .zip, nie można odnaleźć pliku .mdata.",
     "importmod.overwrite-old-mod": "Modyfikacja o tym ID już istnieje.\nNadpisać?",
-    
     "bigfile.unpacktitle": "Rozpakuj duże pliki",
     "bigfile.packtitle": "Spakuj duże pliki",
     "bigfile.inputfile": "Wejśćiowy plik .fat*:",
@@ -75,9 +63,9 @@
     "bigfile.select-folder": "Wyznacz folder",
     "bigfile.unpack-success": "Plik rozpakowany w {0}",
     "bigfile.pack-success": "Folder spakowany w {0}",
-    
     "instances.title": "Wybór Instancji",
     "instances.header": "Wybierz instancje",
+    "instances.open-location": "Open File Location",
     "instances.renameitem": "Zmień nazwę",
     "instances.deleteitem": "Usuń",
     "instances.delete-confirmation": "Czy na pewno chcesz to usunąć?\nPliki modyfikacji nie zostaną usunięte.",
@@ -88,11 +76,9 @@
     "instances.instance-already-found": "Instancja już istnieje.",
     "instances.textinput.header": "Wprowadź nazwę:",
     "instances.textinput.title": "Wejście tekstowe",
-    
+    "download.failed": "The download has failed, double check you can install mods through ModWorkshop.",
+    "download.not-a-zip": "The download requested is not a valid ZIP file, cancelling download.",
     "server.no-instance": "Instancja nie załadowana.",
-    "server.select-server-folder": "Wybierz lokalizację serwera.",
-    "server.path-set": "Ścieżka serwera ustawiona na {0}",
-
     "modedit.title": "Metadane",
     "modedit.header": "Edytuj Metadane",
     "modedit.id": "ID Modyfikacji (File Name)",
@@ -105,7 +91,6 @@
     "modedit.mod-exists": "ID modyfikacji już istnieje.",
     "modedit.no-whitespace-allowed": "ID nie może zawierać luk.",
     "modedit.no-blank-fields": "Wszystkie pola muszą być wypełnione.",
-    
     "menubar.instances": "Instancje",
     "menubar.mods": "Modyfikacje",
     "menubar.newmod": "Nowy",
@@ -113,21 +98,19 @@
     "menubar.utilities": "Narzędzia",
     "menubar.unpack": "Rozpakuj Archiwum",
     "menubar.pack": "Spakuj Archiwum",
-    "menubar.set-server": "Wybierz Lokalizację Serwera",
     "menubar.open-log": "Otwórz Logi",
     "menubar.theme": "Motyw",
+    "menubar.help": "Help",
     "menubar.about": "O programie",
+    "menubar.update-check": "Check for Updates",
     "menubar.lighttheme": "Jasny",
     "menubar.darktheme": "Ciemny",
-
     "parser.duplicate-file": "{0} jest duplikatem, pomijanie.",
     "parser.empty-string": "Priorytet lub ścieżka są puste.",
-    "parser.successful-parse": "Plik {0} został pomyślnie przeanalizowany.",
     "parser.issue-found": "Mod {0} ma problem z plikiem {1}.",
     "parser.not-integer": "Priorytet nie jest liczbą całkowitą.",
     "parser.too-low-priority": "Prioryted jest niższy niż 10.",
     "parser.bad-metadata": "Metadane modyfikacji są nieprawidłowe.",
-    
     "compiler.usage": "Użycie",
     "compiler.file": "plik",
     "compiler.cannot-find-id": "Mod nie ma przypisanego ID.",
@@ -136,9 +119,20 @@
     "compiler.file-not-found": "Wprowadzony plik nie może zostać odnaleziony.",
     "compiler.file-not-found-in-xml": "Nie można odnależć pliku {0}.",
     "compiler.no-global-db": "Pliki global_db nie zostały odnalezione, nie można scalić plików binarnych.",
+    "compiler.forbid-databases": "Modifying {0} directly could cause massive issues regarding save files, please only make your changes with babdb files.",
+    "compiler.too-many-ids": "You have far too many ids loaded, only {0} will be inserted out of {1}.",
     "compiler.merging-file": "Scalanie pliku {0} w {1}...",
     "compiler.merging-startup-file": "Scalanie pliku {0} w plik rozruchowy...",
-    "compiler.no-server-found": "Plik {0} próbuje uzyskać dostęp do lokalizacji serwera, ale lokacja serwera jest pusta lub nie może zostać odnaleziona.",
     "compiler.no-attribute-in-root": "Nie można odnaleźć atrybutu pliku w folderze nadrzędnym {0}.",
-    "compiler.success": "Spakowane i gotowe!"
+    "compiler.xml-warning": "Everything in this node has been auto-generated by PitCrew for use in the TCU server emulator. Do not edit anything if you don't need to.",
+    "compiler.success": "Spakowane i gotowe!",
+    "updater.latest-version": "The application is already up to date.",
+    "updater.prompt": "Do you wish to update to {0}?",
+    "updater.terminal": "Please run this from the terminal.",
+    "updater.could-not-find-valid-file": "Could not find proper file for your OS.",
+    "updater.modloader-running": "PitCrew is currently running and needs to be closed.",
+    "updater.prompt-modloader-close": "Press any key to close it and continue.",
+    "updater.prompt-updater-close": "Press any key to exit.",
+    "updater.extracting": "Extracting {0}",
+    "updater.finished": "PitCrew has been updated to {0}!"
 }
