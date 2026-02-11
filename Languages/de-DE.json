@@ -1,8 +1,5 @@
 {
     "translation-author": "FTIW",
-    "notice-1": "If you are translating this program please put your username on translation-author above, this message will not be seen inside PitCrew.",
-    "notice-2": "Set to 1 below if your language goes right to left. It will auto-set to 0 if you don't include the rtl object below.",
-    "rtl": "0",
     "language-restart": "Die ausgewählte Sprache wird beim Neustart von PitCrew übernommen.",
     "game-running": "Dein Spiel läuft gerade, Aktion nicht möglich.",
     "tc2-warning": "Das Modden von The Crew 2 auf Linux wird nicht unterstützt. Du wurdest vorgewarnt.",
