@@ -1,8 +1,5 @@
 {
     "translation-author": "MusTangGD",
-    "notice-1": "如果您正在翻译此程序，请将您的用户名填写在上方的 translation-author 中，此消息不会在 PitCrew 内显示。",
-    "notice-2": "如果您的语言是从右到左阅读的，请将下方的 rtl 设置为 1。如果您不包含下面的 rtl 对象，它将自动设置为 0。",
-    "rtl": "0",
     
     "language-restart": "语言设置将在重启 PitCrew 后生效。",
     "game-running": "游戏正在运行，无法继续操作。",

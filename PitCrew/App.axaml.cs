@@ -13,6 +13,7 @@ using PitCrew.ViewModels;
 using PitCrew.Views;
 using PitCrewCommon;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using URIScheme;
@@ -45,14 +46,13 @@ namespace PitCrew
         public override void OnFrameworkInitializationCompleted()
         {
             string langName = Service.Config.GetSetting(ConfigKey.Language);
+
             Translatable.Initialize($"{langName}.json");
             Logger.EraseLog();
 
             //Right to left language support
-            if (Translatable.Get("rtl").Equals("1"))
-            {
+            if (CultureInfo.GetCultureInfo(langName).TextInfo.IsRightToLeft)
                 AddRTLStyle();
-            }
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
