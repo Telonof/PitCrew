@@ -41,7 +41,7 @@
 					</MenuItem.Header>
 					<MenuItem.Styles>
 						<Style Selector="MenuItem.SubItems MenuItem" x:DataType="model:Language">
-							<Setter Property="Header" Value="{Binding Name}"/>
+							<Setter Property="Header" Value="{Binding DisplayName}"/>
 							<Setter Property="Command" Value="{Binding Command}"/>
 						</Style>
 					</MenuItem.Styles>
