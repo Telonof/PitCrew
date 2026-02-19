@@ -4,7 +4,7 @@
     "language-restart": "Language will be applied properly on restart of PitCrew.",
     "game-running": "Your game is currently running, cannot continue.",
 
-    "tc2-warning": "Modding The Crew 2 on Linux isn't supported. You have been warned.",
+    "tc2-warning": "You must place a file called liboo2corelinux64.so inside the PitCrew folder to mod The Crew 2 on Linux.",
     
     "messagebox-title-default": "Info",
     
