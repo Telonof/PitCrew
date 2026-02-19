@@ -16,6 +16,8 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using Microsoft.Win32;
 using URIScheme;
 
 namespace PitCrew
@@ -34,6 +36,9 @@ namespace PitCrew
             Ioc.Default.ConfigureServices(services.BuildServiceProvider());
 
             //Register for URL hooks
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                Registry.CurrentUser.CreateSubKey(@"Software\Classes", true);
+            
             Environment.CurrentDirectory = Path.GetDirectoryName(Environment.ProcessPath);
             var service = URISchemeServiceFactory.GetURISchemeSerivce("pitcrew", "PitCrew", Environment.ProcessPath);
 
