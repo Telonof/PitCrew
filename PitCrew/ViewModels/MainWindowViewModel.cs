@@ -120,14 +120,11 @@ namespace PitCrew.ViewModels
             FileUtil.CheckAndCreateFolder(zipTempFolder);
 
             using ZipArchive archive = await Service.DownloadManager.DownloadMod(id);
+            archive.ExtractToDirectory(zipTempFolder, true);
 
             List<string> mdatas = [];
             foreach (ZipArchiveEntry entry in archive.Entries)
             {
-                using StreamReader file = new StreamReader(entry.Open());
-
-                File.WriteAllText(Path.Combine(zipTempFolder, entry.Name), file.ReadToEnd());
-
                 if (Path.GetExtension(entry.Name).Equals(".mdata"))
                     mdatas.Add(entry.Name);
             }
