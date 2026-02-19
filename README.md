@@ -27,4 +27,4 @@ PitCrewCompiler is a standalone CLI application that PitCrew relies on to compil
 A thank you to Luffy for helping me get started on figuring out URI registration for .NET!
 
 # PitCrew on Linux for The Crew 2
-Due to the game's proprietary use of the Oodle compressor, PitCrew requires you to secure a copy of the oodle compressor for Linux and name it `liboo2corelinux64.so` inside the folder for it to function natively on Linux if modding The Crew 2. If Epic Games allows non-commerical distribution of their oodle binaries, then this may change in the future.
+Due to the game's proprietary use of the Oodle compressor, PitCrew requires you to secure a copy of the oodle compressor for Linux and name it `liboo2corelinux64.so` if wanting to mod The Crew 2 natively. If Epic Games allows non-commerical distribution of their oodle binaries, then this may change in the future.
