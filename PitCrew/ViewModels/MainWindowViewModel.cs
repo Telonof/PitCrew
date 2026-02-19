@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.IO.Pipes;
@@ -51,6 +52,16 @@ namespace PitCrew.ViewModels
             foreach (string file in Directory.GetFiles("Languages", "*"))
             {
                 string name = Path.GetFileNameWithoutExtension(file);
+
+                try
+                {
+                    CultureInfo.GetCultureInfo(name);
+                }
+                catch (CultureNotFoundException)
+                {
+                    continue;
+                }
+
                 languages.Add(new Language(name, () => SwitchLang(name)));
             }
 
