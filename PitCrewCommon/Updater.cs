@@ -20,9 +20,6 @@ namespace PitCrewCommon
         {
             string githubVer = response.GetProperty("tag_name").ToString();
 
-            if (githubVer.Equals(Constants.VERSION))
-                return "";
-
             return githubVer;
         }
 
@@ -54,7 +51,7 @@ namespace PitCrewCommon
             if (file == null)
                 return "";
 
-            ZipFile.ExtractToDirectory(file, FileUtil.GetProcessDir());
+            ZipFile.ExtractToDirectory(file, FileUtil.GetProcessDir(), true);
             return filename;
         }
 

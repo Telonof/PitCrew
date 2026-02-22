@@ -87,7 +87,7 @@ namespace PitCrew.ViewModels
             JsonElement response = Updater.GrabLatestVersion();
             string githubVer = Updater.GrabUpdateName(response);
             
-            if (string.IsNullOrWhiteSpace(githubVer))
+            if (githubVer.Equals(Constants.VERSION))
             {
                 await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("updater.latest-version")));
                 return;
@@ -137,13 +137,10 @@ namespace PitCrew.ViewModels
             foreach (ZipArchiveEntry entry in archive.Entries)
             {
                 if (Path.GetExtension(entry.Name).Equals(".mdata"))
-                    mdatas.Add(entry.Name);
+                    mdatas.Add(Path.Combine(zipTempFolder, entry.Name));
             }
 
-            foreach (string file in mdatas)
-            {
-                ImportMod(Path.Combine(zipTempFolder, file));
-            }
+            ImportMod("", mdatas.ToArray());
         }
 
         public async void InstanceWindow()
@@ -232,7 +229,7 @@ namespace PitCrew.ViewModels
             }
         }
 
-        public async void ImportMod(string path)
+        public async void ImportMod(string path, string[]? files = null)
         {
             if (LoadedInstance == null)
             {
@@ -240,7 +237,7 @@ namespace PitCrew.ViewModels
                 return;
             }
 
-            string[] files = [path];
+            files ??= [path];
 
             string zipTempFolder = "!PitCrewZipTempFolder";
 
