@@ -54,6 +54,9 @@ namespace PitCrewCommon.Utilities
             string executable = "TheCrew";
             if (packageVersion == Constants.THE_CREW_2)
                 executable += "2";
+            
+            if (OperatingSystem.IsLinux())
+                executable += ".exe";
 
             Process[] processes = Process.GetProcessesByName(executable);
 
