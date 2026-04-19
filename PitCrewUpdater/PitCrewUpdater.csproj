@@ -8,6 +8,7 @@
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 	<RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
 	<SelfContained>false</SelfContained>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 
   <ItemGroup>
