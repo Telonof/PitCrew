@@ -131,6 +131,14 @@ namespace PitCrew.ViewModels
             FileUtil.CheckAndCreateFolder(zipTempFolder);
 
             using ZipArchive archive = await Service.DownloadManager.DownloadMod(id);
+
+            if (archive == null)
+            {
+                await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("download.not-a-zip")));
+                FileUtil.CheckAndDeleteFolder(zipTempFolder);
+                return;
+            }
+
             archive.ExtractToDirectory(zipTempFolder, true);
 
             List<string> mdatas = [];

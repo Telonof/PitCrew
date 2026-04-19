@@ -1,5 +1,6 @@
 ﻿using PitCrewCommon;
 using System;
+using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -8,9 +9,9 @@ namespace PitCrew.Systems
 {
     internal class DownloadManager
     {
-        private string API = "https://api.modworkshop.net/files/";
+        private const string API = "https://api.modworkshop.net/files/";
 
-        private HttpClient client = new HttpClient(new HttpClientHandler { AllowAutoRedirect = true });
+        private static HttpClient client = new HttpClient(new HttpClientHandler { AllowAutoRedirect = true });
 
         public async Task<ZipArchive> DownloadMod(int id)
         {
@@ -26,6 +27,10 @@ namespace PitCrew.Systems
                 Logger.Error(302, Translatable.Get("download.failed"));
             }
             catch (ArgumentOutOfRangeException e)
+            {
+                Logger.Error(303, Translatable.Get("download.not-a-zip"));
+            }
+            catch (InvalidDataException e)
             {
                 Logger.Error(303, Translatable.Get("download.not-a-zip"));
             }
