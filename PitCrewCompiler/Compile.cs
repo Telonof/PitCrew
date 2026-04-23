@@ -1,6 +1,4 @@
-﻿using Gibbed.Dunia2.FileFormats;
-using Gibbed.Dunia2.FileFormats.Big;
-using PitCrewCommon;
+﻿using PitCrewCommon;
 using PitCrewCommon.Models;
 using PitCrewCommon.Utilities;
 using PitCrewCompiler.DataInserters;
@@ -65,7 +63,6 @@ namespace PitCrewCompiler
             }
 
             BackupAndUnpack();
-            ExtractMergingItems();
 
             //Run all inserters
             _ = new StartupInserter(Instance.GetDirectory(), StartupMods);
@@ -80,45 +77,6 @@ namespace PitCrewCompiler
             PercentageCalculator.IncrementProgress(FilesinfosMods.Count);
 
             Logger.Print(Translatable.Get("compiler.success"));
-        }
-
-        private void ExtractMergingItems()
-        {
-            if (Instance.PackageVersion != Constants.THE_CREW_2)
-                return;
-
-            for (int i = 0; i < FilesinfosMods.Count; i++)
-            {
-                BigFile fat = new BigFile();
-                using FileStream fatStream = File.OpenRead(Path.Combine(Instance.GetDirectory(), $"{FilesinfosMods[i].Location}.fat"));
-                using FileStream datStream = File.OpenRead(Path.Combine(Instance.GetDirectory(), $"{FilesinfosMods[i].Location}.dat"));
-                fat.Deserialize(fatStream);
-
-                foreach (Entry entry in fat.Entries)
-                {
-                    if (entry.CompressionScheme != CompressionScheme.Zlib)
-                        continue;
-
-                    string name = Path.GetFileNameWithoutExtension(FilesinfosMods[i].Location);
-                    Stream outputStream = new MemoryStream();
-
-                    Entry xmlEntry = new Entry
-                    {
-                        NameHash = entry.NameHash,
-                        UncompressedSize = entry.UncompressedSize,
-                        CompressedSize = entry.CompressedSize,
-                        Offset = entry.Offset,
-                        CompressionScheme = CompressionScheme.oodle
-                    };
-
-                    EntryDecompression.Decompress(xmlEntry, datStream, outputStream);
-                    PercentageCalculator.IncrementTotal();
-
-                    outputStream.Seek(0, SeekOrigin.Begin);
-
-                    XmlMods.Add(new ModFile { Priority = FilesinfosMods[i].Priority, FileData = outputStream, Location = name});
-                }
-            }
         }
 
         private void BackupAndUnpack()

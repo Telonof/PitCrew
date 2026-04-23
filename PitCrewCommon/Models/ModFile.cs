@@ -3,7 +3,6 @@
     public struct ModFile
     {
         public string Location { get; set; }
-        public Stream FileData { get; set; }
         public int Priority { get; set; }
         public Mod ParentMod { get; set; }
 
