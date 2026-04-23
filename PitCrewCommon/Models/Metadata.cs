@@ -25,8 +25,8 @@ namespace PitCrewCommon.Models
 
             if (!File.Exists(location))
             {
-                LocalizedNames.Add("en", Name);
-                LocalizedDescriptions.Add("en", Description);
+                LocalizedNames.Add(Constants.DEFAULT_LANG, Name);
+                LocalizedDescriptions.Add(Constants.DEFAULT_LANG, Description);
                 return;
             }
 

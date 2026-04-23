@@ -11,7 +11,7 @@ namespace PitCrewCommon
             string path = Path.Combine("Languages", fileName);
 
             if (!File.Exists(path))
-                fileName = "English.json";
+                fileName = $"{Constants.DEFAULT_LANG}.json";
 
             Load(fileName);
         }

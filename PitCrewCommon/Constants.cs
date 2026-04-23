@@ -9,6 +9,7 @@
         public const string SERVER_DATA_FILE = "server_archetypes.entities.bin";
         public const string MERGING_FOLDER = "merging_folder";
         public const int THE_CREW_2 = 6;
+        public const string DEFAULT_LANG = "en";
 
         //TCU specific stuff
         public const string SERVER_ID_ITEMS_FILE = "addon_items.xml";

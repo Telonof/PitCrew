@@ -20,7 +20,7 @@ namespace PitCrewCommon
                     new XElement("Settings",
                         new XElement("Setting",
                             new XAttribute("Name", ConfigKey.Language),
-                            new XAttribute("Value", "en")
+                            new XAttribute("Value", Constants.DEFAULT_LANG)
                         ),
                         new XElement("Setting",
                             new XAttribute("Name", ConfigKey.Theme),
@@ -44,18 +44,7 @@ namespace PitCrewCommon
                             .FirstOrDefault(at => at.Attribute("Name").Value.Equals(setting, StringComparison.OrdinalIgnoreCase))?
                             .Attribute("Value")?.Value;
 
-            if (output != null && setting.Equals(ConfigKey.Language))
-                return GetCultureCode(output);
-
             return output;
-        }
-
-        public string? GetCultureCode(string lang) {
-            CultureInfo cultureInfo = CultureInfo.GetCultures(CultureTypes.AllCultures).Where(culture => culture.NativeName.Equals(lang)).FirstOrDefault();
-            if (cultureInfo == null)
-                return lang;
-
-            return cultureInfo.Name;
         }
 
         public void SetSetting(string name, string value)
