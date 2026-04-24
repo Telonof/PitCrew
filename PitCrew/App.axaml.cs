@@ -52,7 +52,7 @@ namespace PitCrew
         {
             string langName = Service.Config.GetSetting(ConfigKey.Language);
 
-            Translatable.Initialize($"{langName}.json");
+            langName = Translatable.Initialize($"{langName}.json");
             Logger.EraseLog();
 
             //Right to left language support

@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Globalization;
+using System.Text.Json;
 
 namespace PitCrewCommon
 {
@@ -6,14 +7,25 @@ namespace PitCrewCommon
     {
         private static Dictionary<string, string> Translations { get; set; } = [];
 
-        public static void Initialize(string fileName)
+        public static string Initialize(string fileName)
         {
             string path = Path.Combine("Languages", fileName);
+            string langName = Path.GetFileNameWithoutExtension(fileName);
 
             if (!File.Exists(path))
-                fileName = $"{Constants.DEFAULT_LANG}.json";
+                langName = Constants.DEFAULT_LANG;
 
-            Load(fileName);
+            try
+            {
+                CultureInfo.GetCultureInfo(langName);
+            }
+            catch (CultureNotFoundException)
+            {
+                langName = Constants.DEFAULT_LANG;
+            }
+
+            Load(Path.ChangeExtension(langName, ".json"));
+            return langName;
         }
 
         public static void Load(string fileName)
