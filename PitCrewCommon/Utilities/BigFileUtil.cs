@@ -120,7 +120,7 @@ namespace PitCrewCommon.Utilities
 
             var fat = new BigFile
             {
-                Version = 5,
+                Version = packageVersion,
                 Platform = Big.Platform.PC,
                 Unknown74 = 0
             };
