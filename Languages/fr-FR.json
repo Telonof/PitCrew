@@ -1,7 +1,7 @@
 {
     "translation-author": "RX-0",
     
-    "language-restart": "La langue sera appliquée correctement sur le redémarrage de Pitcrew.",
+    "language-restart": "La langue sera appliquée correctement après le redémarrage de Pitcrew.",
     
     "messagebox-title-default": "Informations",
     
@@ -43,7 +43,7 @@
     "modlist.packagemod.success": "Mod emballé pour le partage à{0}.zip\nAfficher dans l'explorateur?",
     "modlist.deletemod-warning": "Etes-vous sûr de vouloir supprimer ceci?\nLes métadonnées et tous les fichiers mod disparaîtront.",
     
-    "modlist.rightclick.package": "Paquer de mod",
+    "modlist.rightclick.package": "Paquer le mod",
     "modlist.rightclick.edit": "Modifier les métadonnées",
     "modlist.rightclick.delete": "Supprimer le mod",
     
@@ -105,8 +105,20 @@
     "menubar.unpack": "Décompresser l'archive",
     "menubar.pack": "Compresser l'archive",
     "menubar.theme": "Thème",
+	"menubar.help": "Options",
+	"menubar.open-log": "Ouvrir les logs",
     "menubar.about": "À propos",
+	"menubar.update-check": "Vérifiez les mises à jour",
+    "menubar.lighttheme": "Clair",
+    "menubar.darktheme": "Sombre",
     
+    "parser.duplicate-file": "{0} est un fichier dupliqué.",
+    "parser.empty-string": "La priorité ou le chemin est vide.",
+    "parser.issue-found": "Mod {0} a un problème avec le fichier {1}.",
+    "parser.not-integer": "La priorité n'est pas un entier.",
+    "parser.too-low-priority": "La Priorité est inférieure à 10.",
+    "parser.bad-metadata": "Les métadonnées d'un mod ne sont pas valides.",    
+	
     "manifestutil.invalid-folder": "Dossier invalide.",
     "manifestutil.invalid-location": "Le fichier ne se trouve pas dans le dossier data_win32.",
     "manifestutil.no-startup-file": "Impossible de trouver startup.dat ou .fat dans votre dossier data_win32 folder.",
@@ -119,5 +131,30 @@
     "compiler.conflict-in-original-file": "{0} a un conflit avec votre actuel filesinfos.xml",
     "compiler.file-not-found-in-xml": "Impossible de trouver le fichier {0}.",
     "compiler.no-attribute-in-root": "Impossible de trouver l'attribut de fichier à la racine de {0}.",
-    "compiler.success": "Tout emballés et prêts à partir!"
+    "compiler.success": "Tout emballés et prêts à partir!",
+	"compiler.usage": "Usage",
+    "compiler.file": "fichier",
+    "compiler.cannot-find-id": "Un mod n'a pas d'identification.",
+    "compiler.conflict-in-original-file": "{0} a un conflit avec filesinfos.xml",
+    "compiler.no-startup-file": "Impossible de trouver startup.dat ou .fat dans votre dossier data_win32.",
+    "compiler.file-not-found": "Le fichier entré ne peut pas être trouvé.",
+    "compiler.file-not-found-in-xml": "Impossible de trouver le fichier {0}.",
+    "compiler.no-global-db": "Aucun fichier global_db n'a été trouvé, ne peut pas fusionner les binaires.",
+    "compiler.forbid-databases": "Modification {0} pourrait causer directement des problèmes importants concernant les fichiers de sauvegarde, s'il vous plaît n'effectuer vos modifications qu'avec les fichiers babdb.",
+    "compiler.too-many-ids": "Vous avez beaucoup trop D'ID chargées, seulement {0} seront insérés hors de {1}.",
+    "compiler.merging-file": "Fusion du fichier {0} dans {1}...",
+    "compiler.merging-startup-file": "Fusion du fichier {0} au démarrage...",
+    "compiler.no-attribute-in-root": "Impossible de trouver l'attribut fichier dans la racine de {0}.",
+    "compiler.xml-warning": "Tout ce qui se trouve dans ce nœud a été généré automatiquement par PitCrew pour utilisation dans l'émulateur de serveur TCU. Ne modifiez rien si vous n'en avez pas besoin.",
+    
+	
+	"updater.latest-version": "Pitcrew est déjà à jour.",
+    "updater.prompt": "Souhaitez-vous mettre à jour pour {0}?",
+    "updater.terminal": "S'il vous plaît, exécutez ça depuis le terminal.",
+    "updater.could-not-find-valid-file": "Impossible de trouver un fichier approprié pour votre système d'exploitation.",
+    "updater.modloader-running": "PitCrew est en cours d'exécution et doit être fermé.",
+    "updater.prompt-modloader-close": "Appuyez sur n'importe quelle touche pour la fermer et continuer.",
+    "updater.prompt-updater-close": "Appuyez sur n'importe quelle touche pour quitter",
+    "updater.extracting": "En cour d'extraction {0}",
+    "updater.finished": "PitCrew a été mis à jour {0}!"
 }
