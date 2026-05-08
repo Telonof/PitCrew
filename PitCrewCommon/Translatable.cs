@@ -12,17 +12,8 @@ namespace PitCrewCommon
             string path = Path.Combine("Languages", fileName);
             string langName = Path.GetFileNameWithoutExtension(fileName);
 
-            if (!File.Exists(path))
+            if (!File.Exists(path) || !IsValidCulture(langName))
                 langName = Constants.DEFAULT_LANG;
-
-            try
-            {
-                CultureInfo.GetCultureInfo(langName);
-            }
-            catch (CultureNotFoundException)
-            {
-                langName = Constants.DEFAULT_LANG;
-            }
 
             Load(Path.ChangeExtension(langName, ".json"));
             return langName;
@@ -56,6 +47,20 @@ namespace PitCrewCommon
 
             //Missing translation
             return key;
+        }
+
+        public static bool IsValidCulture(string langName)
+        {
+            try
+            {
+                CultureInfo.GetCultureInfo(langName);
+            }
+            catch (CultureNotFoundException)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -25,8 +25,7 @@ namespace PitCrewCommon.Models
 
             if (!File.Exists(location))
             {
-                LocalizedNames.Add(Constants.DEFAULT_LANG, Name);
-                LocalizedDescriptions.Add(Constants.DEFAULT_LANG, Description);
+                GenerateDefaultIfNeeded();
                 return;
             }
 
@@ -43,6 +42,14 @@ namespace PitCrewCommon.Models
 
             LocalizedNames = doc.Root.Element("names")?.Elements().ToDictionary(element => element.Name.LocalName, element => element.Value) ?? [];
             LocalizedDescriptions = doc.Root.Element("descriptions")?.Elements().ToDictionary(element => element.Name.LocalName, element => element.Value) ?? [];
+
+            if (LocalizedNames.Count > 1)
+            {
+                LocalizedNames = LocalizedNames.Where(langName => Translatable.IsValidCulture(langName.Key)).ToDictionary();
+                LocalizedDescriptions = LocalizedDescriptions.Where(langName => Translatable.IsValidCulture(langName.Key)).ToDictionary();
+                GenerateDefaultIfNeeded();
+            }
+
             Author = doc.Root.Element("author").Value;
 
             var filesElement = doc.Root.Element("files");
@@ -53,6 +60,27 @@ namespace PitCrewCommon.Models
             {
                 FoundModInfo.Add([fileElement.Attribute("priority")?.Value ?? "0", fileElement.Attribute("loc")?.Value ?? ""]);
             }
+        }
+
+        public void Save(bool install = true)
+        {
+            FileUtil.CheckAndCreateFolder(Path.GetDirectoryName(Location));
+
+            XDocument xmlDoc = new XDocument();
+            xmlDoc.Add(Generate(install));
+            xmlDoc.Save(Location);
+        }
+
+        private void GenerateDefaultIfNeeded()
+        {
+            /*TODO this kinda sucks if your language isn't set to english, try and make it default lang of user's selection.
+                The edge case is that someone setup their mod with 2 languages before 1.64, then on correction it makes a default
+                for both english and the user's selected language.*/
+            if (LocalizedNames.Count == 0)
+                LocalizedNames.Add(Constants.DEFAULT_LANG, Name);
+
+            if (LocalizedDescriptions.Count == 0)
+                LocalizedDescriptions.Add(Constants.DEFAULT_LANG, Description);
         }
 
         private XElement Generate(bool installed)
@@ -93,15 +121,6 @@ namespace PitCrewCommon.Models
             root.Add(files);
 
             return root;
-        }
-
-        public void Save(bool install = true)
-        {
-            FileUtil.CheckAndCreateFolder(Path.GetDirectoryName(Location));
-
-            XDocument xmlDoc = new XDocument();
-            xmlDoc.Add(Generate(install));
-            xmlDoc.Save(Location);
         }
     }
 }

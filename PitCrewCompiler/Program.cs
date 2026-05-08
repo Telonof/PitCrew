@@ -9,7 +9,10 @@ namespace PitCrewCompiler
         public static void Main(string[] args)
         {
             ConfigManager config = new ConfigManager();
-            Translatable.Initialize(config.GetSetting(ConfigKey.Language) + ".json");
+            string langName = Translatable.Initialize(config.GetSetting(ConfigKey.Language) + ".json");
+            //legacy stuff, force updating language files
+            config.SetSetting(ConfigKey.Language, langName);
+
             Logger.EraseLog();
 
             if (args.Length < 1)
