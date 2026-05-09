@@ -433,6 +433,9 @@ namespace PitCrew.ViewModels
 
                 int streamLength = BitConverter.ToInt32(streamLengthBuf);
 
+                if (streamLength == 0)
+                    continue;
+
                 byte[] data = new byte[streamLength];
                 await server.ReadAtLeastAsync(data, streamLength, false);
                 ParseIncomingMessage(Encoding.UTF8.GetString(data));
@@ -441,7 +444,13 @@ namespace PitCrew.ViewModels
 
         private async void ParseIncomingMessage(string message)
         {
-            string[] split = message.Split("//")[1].Split('/');
+            string[] split = message.Split("//");
+            if (split.Length == 0)
+                return;
+
+            split = split[1].Split('/');
+            if (split.Length == 0)
+                return;
 
             switch (split[0].ToLower())
             {
