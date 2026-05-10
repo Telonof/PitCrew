@@ -145,7 +145,7 @@ namespace PitCrew.ViewModels
             foreach (ZipArchiveEntry entry in archive.Entries)
             {
                 if (Path.GetExtension(entry.Name).Equals(".mdata"))
-                    mdatas.Add(Path.Combine(zipTempFolder, entry.Name));
+                    mdatas.Add(Path.Combine(zipTempFolder, entry.FullName));
             }
 
             ImportMod("", mdatas.ToArray());
