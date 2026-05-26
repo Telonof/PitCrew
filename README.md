@@ -11,7 +11,7 @@ For GUI Users: Check [GUI_Users](Docs/English/GUI_Users.md)
 
 For GUI Mod Creators: Check [GUI_Modders](Docs/English/GUI_Modders.md)
 
-For CLI Usage: Check [here](Docs/English/CLI_Usage.md)
+For CLI Usage: Check [CLI_Usage](Docs/English/CLI_Usage.md)
 
 # What does it do?
 

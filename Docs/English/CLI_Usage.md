@@ -14,7 +14,7 @@ PitCrew relies on custom manifests to know what mods to apply and what priority 
 </instance>
 ```
 
-The root node should contain a `pacakgeversion` containing what game the manifest is for. If it's not set it will default to 5.
+The root node should contain a `packageversion` containing what game the manifest is for. If it's not set it will default to 5.
 
 5 = The Crew
 
