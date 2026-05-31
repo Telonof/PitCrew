@@ -21,6 +21,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PitCrew.ViewModels
@@ -42,6 +43,9 @@ namespace PitCrew.ViewModels
         public UI UI { get; } = new UI();
 
         public ListBoxViewModel ListBox { get; }
+
+        private static readonly SemaphoreSlim ImportLock = new SemaphoreSlim(1, 1);
+
 
         public MainWindowViewModel()
         {
@@ -256,6 +260,8 @@ namespace PitCrew.ViewModels
 
         public async void ImportMod(string path, string[]? files = null, MessageBoxViewModel? waitDialog = null)
         {
+            await ImportLock.WaitAsync();
+
             if (LoadedInstance == null)
             {
                 await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("server.no-instance")));
@@ -324,6 +330,7 @@ namespace PitCrew.ViewModels
             Service.WindowManager.CloseWindow(waitDialog);
             FileUtil.CheckAndDeleteFolder(zipTempFolder);
             Save();
+            ImportLock.Release();
         }
 
         public void Save()
