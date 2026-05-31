@@ -20,9 +20,9 @@ namespace PitCrewCommon.Utilities
                 return false;
             }
 
-            if (priority < 10)
+            if (priority < 9)
             {
-                Logger.Error(204, $"{issue} {Translatable.Get("parser.too-low-priority")}");
+                Logger.Error(204, $"{issue} {string.Format(Translatable.Get("parser.too-low-priority"), 9)}");
                 return false;
             }
 

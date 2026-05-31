@@ -11,6 +11,8 @@ namespace PitCrewCompiler
         private List<ModFile> FilesinfosMods { get; set; } = [];
         private List<ModFile> XmlMods { get; set; } = [];
         private List<ModFile> StartupMods { get; set; } = [];
+        private List<ModFile> Shaders { get; set; } = [];
+
 
         public Compile(Instance instance)
         {
@@ -56,6 +58,12 @@ namespace PitCrewCompiler
                         continue;
                     }
 
+                    if (file.Priority == 9)
+                    {
+                        Shaders.Add(file);
+                        continue;
+                    }
+
                     FilesinfosMods.Add(file);
                 }
 
@@ -66,6 +74,8 @@ namespace PitCrewCompiler
 
             //Run all inserters
             _ = new StartupInserter(Instance.GetDirectory(), StartupMods);
+            _ = new ShaderInserter(Instance.GetDirectory(), Shaders);
+            PercentageCalculator.IncrementProgress(Shaders.Count);
 
             XmlMods = XmlMods.OrderByDescending(mod => mod.Priority).ToList();
             FileMerger inserter = new FileMerger(Instance.GetDirectory(), XmlMods);
@@ -91,7 +101,7 @@ namespace PitCrewCompiler
 
             if (!File.Exists(unpackingFat))
             {
-                Logger.Error(106, Translatable.Get("compiler.no-startup-file"));
+                Logger.Error(106, Translatable.Get("compiler.missing-file"));
                 throw new FileNotFoundException();
             }
 

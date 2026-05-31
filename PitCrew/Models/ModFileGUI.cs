@@ -50,9 +50,9 @@ namespace PitCrew.Models
             if (string.IsNullOrWhiteSpace(Location) && Priority == 0)
                 return;
 
-            if (Priority < 10 && !string.IsNullOrWhiteSpace(PreviousLocation))
+            if (Priority < 9 && !string.IsNullOrWhiteSpace(PreviousLocation))
             {
-                Service.WindowManager.ShowDialogMainWindow(new MessageBoxViewModel(Translatable.Get("filelist.priority-less-than-ten")));
+                Service.WindowManager.ShowDialogMainWindow(new MessageBoxViewModel(string.Format(Translatable.Get("parser.too-low-priority"), 9)));
                 Priority = PreviousPriority;
                 return;
             }
