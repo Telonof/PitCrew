@@ -155,7 +155,6 @@ namespace PitCrew.ViewModels
                 await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("download.not-a-zip")));
                 FileUtil.CheckAndDeleteFolder(zipTempFolder);
                 Service.WindowManager.CloseWindow(waitDialog);
-                archive.Dispose();
                 return;
             }
 
