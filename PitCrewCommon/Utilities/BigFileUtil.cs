@@ -1,4 +1,5 @@
 using Gibbed.Dunia2.FileFormats;
+using Gibbed.Dunia2.FileFormats.Big;
 using Gibbed.IO;
 using Gibbed.ProjectData;
 using System.Globalization;
@@ -44,12 +45,35 @@ namespace PitCrewCommon.Utilities
                 foreach (Big.Entry entry in fat.Entries)
                 {
                     string entryName = Path.Combine("unknown", entry.NameHash.ToString("X16"));
-
+                    
+                    //Add actual file name + extension if found.
                     if (hashes[entry.NameHash] != null)
                     {
                         entryName = hashes[entry.NameHash].Replace("/", Path.DirectorySeparatorChar.ToString()).Replace("\\", Path.DirectorySeparatorChar.ToString());
                         if (entryName.StartsWith(Path.DirectorySeparatorChar.ToString()))
                             entryName = entryName.Substring(1);
+                    } 
+                    else
+                    {
+                        //Add guessed extension              
+                        var guess = new byte[64];
+                        int read = 0;
+                        if (entry.CompressionScheme == CompressionScheme.None && entry.CompressedSize > 0)
+                        {
+                            input.Seek(entry.Offset, SeekOrigin.Begin);
+                            read = input.Read(guess, 0, (int)Math.Min(entry.CompressedSize, guess.Length));
+                        }
+                        else
+                        {
+                            using var temp = new MemoryStream();
+                            EntryDecompression.Decompress(entry, input, temp);
+                            temp.Position = 0;
+                            read = temp.Read(guess, 0, (int)Math.Min(temp.Length, guess.Length));
+                        }
+
+                        var tuple = FileExtensions.Detect(guess, Math.Min(guess.Length, read));
+                        if (tuple != null)
+                            entryName = Path.ChangeExtension(entryName, $".{tuple.Item2}");
                     }
 
                     string entryPath = Path.Combine(outputPath, entryName);

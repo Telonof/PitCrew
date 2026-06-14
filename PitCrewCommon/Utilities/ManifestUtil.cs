@@ -63,5 +63,29 @@ namespace PitCrewCommon.Utilities
 
             return 5;
         }
+
+        public static string FormatVersion(string version = Constants.VERSION)
+        {
+            int extraInfoIndex = version.IndexOf('-') + 1;
+            int start = version.StartsWith('v') ? 1 : 0;
+
+            return version[start..^extraInfoIndex];
+        }
+
+        /// <summary>
+        /// Returns 0 if input is equal.<br></br>
+        /// Returns 1 if input is higher.<br></br>
+        /// Returns -1 is input is lower.
+        /// </summary>
+        public static int CompareVersion(string inputVersion)
+        {
+            if (string.IsNullOrWhiteSpace(inputVersion))
+                return -1;
+
+            Version currentVersion = Version.Parse(FormatVersion());
+            Version test = Version.Parse(FormatVersion(inputVersion));
+
+            return test.CompareTo(currentVersion);
+        }
     }
 }

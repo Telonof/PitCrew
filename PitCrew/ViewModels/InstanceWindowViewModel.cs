@@ -60,6 +60,13 @@ namespace PitCrew.ViewModels
                 return;
             }
 
+            //If we don't have write access then we shouldn't attempt this.
+            if (!FileUtil.HasWriteAccess(path))
+            {
+                await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("instances.no-permission")));
+                return;
+            }
+
             //Find any manifest in the folder if it exists already and pick the first one. There should only be 1 manifest per game copy.
             string[] potentialManifests = Directory.GetFiles(combinedpath, "*.xml");
             string manifestPath = potentialManifests.Length > 0 ? potentialManifests[0] : "";
@@ -144,7 +151,7 @@ namespace PitCrew.ViewModels
             if (MainWindow.LoadedInstance != null && HighlightedInstance.Location.Equals(MainWindow.LoadedInstance.Location))
             {
                 MainWindow.LoadedInstance = null;
-                MainWindow.LoadedMod = null;
+                MainWindow.SelectedItem = null;
                 Service.Config.SetSetting(ConfigKey.LastOpenedPath, "");
                 MainWindow.UI.ModsTabVisible = false;
                 MainWindow.UI.ModListBorderColor = "Gray";

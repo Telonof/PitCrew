@@ -17,7 +17,7 @@ namespace PitCrewCompiler
 
             if (args.Length < 1)
             {
-                Console.WriteLine($"{Translatable.Get("compiler.usage")}: PitCrewCompiler.exe <{Translatable.Get("compiler.file")}>");
+                Console.WriteLine($"{Translatable.Get("compiler.usage")}: {Path.GetFileName(Environment.ProcessPath)} <{Translatable.Get("compiler.file")}>");
                 return;
             }
 
@@ -29,7 +29,8 @@ namespace PitCrewCompiler
 
             //Load instance first to grab package version.
             Instance instance = new Instance(args[0]);
-            instance.LoadFromXML(true);
+            if (!instance.LoadFromXML(true))
+                return;
 
             if (FileUtil.ProcessRunning(Path.GetDirectoryName(args[0]), instance.PackageVersion))
             {
@@ -38,7 +39,8 @@ namespace PitCrewCompiler
             }
 
             Compile compile = new Compile(instance);
-            compile.Run();
+            compile.Run().Wait();
+            Logger.WriteAndFlush();
         }
     }
 }

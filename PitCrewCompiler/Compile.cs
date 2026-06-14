@@ -19,11 +19,19 @@ namespace PitCrewCompiler
             Instance = instance;
         }
 
-        public void Run()
+        public async Task Run()
         {
             PercentageCalculator.Reset();
-            Mod[] files = Instance.Mods.Where(mod => mod.Enabled).ToArray();
+            Mod[] files = Instance.GetAllMods().Where(mod => mod.Enabled).ToArray();
+            HashSet<string> modIds = files.Select(mod => mod.Id).ToHashSet();
             int priority = 998 - files.Length;
+            float shaderPriority = 8.0000f;
+
+            if (!FileUtil.HasWriteAccess(Instance.GetDirectory()))
+            {
+                Logger.Error(111, Translatable.Get("instances.no-permission"));
+                return;
+            }
 
             foreach (Mod mod in files)
             {
@@ -38,6 +46,9 @@ namespace PitCrewCompiler
 
                     if (file.Priority == 997)
                         file.Priority = Math.Max(11, priority - 1);
+
+                    if (file.Priority == 9)
+                        file.ShaderPriority = Math.Min(9, shaderPriority);
 
                     modFiles.Add(file);
                 }
@@ -58,35 +69,41 @@ namespace PitCrewCompiler
                         continue;
                     }
 
-                    if (file.Priority == 9)
-                    {
+                    if (file.ShaderPriority != 0)
                         Shaders.Add(file);
-                        continue;
-                    }
 
                     FilesinfosMods.Add(file);
                 }
 
                 priority++;
+                shaderPriority += 0.0001f;
             }
 
             BackupAndUnpack();
 
             //Run all inserters
-            _ = new StartupInserter(Instance.GetDirectory(), StartupMods);
+            await Task.WhenAll(Task.Run(() => ShaderInserter()), Task.Run(() => StartupXMLInserter(modIds)));
+
+            Logger.Print(Translatable.Get("compiler.success"));
+        }
+
+        private async void ShaderInserter()
+        {
             _ = new ShaderInserter(Instance.GetDirectory(), Shaders);
             PercentageCalculator.IncrementProgress(Shaders.Count);
+        }
 
+        private async void StartupXMLInserter(HashSet<string> modIds)
+        {
+            _ = new StartupInserter(Instance.GetDirectory(), StartupMods);
             XmlMods = XmlMods.OrderByDescending(mod => mod.Priority).ToList();
-            FileMerger inserter = new FileMerger(Instance.GetDirectory(), XmlMods);
+            FileMerger inserter = new FileMerger(Instance.GetDirectory(), XmlMods, modIds);
             if (XmlMods.Count > 0)
                 FilesinfosMods.Add(new ModFile(XmlMods[0].ParentMod, "mods/PitCrewBase", 9));
 
             _ = new FilesInfosInserter(Instance.GetDirectory(), FilesinfosMods);
 
             PercentageCalculator.IncrementProgress(FilesinfosMods.Count);
-
-            Logger.Print(Translatable.Get("compiler.success"));
         }
 
         private void BackupAndUnpack()
@@ -101,11 +118,11 @@ namespace PitCrewCompiler
 
             if (!File.Exists(unpackingFat))
             {
-                Logger.Error(106, Translatable.Get("compiler.missing-file"));
+                Logger.Error(110, Translatable.Get("compiler.missing-file"));
                 throw new FileNotFoundException();
             }
 
-            BigFileUtil.UnpackBigFile(unpackingFat, "tmp", Instance.PackageVersion, FileUtil.GetParentDir(Instance.GetDirectory()));
+            BigFileUtil.UnpackBigFile(unpackingFat, FileUtil.GetTempFolder("startup_temp"), Instance.PackageVersion, FileUtil.GetParentDir(Instance.GetDirectory()));
 
             //Create cstartup if not existing yet
             if (!File.Exists(cstartupFatPath))
@@ -113,6 +130,9 @@ namespace PitCrewCompiler
                 File.Copy(startupFatPath, cstartupFatPath);
                 File.Copy(startupDatPath, cstartupDatPath);
             }
+
+            FileUtil.DisableReadonly(startupFatPath);
+            FileUtil.DisableReadonly(startupDatPath);
         }
     }
 }

@@ -2,6 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:behaviors="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Xaml.Behaviors"
+		xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:vm="using:PitCrew.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="PitCrew.Views.TextInputWindow"
@@ -14,7 +16,12 @@
 
     <StackPanel VerticalAlignment="Center" Margin="10" Spacing="10">
         <TextBlock Name="InputText" Text="{Binding Source='instances.textinput.header', Converter={StaticResource Translatable}}" Classes="rtlm" />
-        <TextBox Name="Input" Height="30" Text="{Binding TextBox, Mode=TwoWay}" Classes="rtl"/>
+		<!-- Caret index is dumb-->
+		<TextBox Name="Input" Height="30" Text="{Binding TextBox, Mode=TwoWay}" Classes="rtl" CaretIndex="{x:Static system:Int32.MaxValue}">
+			<Interaction.Behaviors>
+				<FocusControlBehavior FocusFlag="true" />
+			</Interaction.Behaviors>
+		</TextBox>
         <Button Name="SubmitButton" Content="{Binding Source='button.ok', Converter={StaticResource Translatable}}" Width="110" Height="50" IsDefault="True" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding Submit}" />
     </StackPanel>
 

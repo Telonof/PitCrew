@@ -1,25 +1,21 @@
-<Window xmlns="https://github.com/avaloniaui"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:vm="using:PitCrew.ViewModels"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		mc:Ignorable="d"
-		d:DesignWidth="800"
-		d:DesignHeight="450"
-		x:Class="PitCrew.Views.MainWindow"
-		x:DataType="vm:MainWindowViewModel"
-		xmlns:model="using:PitCrew.Models"
-		Title="PitCrew"
-		MinWidth="840"
-		MinHeight="538"
-		Width="{Binding UI.Width, Mode=TwoWay}"
-		Height="{Binding UI.Height, Mode=TwoWay}"
-		WindowStartupLocation="CenterScreen">
-	<Design.DataContext>
-		<!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-		<vm:MainWindowViewModel/>
-	</Design.DataContext>
+<Window 
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:vm="using:PitCrew.ViewModels"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	d:DesignWidth="800"
+	d:DesignHeight="450"
+	x:Class="PitCrew.Views.MainWindow"
+	x:DataType="vm:MainWindowViewModel"
+	xmlns:model="using:PitCrew.Models"
+	Title="PitCrew"
+	MinWidth="840"
+	MinHeight="538"
+	Width="{Binding UI.Width, Mode=TwoWay}"
+	Height="{Binding UI.Height, Mode=TwoWay}"
+	WindowStartupLocation="CenterScreen">
 	
 	<Window.Styles>
 		<Style Selector="Button">
@@ -36,11 +32,13 @@
 				<MenuItem Name="ModsMenu" Header="{Binding Source='menubar.mods', Converter={StaticResource Translatable}}" IsVisible="{Binding UI.ModsTabVisible}">
 					<MenuItem Name="NewModMenuButton" Header="{Binding Source='menubar.newmod', Converter={StaticResource Translatable}}" Command="{Binding NewMod}"/>
 					<MenuItem Name="ImportModMenuButton" Header="{Binding Source='menubar.importmod', Converter={StaticResource Translatable}}" Command="{Binding ImportModButton}"/>
+					<MenuItem Header="{Binding Source='modlist.rightclick.new-group', Converter={StaticResource Translatable}}" Command="{Binding ListBox.NewGroup}"/>
 				</MenuItem>
 				<MenuItem Header="{Binding Source='menubar.utilities', Converter={StaticResource Translatable}}">
 					<MenuItem Name="UnpackArchiveMenuButton" Header="{Binding Source='menubar.unpack', Converter={StaticResource Translatable}}" Command="{Binding BigFileWindow}" CommandParameter=""/>
 					<MenuItem Name="PackArchiveMenuButton" Header="{Binding Source='menubar.pack', Converter={StaticResource Translatable}}" Command="{Binding BigFileWindow}" CommandParameter="pack"/>
 					<MenuItem Name="LogWindowMenuButton" Header="{Binding Source='menubar.open-log', Converter={StaticResource Translatable}}" Command="{Binding LogWindow}"/>
+					<MenuItem Header="{Binding Source='menubar.export-list', Converter={StaticResource Translatable}}" Command="{Binding ExportModList}"/>
 				</MenuItem>
 				<MenuItem Header="{Binding Source='menubar.theme', Converter={StaticResource Translatable}}">
 					<MenuItem Name="LightThemeMenuButton" Header="{Binding Source='menubar.lighttheme', Converter={StaticResource Translatable}}" Command="{Binding SwitchTheme}" CommandParameter="Light"/>
@@ -70,34 +68,82 @@
 				<ColumnDefinition Width="Auto"/>
 				<ColumnDefinition Width="0.4*"/>
 			</Grid.ColumnDefinitions>
-
-			<ListBox Name="ModGUIList" Grid.Column="0" Margin="0,50,0,10" BorderBrush="{Binding UI.ModListBorderColor}" BorderThickness="1" DragDrop.AllowDrop="True"
-			ItemsSource="{Binding LoadedInstance.ModsGUI}" SelectedItem="{Binding LoadedMod, Mode=TwoWay}" SelectionMode="Multiple" SelectedItems="{Binding SelectedMods, Mode=TwoWay}">
-				<ListBox.ContextMenu>
-					<ContextMenu>
-						<MenuItem Name="ListBox_PackageModItem" Header="{Binding Source='modlist.rightclick.package', Converter={StaticResource Translatable}}" Command="{Binding ListBox.PackageMod}"/>
-						<MenuItem Name="ListBox_EditMetadataItem" Header="{Binding Source='modlist.rightclick.edit', Converter={StaticResource Translatable}}" Command="{Binding ListBox.EditMetadata}"/>
-						<MenuItem Name="ListBox_DeleteModItem" Header="{Binding Source='modlist.rightclick.delete', Converter={StaticResource Translatable}}" Command="{Binding ListBox.DeleteMod}"/>
-					</ContextMenu>
-				</ListBox.ContextMenu>
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Margin="5" Spacing="5" Classes="rtl">
-							<TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold"/>
-							<TextBlock Text="{Binding Author}" FontSize="12" FontWeight="Bold"/>
-							<TextBlock Text="{Binding Description}" FontSize="10" TextWrapping="Wrap"/>
-							<CheckBox IsChecked="{Binding Enabled}" VerticalAlignment="Bottom" HorizontalAlignment="Right" MinWidth="10" Margin="0,-5,0,-15"/>
-						</StackPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-				<Interaction.Behaviors>
-					<FilesDropBehavior Command="{Binding ListBox.ImportModDragDrop}"/>
-				</Interaction.Behaviors>
-			</ListBox>
-
-			<GridSplitter Grid.Column="1" Margin="0,35,0,0" Width="20" Background="Transparent" ResizeDirection="Columns" />
 			
-			<Grid Grid.RowSpan="3" Grid.Column="2">	
+			<Grid Margin="0,51,0,10">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" MaxHeight="32"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="0.9*"/>
+				</Grid.RowDefinitions>
+				
+				<TextBox Grid.Row="0" Watermark="{Binding Source='modlist.filter-mods', Converter={StaticResource Translatable}}" MinHeight="0" Text="{Binding LoadedInstance.FilterText, Mode=TwoWay}"/>
+				
+				<GridSplitter Grid.Row="1" Height="4" Background="Transparent" ResizeDirection="Rows" ResizeBehavior="BasedOnAlignment"/>
+				
+				<TreeView Name="ModGUIList" Grid.Row="2" Grid.Column="0" BorderBrush="{Binding UI.ModListBorderColor}" BorderThickness="1" DragDrop.AllowDrop="True"
+						  ItemsSource="{Binding LoadedInstance.GroupsGUI}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+						  SelectionMode="Multiple" SelectedItems="{Binding SelectedItems, Mode=TwoWay}">
+					<TreeView.ContextMenu>
+						<ContextMenu>
+							<MenuItem Header="{Binding Source='modlist.rightclick.new-group', Converter={StaticResource Translatable}}" Command="{Binding ListBox.NewGroup}"/>
+						</ContextMenu>
+					</TreeView.ContextMenu>
+					
+					<TreeView.DataTemplates>
+						<TreeDataTemplate DataType="model:GroupGUI" ItemsSource="{Binding ModsGUI}">
+							<Grid Classes="rtl">
+								<TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold" TextWrapping="Wrap"/>
+								<Button HorizontalAlignment="Right" MinWidth="5" MinHeight="20" Margin="0,0,18,0" Command="{Binding SwapEnabledState}" Background="{Binding Color}" />
+							</Grid>
+						</TreeDataTemplate>
+						
+						<DataTemplate DataType="model:ModGUI">
+							<StackPanel Margin="10" Spacing="5" Classes="rtl">						
+								<TextBlock Text="{Binding Name}" FontSize="15" FontWeight="Bold" TextWrapping="Wrap"/>
+								<TextBlock Text="{Binding Author}" FontSize="12" FontWeight="Bold" TextWrapping="Wrap"/>
+								<TextBlock Text="{Binding Description}" FontSize="10" TextWrapping="Wrap"/>
+								<CheckBox IsChecked="{Binding Enabled}" HorizontalAlignment="Right" MinWidth="10"/>
+							</StackPanel>
+						</DataTemplate>				
+					</TreeView.DataTemplates>
+					
+					<TreeView.Styles>
+						<Style Selector="TreeView > TreeViewItem">
+							<Setter Property="IsExpanded" Value="{Binding (model:GroupGUI).Opened}"/>
+							<Setter Property="IsVisible" Value="{Binding (model:GroupGUI).Visible}"/>
+							<Setter Property="ContextMenu">
+								<ContextMenu>
+									<MenuItem Header="{Binding Source='modlist.rightclick.new-group', Converter={StaticResource Translatable}}" Command="{Binding $parent[TreeView].DataContext.ListBox.NewGroup}"/>
+									<MenuItem Header="{Binding Source='modlist.rightclick.new-mod', Converter={StaticResource Translatable}}" Command="{Binding $parent[TreeView].DataContext.NewMod}"/>
+									<MenuItem Header="{Binding Source='modlist.rightclick.rename-group', Converter={StaticResource Translatable}}" Command="{Binding $parent[TreeView].DataContext.ListBox.RenameGroup}"/>
+									<MenuItem Header="{Binding Source='modlist.rightclick.delete-group', Converter={StaticResource Translatable}}" Command="{Binding $parent[TreeView].DataContext.ListBox.DeleteGroup}"/>
+								</ContextMenu>
+							</Setter>
+						</Style>
+						
+						<Style Selector="TreeView TreeViewItem TreeViewItem">
+							<Setter Property="Margin" Value="-35,0,0,0"/>
+							<Setter Property="IsVisible" Value="{Binding (model:ModGUI).Visible}"/>
+							<Setter Property="ContextMenu">
+								<ContextMenu>
+									<MenuItem Header="{Binding Source='modlist.rightclick.change-group', Converter={StaticResource Translatable}}" Command="{Binding $parent[TreeView].DataContext.ListBox.ChangeGroup}"/>
+									<MenuItem Name="ListBox_PackageModItem" Header="{Binding Source='modlist.rightclick.package', Converter={StaticResource Translatable}}" Command="{Binding $parent[TreeView].DataContext.ListBox.PackageMod}"/>
+									<MenuItem Name="ListBox_EditMetadataItem" Header="{Binding Source='modlist.rightclick.edit', Converter={StaticResource Translatable}}" Command="{Binding $parent[TreeView].DataContext.ListBox.EditMetadata}"/>
+									<MenuItem Name="ListBox_DeleteModItem" Header="{Binding Source='modlist.rightclick.delete', Converter={StaticResource Translatable}}" Command="{Binding $parent[TreeView].DataContext.ListBox.DeleteMod}"/>
+								</ContextMenu>
+							</Setter>
+						</Style>
+					</TreeView.Styles>
+					
+					<Interaction.Behaviors>
+						<FilesDropBehavior Command="{Binding ListBox.ImportModDragDrop}"/>
+					</Interaction.Behaviors>
+				</TreeView>
+			</Grid>
+			
+			<GridSplitter Grid.Column="1" Margin="0,35,0,0" Width="20" Background="Transparent" ResizeDirection="Columns"/>
+			
+			<Grid Grid.RowSpan="3" Grid.Column="2">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="0.6*"/>
 					<RowDefinition Height="Auto"/>
@@ -105,39 +151,34 @@
 					<RowDefinition Height="0.2*" MaxHeight="100" MinHeight="100"/>
 				</Grid.RowDefinitions>
 				
-				<DataGrid Name="FileList" VerticalAlignment="Stretch" Grid.Row="0" Margin="0,50,20,0" Classes="rtl" BorderBrush="Gray" BorderThickness="1"
-						  ItemsSource="{Binding LoadedMod.ModFilesGUI}" AutoGenerateColumns="False" DragDrop.AllowDrop="True">
+				<DataGrid Name="FileList" VerticalAlignment="Stretch" Grid.Row="0" Margin="0,50,20,0" Classes="rtl" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding ModFileList}" AutoGenerateColumns="False" DragDrop.AllowDrop="True">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="{Binding Source='filelist.filepath', Converter={StaticResource Translatable}}" Binding="{Binding Location, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="8*"/>
 						<DataGridTextColumn Header="{Binding Source='filelist.priority', Converter={StaticResource Translatable}}" Binding="{Binding Priority, Mode=TwoWay, UpdateSourceTrigger=Explicit}"/>
 					</DataGrid.Columns>
-
+					
 					<Interaction.Behaviors>
 						<FilesDropBehavior Command="{Binding ImportModFiles}"/>
 					</Interaction.Behaviors>
 				</DataGrid>
-
+				
 				<GridSplitter Grid.Row="1" Height="20" Margin="0,0,20,0" Background="Transparent" ResizeDirection="Rows" ResizeBehavior="BasedOnAlignment" VerticalAlignment="Stretch"/>
-
+				
 				<!--Why does text block not have the same border controls is beyond me.-->
 				<Border Grid.Row="2" BorderBrush="Gray" VerticalAlignment="Stretch" BorderThickness="2" Margin="0,0,20,0">
 					<TextBlock Name="ConflictBox" Text="{Binding UI.ConflictBoxText}" TextWrapping="Wrap" Classes="rtl"/>
 				</Border>
-
+				
 				<Grid Grid.Row="3" ColumnSpacing="20" ColumnDefinitions="0.03*,0.05*,0.1*" Margin="0,10,0,30" VerticalAlignment="Stretch">
-						
 					<StackPanel Grid.Column="0" Orientation="Vertical" Spacing="5" HorizontalAlignment="Left" VerticalAlignment="Center">
-						<RepeatButton Name="MoveModUp" Content="∧" Height="30" MinWidth="40" BorderThickness="1" Padding="0,0,0,2" Background="Transparent" Delay="200" Interval="200" Command="{Binding ListBox.MoveModUp}"/>
-						<RepeatButton Name="MoveModDown" Content="∨" Height="30" MinWidth="40" BorderThickness="1" Padding="0,0,0,2" Background="Transparent" Delay="200" Interval="200" Command="{Binding ListBox.MoveModDown}"/>
+						<RepeatButton Name="MoveModUp" Content="∧" Height="30" MinWidth="40" BorderThickness="1" Padding="0,0,0,2" Background="Transparent" Delay="200" Interval="200" Command="{Binding ListBox.MoveItemUp}"/>
+						<RepeatButton Name="MoveModDown" Content="∨" Height="30" MinWidth="40" BorderThickness="1" Padding="0,0,0,2" Background="Transparent" Delay="200" Interval="200" Command="{Binding ListBox.MoveItemDown}"/>
 					</StackPanel>
-
+					
 					<Button Grid.Column="1" Name="SaveButton" HorizontalAlignment="Center" Content="{Binding Source='button.save', Converter={StaticResource Translatable}}" Command="{Binding Save}"/>
 					<Button Grid.Column="2" Name="CompileButton" HorizontalAlignment="Center" Margin="0,0,50,0" Content="{Binding Source='button.compile', Converter={StaticResource Translatable}}" Command="{Binding Compile}"/>
 				</Grid>
-				
 			</Grid>
 		</Grid>
-		
 	</Grid>
-	
 </Window>

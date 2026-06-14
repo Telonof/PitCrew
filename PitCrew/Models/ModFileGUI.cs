@@ -58,7 +58,7 @@ namespace PitCrew.Models
             }
 
             //Check if any other mod is using this location.
-            Mod? mod = BaseModel.ParentMod?.ParentInstance?.Mods.FirstOrDefault(mod =>
+            Mod? mod = BaseModel.ParentMod?.ParentInstance?.GetAllMods().FirstOrDefault(mod =>
                     mod != BaseModel.ParentMod &&
                     mod.ModFiles.Any(modFile => Path.Equals(Path.GetFullPath(modFile.Location), Path.GetFullPath(Location))));
 

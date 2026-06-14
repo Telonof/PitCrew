@@ -21,7 +21,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace PitCrew.ViewModels
@@ -32,19 +31,20 @@ namespace PitCrew.ViewModels
         public List<Language> languages = [];
 
         [ObservableProperty]
-        public InstanceGUI loadedInstance;
+        public InstanceGUI? loadedInstance;
 
         [ObservableProperty]
-        public ModGUI loadedMod;
+        public ObservableObject? selectedItem;
 
         [ObservableProperty]
-        public ObservableCollection<ModGUI> selectedMods = [];
+        public ObservableCollection<ModFileGUI>? modFileList;
+
+        [ObservableProperty]
+        public ObservableCollection<ObservableObject> selectedItems = [];
 
         public UI UI { get; } = new UI();
 
         public ListBoxViewModel ListBox { get; }
-
-        private static readonly SemaphoreSlim ImportLock = new SemaphoreSlim(1, 1);
 
 
         public MainWindowViewModel()
@@ -69,12 +69,7 @@ namespace PitCrew.ViewModels
 
                 languages.Add(new Language(name, () => SwitchLang(name)));
             }
-
-            //Check for last opened path
-            string path = Service.Config.GetSetting(ConfigKey.LastOpenedPath);
-            if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
-                return;
-
+            
             //Get last width of window if it exists
             string? num = Service.Config.GetSetting(ConfigKey.LastWindowWidth);
             if (num != null && int.TryParse(num, out int width)) 
@@ -84,6 +79,11 @@ namespace PitCrew.ViewModels
             num = Service.Config.GetSetting(ConfigKey.LastWindowHeight);
             if (num != null && int.TryParse(num, out int height))
                 UI.Height = height;
+
+            //Check for last opened path
+            string path = Service.Config.GetSetting(ConfigKey.LastOpenedPath);
+            if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
+                return;
 
             LoadedInstance = new InstanceGUI(new Instance(path), "");
             LoadInstance();
@@ -102,7 +102,7 @@ namespace PitCrew.ViewModels
             JsonElement response = Updater.GrabLatestVersion();
             string githubVer = Updater.GrabUpdateName(response);
             
-            if (githubVer.Equals(Constants.VERSION))
+            if (ManifestUtil.CompareVersion(githubVer) >= 0)
             {
                 await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("updater.latest-version")));
                 return;
@@ -142,7 +142,7 @@ namespace PitCrew.ViewModels
                 return;
             }
 
-            string zipTempFolder = "!PitCrewZipTempFolder";
+            string zipTempFolder = FileUtil.GetTempFolder($"mod-{id}");
             FileUtil.CheckAndCreateFolder(zipTempFolder);
 
             MessageBoxViewModel waitDialog = new MessageBoxViewModel(Translatable.Get("files.unpack"), MessageBoxViewModel.ButtonType.None);
@@ -170,7 +170,7 @@ namespace PitCrew.ViewModels
                 return;
             }
 
-            ImportMod("", mdatas, waitDialog);
+            ImportMod("", mdatas, waitDialog, zipTempFolder);
         }
 
         public async void InstanceWindow()
@@ -181,14 +181,19 @@ namespace PitCrew.ViewModels
                 return;
 
             LoadedInstance = model.HighlightedInstance;
-            LoadInstance();
+            if (!LoadInstance())
+                await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("instances.corrupted")));
         }
 
-        private void LoadInstance()
+        private bool LoadInstance()
         {
-            LoadedInstance.LoadFromXML();
+            if (!LoadedInstance.LoadFromXML())
+            {
+                LoadedInstance = null;
+                return false;
+            }
 
-            if (LoadedInstance.ModsGUI.Count == 0)
+            if (LoadedInstance.GroupsGUI.Count == 0)
                 UI.ConflictBoxText = Translatable.Get("conflictbox.no-mods");
             else
                 UI.ConflictBoxText = Translatable.Get("conflictbox.no-conflicts");
@@ -201,11 +206,60 @@ namespace PitCrew.ViewModels
                 Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("tc2-warning")));
                 UI.ModListBorderColor = "Red";
             }
+
+            return true;
+        }
+
+        /*Specifically makes it easier to share with others your mod list without having to take 300 screenshots.*/
+        public async void ExportModList()
+        {
+            if (LoadedInstance == null)
+            {
+                await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("server.no-instance")));
+                return;
+            }
+
+            List<ModGUI> mods = LoadedInstance.GetAllMods();
+            string[] modList = new string[mods.Count];
+            int longestId = 0;
+
+            for (int i = 0; i < mods.Count; i++)
+            {
+                ModGUI m = mods[i];
+                string id = m.BaseModel.Id;
+                if (id.Length > longestId)
+                    longestId = id.Length;
+
+                modList[i] = $"{(m.Enabled ? "O" : "X")}  {m.BaseModel.Id}";
+            }
+
+            for (int i = 0; i < mods.Count; i++)
+            {
+                modList[i] = $"{modList[i]}  {mods[i].Name.PadLeft(mods[i].Name.Length + longestId - mods[i].BaseModel.Id.Length)}";
+            }
+
+            File.WriteAllLines("pitcrew-modlist.txt", modList);
+
+            var result = new MessageBoxViewModel(string.Format(Translatable.Get("modlist.exportlist.success"), "pitcrew-modlist.txt"), MessageBoxViewModel.ButtonType.YesNo);
+            await Service.WindowManager.ShowDialog(this, result);
+            if (result.Result != MessageBoxViewModel.ResultType.OK)
+                return;
+
+            Process.Start(new ProcessStartInfo()
+            {
+                FileName = FileUtil.GetProcessDir(),
+                UseShellExecute = true
+            });
         }
 
         public async void NewMod()
         {
-            ModWindowViewModel viewModel = new ModWindowViewModel(null, LoadedInstance.BaseModel.GetDirectory());
+            if (SelectedItem is not GroupGUI group)
+                group = LoadedInstance.GetDefaultGroup();
+
+            group.ForceState(true);
+
+            ModWindowViewModel viewModel = new ModWindowViewModel(null, LoadedInstance.BaseModel);
             await Service.WindowManager.ShowDialog(this, viewModel);
 
             if (!viewModel.SubmitClose)
@@ -230,7 +284,7 @@ namespace PitCrew.ViewModels
             ModGUI modGui = new ModGUI(mod);
             modGui.BaseModel.Metadata.Save();
 
-            LoadedInstance.ModsGUI.Insert(0, modGui);
+            group.ModsGUI.Insert(0, modGui);
         }
 
         public async void ImportModButton()
@@ -257,10 +311,8 @@ namespace PitCrew.ViewModels
             }
         }
 
-        public async void ImportMod(string path, string[]? files = null, MessageBoxViewModel? waitDialog = null)
+        public async void ImportMod(string path, string[]? files = null, MessageBoxViewModel? waitDialog = null, string zipTempFolder = "")
         {
-            await ImportLock.WaitAsync();
-
             if (LoadedInstance == null)
             {
                 await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("server.no-instance")));
@@ -275,7 +327,8 @@ namespace PitCrew.ViewModels
                 Service.WindowManager.ShowDialog(this, waitDialog);
             }
 
-            string zipTempFolder = "!PitCrewZipTempFolder";
+            if (string.IsNullOrWhiteSpace(zipTempFolder))
+                zipTempFolder = FileUtil.GetTempFolder($"mod-{Path.GetRandomFileName()}");
 
             //If a zip was given, extract it to a temporary folder first then run as if it was mdata.
             if (Path.GetExtension(path).Equals(".zip"))
@@ -294,12 +347,12 @@ namespace PitCrew.ViewModels
 
             foreach (string file in files)
             {
-                string Id = Path.GetFileNameWithoutExtension(file);
-                ModGUI? existingMod = LoadedInstance.ModsGUI.FirstOrDefault(modGUI => modGUI.BaseModel.Id == Id);
+                string id = Path.GetFileNameWithoutExtension(file);
+                ModGUI? existingMod = LoadedInstance.GetAllMods().FirstOrDefault(modGUI => modGUI.BaseModel.Id == id);
 
                 if (existingMod != null)
                 {
-                    var result = new MessageBoxViewModel(Translatable.Get("importmod.overwrite-old-mod"), MessageBoxViewModel.ButtonType.YesNo);
+                    var result = new MessageBoxViewModel(string.Format(Translatable.Get("importmod.overwrite-old-mod"), id), MessageBoxViewModel.ButtonType.YesNo);
                     await Service.WindowManager.ShowDialog(this, result);
 
                     if (result.Result != MessageBoxViewModel.ResultType.OK)
@@ -307,6 +360,17 @@ namespace PitCrew.ViewModels
                 }
 
                 Mod mod = new Mod(LoadedInstance.BaseModel);
+                mod.LoadFromMData(file);
+
+                if (ManifestUtil.CompareVersion(mod.Metadata.CompiledVersion) == 1)
+                {
+                    var result = new MessageBoxViewModel(string.Format(Translatable.Get("importmod.higher-version"), mod.Metadata.CompiledVersion, Constants.VERSION), MessageBoxViewModel.ButtonType.YesNo);
+                    await Service.WindowManager.ShowDialog(this, result);
+
+                    if (result.Result != MessageBoxViewModel.ResultType.OK)
+                        continue;
+                }
+
                 mod.LoadFromMData(file, true);
                 ModGUI modGUI = new ModGUI(mod);
 
@@ -319,17 +383,28 @@ namespace PitCrew.ViewModels
                 }
                 else
                 {
-                    LoadedInstance.ModsGUI.Insert(0, modGUI);
+                    GroupGUI? group;
+
+                    if (SelectedItem is GroupGUI selectedGroup)
+                        group = selectedGroup;
+
+                    else if (SelectedItem is ModGUI selectedMod)
+                        group = LoadedInstance.GetGroup(selectedMod);
+
+                    else
+                        group = LoadedInstance.GetDefaultGroup();
+
+                    group?.ModsGUI.Insert(0, modGUI);
                 }
             }
             
-            if (LoadedMod == null)
+            if (SelectedItem == null)
                 UI.ConflictBoxText = Translatable.Get("conflictbox.no-conflicts");
 
             Service.WindowManager.CloseWindow(waitDialog);
+            OnSelectedItemChanged(SelectedItem);
             FileUtil.CheckAndDeleteFolder(zipTempFolder);
             Save();
-            ImportLock.Release();
         }
 
         public void Save()
@@ -347,6 +422,12 @@ namespace PitCrew.ViewModels
             if (LoadedInstance == null)
                 return;
 
+            if (!FileUtil.HasWriteAccess(LoadedInstance.BaseModel.GetDirectory()))
+            {
+                await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("instances.no-permission")));
+                return;
+            }
+
             if (FileUtil.ProcessRunning(LoadedInstance.BaseModel.GetDirectory(), LoadedInstance.BaseModel.PackageVersion))
             {
                 var error = new MessageBoxViewModel(Translatable.Get("game-running"));
@@ -356,6 +437,7 @@ namespace PitCrew.ViewModels
 
             UI.WindowClickable = false;
             Save();
+            Logger.WriteAndFlush();
 
             LogWindowViewModel logWindow = new LogWindowViewModel();
             Service.WindowManager.Show(logWindow);
@@ -371,7 +453,7 @@ namespace PitCrew.ViewModels
 
         public async void ImportModFiles(IEnumerable<IStorageItem> items)
         {
-            if (LoadedMod == null)
+            if (SelectedItem is not ModGUI mod)
                 return;
 
             string folderLocation = Path.GetDirectoryName(LoadedInstance.Location);
@@ -404,7 +486,7 @@ namespace PitCrew.ViewModels
 
                 uniqueFiles.Add(path);
 
-                Metadata? existingMetadata = LoadedMod.InsertFile(new ModFileGUI(new ModFile(LoadedMod.BaseModel, path, 998)));
+                Metadata? existingMetadata = mod.InsertFile(new ModFileGUI(new ModFile(mod.BaseModel, path, 998)));
 
                 if (existingMetadata != null)
                     Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(string.Format(Translatable.Get("filelist.already-in-use"), existingMetadata.GrabNameOrDefault(Translatable.GetCurrentLanguage()))));
@@ -420,21 +502,28 @@ namespace PitCrew.ViewModels
             Service.WindowManager.Show(new BigFileWindowViewModel(LoadedInstance, version, pack.Equals("pack")));
         }
 
-        partial void OnLoadedModChanged(ModGUI value)
+        partial void OnSelectedItemChanged(ObservableObject value)
         {
+            if (SelectedItem is not ModGUI mod)
+            {
+                UI.ConflictBoxText = Translatable.Get("conflictbox.no-conflicts");
+                ModFileList = null;
+                return;
+            }
+
             List<string> conflictingMods = [];
             string conflictBoxMessage = Translatable.Get("conflictbox.conflicting");
 
             //This is here for when someone switches instances or deletes a mod as we dont care to edit the conflict box.
-            if (LoadedInstance.ModsGUI == null || value == null)
+            if (mod == null)
                 return;
 
-            foreach (ModGUI modGUI in LoadedInstance.ModsGUI)
+            foreach (ModGUI modGUI in LoadedInstance.GetAllMods())
             {
-                if (value == modGUI)
+                if (mod == modGUI)
                     continue;
 
-                if (!value.Hashes.Any(hash => modGUI.Hashes.Contains(hash)))
+                if (!mod.Hashes.Any(hash => modGUI.Hashes.Contains(hash)))
                     continue;
 
                 conflictingMods.Add(modGUI.Name);
@@ -446,18 +535,22 @@ namespace PitCrew.ViewModels
             }
             else
             {
-                foreach (string mod in conflictingMods)
+                foreach (string conflictingMod in conflictingMods)
                 {
-                    conflictBoxMessage += Environment.NewLine + mod;
+                    conflictBoxMessage += Environment.NewLine + conflictingMod;
                 }
             }
 
-            if (value.ModFilesGUI.Any(file => file.Priority == 10))
-            {
-                conflictBoxMessage = Translatable.Get("conflictbox.startupfile") + Environment.NewLine + conflictBoxMessage;
-            }
+            string specialFiles = "";
 
-            UI.ConflictBoxText = conflictBoxMessage;
+            if (mod.ModFilesGUI.Any(file => file.Priority == 10))
+                specialFiles = Translatable.Get("conflictbox.startupfile") + Environment.NewLine;
+
+            if (mod.ModFilesGUI.Any(file => file.Priority == 9))
+                specialFiles = specialFiles + Translatable.Get("conflictbox.shaderfile") + Environment.NewLine;
+
+            UI.ConflictBoxText = specialFiles + conflictBoxMessage;
+            ModFileList = mod.ModFilesGUI;
         }
 
         public void LogWindow()

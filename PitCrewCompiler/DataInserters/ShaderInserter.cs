@@ -3,27 +3,33 @@ using Gibbed.Dunia2.FileFormats.Big;
 using Gibbed.IO;
 using PitCrewCommon;
 using PitCrewCommon.Models;
+using PitCrewCommon.Utilities;
 
 namespace PitCrewCompiler.DataInserters
 {
     internal class ShaderInserter
     {
-
-        private Dictionary<string, Stream> _activeStreams = [];
-
-
-        //53 seconds on boot, this is bad.
-        //10 seconds subsequent.
         public ShaderInserter(string directory, List<ModFile> modFiles)
         {
             if (modFiles.Count == 0)
+            {
+                BackupAndRestore(directory, true);
                 return;
+            }
 
-            Dictionary<ulong, EntryWithPath> entries = [];
+            HashSet<ulong> entries = [];
+            BigFile shadersFat = new BigFile();
+            byte[] empty = new byte[24];
+
+            //We copy the backup back to the original just to work with a fully clean file and not ontop of existing modded files.
+            //PitCrew is designed to work from vanilla files recompiling.
+            string fatFilePath = BackupAndRestore(directory);
+            var fatFile = new FileStream(fatFilePath, FileMode.Open, FileAccess.ReadWrite);
+            shadersFat.Deserialize(fatFile);
 
             Logger.Print(Translatable.Get("compiler.merging-shaders"));
 
-            //Add every shader entry unless it already exists as the goal is to have the mods on top of the list have their files prioritized like dat/fat/xml's already.
+            //Add every shader entry.
             foreach (ModFile modFile in modFiles)
             {
                 //We only want fat/dat combos as they have shader files, not mod xml's.
@@ -40,73 +46,27 @@ namespace PitCrewCompiler.DataInserters
 
                 foreach (Entry entry in fat.Entries)
                 {
-                    if (entries.ContainsKey(entry.NameHash))
-                        continue;
-
-                    EntryWithPath entryWithPath = new EntryWithPath
-                    {
-                        entryInfo = entry,
-                        datPath = $"{path}.dat"
-                    };
-
-                    entries.TryAdd(entry.NameHash, entryWithPath);
+                    entries.Add(entry.NameHash);
                 }
             }
 
-            //get original fat to read from
-            string backupFile = BackupAndCheck(directory);
-            BigFile shadersFat = new BigFile();
-            using (var input = File.OpenRead(backupFile))
-            {
-                shadersFat.Deserialize(input);
-            }
-
-            Stream originalFile = new FileStream(Path.ChangeExtension(backupFile, ".dat"), FileMode.Open, FileAccess.Read, FileShare.Read);
-            Stream moddedFile = new FileStream(Path.Combine(directory, "shadersobj.dat"), FileMode.Create, FileAccess.Write, FileShare.None, 4096, FileOptions.SequentialScan);
-            
-            for (int i = 0; i < shadersFat.Entries.Count; i++)
+            //zero out the shader inside the dat.
+            //Game doesn't seem to care and treats it as an unloaded file, unpackers won't be kind with empty files however.
+            for (int i = 0;  i < shadersFat.Entries.Count; i++)
             {
                 Entry entry = shadersFat.Entries[i];
+                if (!entries.Contains(entry.NameHash))
+                    continue;
 
-                Stream loadedStream = originalFile;
-                if (entries.TryGetValue(entry.NameHash, out EntryWithPath value))
-                {
-                    loadedStream = CacheStream(value.datPath);
-                    entry = value.entryInfo;
-                }
-
-                loadedStream.Seek(entry.Offset, SeekOrigin.Begin);
-                entry.Offset = moddedFile.Position;
-                
-                moddedFile.WriteFromStream(loadedStream, entry.CompressedSize);
-                long align = moddedFile.Length.Align(16) - moddedFile.Length;
-                moddedFile.WriteBytes(new byte[align]);
-                shadersFat.Entries[i] = entry;
+                fatFile.Position = (24 * i) + 16;
+                fatFile.WriteBytes(empty);
             }
 
-            foreach (Stream stream in _activeStreams.Values)
-            {
-                stream.Dispose();
-            }
-            
-            originalFile.Dispose();
-            moddedFile.Dispose();
-
-            moddedFile = File.Open(Path.Combine(directory, "shadersobj.fat"), FileMode.Create);
-            shadersFat.Serialize(moddedFile);
-            moddedFile.Dispose();
+            fatFile.Dispose();
         }
 
-        private Stream CacheStream(string datPath)
-        {
-            if (!_activeStreams.ContainsKey(datPath))
-                _activeStreams[datPath] = File.OpenRead(datPath);
-
-            return _activeStreams[datPath];
-        }
-
-        /* This backs up shadersobj so people can recover from bad shader mods. We also use it as our way to merge into shadersobj to work from a fully vanilla file. */
-        private string BackupAndCheck(string directory)
+        /* This backs up shadersobj.fat so people can recover from bad shader mods. We also use it as our way to work from a fully vanilla file. */
+        private string BackupAndRestore(string directory, bool delete = false)
         {
             string shadersObj = Path.Combine(directory, "shadersobj.fat");
             string shadersBackupObj = Path.Combine(directory, "shadersobj_pitcrewbak.fat");
@@ -118,18 +78,15 @@ namespace PitCrewCompiler.DataInserters
             }
 
             if (File.Exists(shadersBackupObj))
-                return shadersBackupObj;
-            
-            File.Copy(shadersObj, shadersBackupObj);
-            File.Copy(Path.ChangeExtension(shadersObj, ".dat"), Path.ChangeExtension(shadersBackupObj, ".dat"));
+                File.Copy(shadersBackupObj, shadersObj, true);
+            else
+                File.Copy(shadersObj, shadersBackupObj);
 
-            return shadersBackupObj;
-        }
+            if (delete)
+                FileUtil.CheckAndDeleteFile(shadersBackupObj);
 
-        private struct EntryWithPath
-        {
-            public Entry entryInfo;
-            public string datPath;
+            FileUtil.DisableReadonly(shadersObj);
+            return shadersObj;
         }
     }
 }

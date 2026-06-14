@@ -4,5 +4,14 @@
     <Style Selector="DataGridColumnHeader">
         <Setter Property="FontWeight" Value="Bold" />
     </Style>
-    
+
+	<Style Selector="Menu">
+		<Setter Property="Background" Value="#F8F5F2" />
+		<Setter Property="FontWeight" Value="Bold" />
+	</Style>
+
+	<Style Selector="TreeView > TreeViewItem">
+		<Setter Property="Background" Value="#F8F5F2" />
+	</Style>
+	
 </Styles>

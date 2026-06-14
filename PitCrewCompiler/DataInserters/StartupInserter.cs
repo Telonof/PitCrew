@@ -14,15 +14,15 @@ namespace PitCrewCompiler.DataInserters
 
                 string fullPath = Path.Combine(directory, file.Location + ".fat");
 
-                BigFileUtil.UnpackBigFile(fullPath, "moddata", file.ParentMod.ParentInstance.PackageVersion);
+                BigFileUtil.UnpackBigFile(fullPath, FileUtil.GetTempFolder("startupdata"), file.ParentMod.ParentInstance.PackageVersion);
 
                 //We ignore filesinfos.xml here because PitCrew relies on that for regular mods.
-                FileUtil.CheckAndDeleteFile(Path.Combine("moddata", "engine", "filesinfos.xml"));
+                FileUtil.CheckAndDeleteFile(Path.Combine(FileUtil.GetTempFolder("startupdata"), "engine", "filesinfos.xml"));
 
-                foreach (string modFile in Directory.GetFiles("moddata", "*", SearchOption.AllDirectories))
+                foreach (string modFile in Directory.GetFiles(FileUtil.GetTempFolder("startupdata"), "*", SearchOption.AllDirectories))
                 {
-                    string relativePath = modFile[8..];
-                    string copyPath = Path.Combine("tmp", relativePath);
+                    string relativePath = Path.GetRelativePath(FileUtil.GetTempFolder("startupdata"), modFile);
+                    string copyPath = Path.Combine(FileUtil.GetTempFolder("startup_temp"), relativePath);
 
                     //Make sure the folder exists if modder added a completely new folder.
                     FileUtil.CheckAndCreateFolder(Path.GetDirectoryName(copyPath));
@@ -30,7 +30,7 @@ namespace PitCrewCompiler.DataInserters
                     File.Copy(modFile, copyPath, true);
                 }
 
-                FileUtil.CheckAndDeleteFolder("moddata");
+                FileUtil.CheckAndDeleteFolder(FileUtil.GetTempFolder("startupdata"));
                 PercentageCalculator.IncrementProgress();
             }
         }

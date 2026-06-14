@@ -1,0 +1,53 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:behaviors="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Xaml.Behaviors"
+        xmlns:vm="using:PitCrew.ViewModels"
+        x:Class="PitCrew.Views.GroupsWindow"
+        x:DataType="vm:GroupsWindowViewModel"
+        Title="{Binding Source='modlist.rightclick.change-group', Converter={StaticResource Translatable}}"
+        MinWidth="500"
+        MinHeight="300"
+        Width="620"
+        Height="500"
+        WindowStartupLocation="CenterOwner">
+
+
+	<Grid >
+		<Grid.RowDefinitions>
+			<RowDefinition Height="0.1*"/>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="0.2*" MaxHeight="100" MinHeight="100" />
+		</Grid.RowDefinitions>
+		
+		<TextBlock HorizontalAlignment="Center" Grid.Row="0" Margin="10" Text="{Binding Source='changegroup.message', Converter={StaticResource Translatable}}" Classes="rtlm"/>
+		<ListBox Grid.Row="1" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding Groups}" SelectedItem="{Binding SelectedGroup, Mode=TwoWay}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<Border Background="Transparent">
+						<Interaction.Behaviors>
+							<DoubleTappedTrigger>
+								<InvokeCommandAction Command="{Binding $parent[ListBox].DataContext.Confirm}" />
+							</DoubleTappedTrigger>
+						</Interaction.Behaviors>
+						<TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold" Classes="rtl"/>
+					</Border>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+			<ListBox.Styles>
+				<Style Selector="ListBoxItem">
+					<Setter Property="ContextMenu">
+						<ContextMenu>
+							<MenuItem Header="{Binding Source='modlist.rightclick.delete-group', Converter={StaticResource Translatable}}" Command="{Binding $parent[Window].DataContext.Delete}"/>
+						</ContextMenu>
+					</Setter>
+				</Style>
+			</ListBox.Styles>
+		</ListBox>
+
+		<Button HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Bottom" Height="50" Content="{Binding Source='modedit.create', Converter={StaticResource Translatable}}" Margin="20,10" Command="{Binding Create}" />
+
+
+		<Button HorizontalAlignment="Center" Grid.Row="2" Content="{Binding Source='changegroup.button', Converter={StaticResource Translatable}}" Margin="10" Command="{Binding Confirm}" />
+
+	</Grid>
+</Window>

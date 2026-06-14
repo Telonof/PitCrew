@@ -6,15 +6,15 @@ namespace PitCrewCommon
     {
         public static ObservableCollection<string> Logs { get; set; } = [];
 
-        public static void Log(string message)
+        public static void WriteAndFlush()
         {
-            //Keep buffer clean, this is an abritary number.
-            if (Logs.Count > 150)
-                Logs.Clear();
+            Write();
+            Logs.Clear();
+        }
 
-
-            Logs.Add(message);
-            File.AppendAllLines("PitCrew.log", [message]);
+        public static void Write()
+        {
+            File.AppendAllLines("PitCrew.log", Logs);
         }
 
         public static void Print(string message)
@@ -23,7 +23,7 @@ namespace PitCrewCommon
             string customTime = time.ToString("HH:mm:ss");
             message = $"[{customTime}] {message}";
 
-            Log(message);
+            Logs.Add(message);
             Console.WriteLine(message);
             Console.ResetColor();
         }
@@ -38,6 +38,7 @@ namespace PitCrewCommon
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Print($"ERR{errorNumber}: {message}");
+            Write();
         }
 
         public static void EraseLog()

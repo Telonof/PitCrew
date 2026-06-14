@@ -34,7 +34,7 @@ namespace PitCrewUpdater
 
             string githubVer = Updater.GrabUpdateName(response);
 
-            if (githubVer.Equals(Constants.VERSION))
+            if (ManifestUtil.CompareVersion(githubVer) >= 0)
             {
                 PrintAndWait(Translatable.Get("updater.latest-version"));
                 return;

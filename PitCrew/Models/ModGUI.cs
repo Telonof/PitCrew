@@ -1,4 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using PitCrew.Systems;
+using PitCrew.ViewModels;
+using PitCrew.Views;
 using PitCrewCommon;
 using PitCrewCommon.Models;
 using System;
@@ -25,18 +28,19 @@ namespace PitCrew.Models
         public string description;
 
         [ObservableProperty]
+        public bool visible = true;
+
+        [ObservableProperty]
         public ObservableCollection<ModFileGUI> modFilesGUI;
 
         public List<ulong> Hashes = [];
+
 
         public ModGUI(Mod mod) : base(mod)
         {
             //Get Name and Description based on language, first in list if lang not found.
             name = mod.Metadata.GrabNameOrDefault(Translatable.GetCurrentLanguage());
-
-            description = mod.Metadata.LocalizedDescriptions.First().Value;
-            if (mod.Metadata.LocalizedDescriptions.ContainsKey(Translatable.GetCurrentLanguage()))
-                description = mod.Metadata.LocalizedDescriptions[Translatable.GetCurrentLanguage()];
+            description = mod.Metadata.GrabDescriptionOrDefault(Translatable.GetCurrentLanguage());
 
             author = mod.Metadata.Author;
             Enabled = mod.Enabled;
@@ -62,7 +66,7 @@ namespace PitCrew.Models
         {
             insertedModFile.PropertyChanged += ModFileChanged;
 
-            Mod? mod = BaseModel?.ParentInstance?.Mods.FirstOrDefault(mod => mod.ModFiles.Any(modFile => Path.Equals(Path.GetFullPath(modFile.Location), Path.GetFullPath(insertedModFile.Location))));
+            Mod? mod = BaseModel?.ParentInstance?.GetAllMods().FirstOrDefault(mod => mod.ModFiles.Any(modFile => Path.Equals(Path.GetFullPath(modFile.Location), Path.GetFullPath(insertedModFile.Location))));
 
             if (mod != null)
                 return mod.Metadata;
@@ -73,16 +77,15 @@ namespace PitCrew.Models
 
         public void SaveToBase()
         {
-            List<ModFile> files = [];
+            BaseModel.ModFiles.Clear();
 
             foreach (ModFileGUI file in ModFilesGUI)
             {
                 if (file.Priority == 0)
                     continue;
 
-                files.Add(new ModFile(this.BaseModel, file.Location, file.Priority));
+                BaseModel.ModFiles.Add(new ModFile(this.BaseModel, file.Location, file.Priority));
             }
-            BaseModel.ModFiles = files;
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)

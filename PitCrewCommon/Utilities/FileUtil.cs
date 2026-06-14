@@ -11,10 +11,19 @@ namespace PitCrewCommon.Utilities
                 Directory.CreateDirectory(folderPath);
         }
 
-        public static void CheckAndDeleteFolder(string folderPath)
+        public static bool CheckAndDeleteFolder(string folderPath)
         {
-            if (Directory.Exists(folderPath))
-                Directory.Delete(folderPath, true);
+            try
+            {
+                if (Directory.Exists(folderPath))
+                    Directory.Delete(folderPath, true);
+            }
+            catch (IOException)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public static void CheckAndDeleteFile(string filePath)
@@ -33,6 +42,12 @@ namespace PitCrewCommon.Utilities
             return Path.GetDirectoryName(Environment.ProcessPath);
         }
 
+        public static void DisableReadonly(string path)
+        {
+            FileInfo fileInfo = new FileInfo(path);
+            fileInfo.IsReadOnly = false;
+        }
+
         public static bool FileInUse(string path)
         {
             if (!File.Exists(path))
@@ -46,6 +61,28 @@ namespace PitCrewCommon.Utilities
             catch (IOException)
             {
                 return true;
+            }
+        }
+
+        //Bad method, but i'm not sure of an easier cross plat version.
+        public static bool HasWriteAccess(string path)
+        {
+            path = Path.Combine(path, "write_test");
+            try
+            {
+                FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
+                fs.WriteByte(0xff);
+                fs.Close();
+
+                if (!File.Exists(path))
+                    return false;
+                    
+                CheckAndDeleteFile(path);
+                return true;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return false;
             }
         }
 
@@ -77,6 +114,11 @@ namespace PitCrewCommon.Utilities
             }
 
             return false;
+        }
+
+        public static string GetTempFolder(string path)
+        {
+            return Path.Combine(Path.GetTempPath(), "pitcrew_temp", path);
         }
     }
 }

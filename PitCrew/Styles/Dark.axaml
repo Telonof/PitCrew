@@ -26,4 +26,8 @@
         <Setter Property="Foreground" Value="White" />
     </Style>
 
+	<Style Selector="TreeView > TreeViewItem">
+		<Setter Property="Background" Value="#222222" />
+	</Style>
+
 </Styles>

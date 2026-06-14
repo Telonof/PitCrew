@@ -16,6 +16,9 @@ Each XML file you insert into PitCrew will need to follow a structure like this:
     <add depth="root">
         <object hash="FFFFFFFF">
             <field hash="B7F8C275" type="BinHex">FFFFFFFFFFFFFFFF</field>
+            <object name="Example1">
+	            <field name="Float1" type="Float32">5</field>
+            </object>
         </object>
         <object hash="FFFFFFFA">
             <field hash="B7F8C275" type="BinHex">FFFFFFFFFFFFFFFF</field>
@@ -28,7 +31,7 @@ Each XML file you insert into PitCrew will need to follow a structure like this:
         <field hash="A733C3FA" type="BinHex">FF</field>
     </edit>
 	
-    <editall depth="root">
+    <editall depth="root" required_mods="ExampleMod1 ExampleMod2" blacklisted_mods="ExampleMod3">
         <field hash="A733C3FA" type="BinHex">FFFFFFFF</field>
     </editall>
 
@@ -64,7 +67,8 @@ Specifying the depth with numbers has the root automatically truncated from the 
 
 Depths are required for each command you add to the file.
 
-## Modded tag
+## Attributes
+### Modded Tag
 
 In the edit command, you'll see a modded tag of 1, not applying this gives a tag of 0.
 
@@ -73,6 +77,15 @@ If the tag is specified with 1, that particular command will attempt to traverse
 A tag of 0 will attempt to find the original depth value even if mods after it may have modified around the depth value. This is the default as most mods do not usually try to modify something else from another mod.
 
 The modded tag can be applied to any command but is not required.
+
+### Required Mods Tag
+In the editall command example, there is a required_mods tag. When applied, the command will only work if all mod id's are being loaded on compile. Each mod is separated by a space, so in the example above ExampleMod1 and ExampleMod2 both have to be enabled on compile for that command to function.
+
+>[!INFO]
+>To find mod id's, right click any mod in the GUI and select "Edit Metadata" to see the grayed out mod id at the top.<br>For CLI, head into the manifest file and look for the id attribute associated with each mod.
+
+### Blacklisted Mods Tag
+Additionally, mods can also be blacklisted. In the editall command example there is a blacklisted_mods tag. When applied, if any mod id's are to be compiled that is on the list, the command will refuse to execute. Using the example above, if a user has ExampleMod3 enabled and ready to compile that specific command will not execute.
 
 ## Commands
 
@@ -84,11 +97,11 @@ Any child object of the command will be added to that depth. It does not support
 
 The edit command only supports fields and all of them have to be a child directly to the command.
 
-If the hash does not exist at that depth, the compiler will add it.
+If the hash/name does not exist at that depth, the compiler will add it.
 
-If the hash exists but the value you set for it is empty, the compiler will remove it.
+If the hash/name exists but the value you set for it is empty, the compiler will remove it.
 
-If the hash exists and your value isn't empty, the compiler will replace that value.
+If the hash/name exists and your value isn't empty, the compiler will replace that value.
 
 ### Edit All Command
 

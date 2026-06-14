@@ -15,6 +15,8 @@ namespace PitCrewCommon.Models
 
         public string Location { get; set; }
 
+        public string CompiledVersion { get; set; }
+
         public long InstallTime { get; set; }
 
         public List<string[]> FoundModInfo { get; set; } = [];
@@ -36,8 +38,8 @@ namespace PitCrewCommon.Models
             }
             catch (XmlException)
             {
-                Logger.Error(207, Translatable.Get("parser.bad-metadata"));
-                throw new XmlException();
+                Logger.Error(207, string.Format(Translatable.Get("parser.bad-metadata"), location));
+                return;
             }
 
             LocalizedNames = doc.Root.Element("names")?.Elements().ToDictionary(element => element.Name.LocalName, element => element.Value) ?? [];
@@ -51,6 +53,7 @@ namespace PitCrewCommon.Models
             }
 
             Author = doc.Root.Element("author").Value;
+            CompiledVersion = doc.Root.Element("compiledVersion")?.Value;
 
             var filesElement = doc.Root.Element("files");
             if (filesElement == null)
@@ -64,10 +67,24 @@ namespace PitCrewCommon.Models
 
         public string GrabNameOrDefault(string lang)
         {
+            if (LocalizedNames.Count == 0)
+                return Name;
+
             if (!LocalizedNames.ContainsKey(lang))
                 return LocalizedNames.First().Value;
 
             return LocalizedNames[lang];
+        }
+
+        public string GrabDescriptionOrDefault(string lang)
+        {
+            if (LocalizedDescriptions.Count == 0)
+                return Description;
+
+            if (!LocalizedDescriptions.ContainsKey(lang))
+                return LocalizedDescriptions.First().Value;
+
+            return LocalizedDescriptions[lang];
         }
 
         public void Save(bool install = true)
@@ -113,6 +130,8 @@ namespace PitCrewCommon.Models
 
             if (installed)
                 root.Add(new XElement("installTime", InstallTime));
+
+            root.Add(new XElement("compiledVersion", ManifestUtil.FormatVersion()));
 
             //Get Files
             XElement files = new XElement("files");

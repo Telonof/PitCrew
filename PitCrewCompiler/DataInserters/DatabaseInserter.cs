@@ -16,6 +16,7 @@ namespace PitCrewCompiler.DataInserters
         private readonly string MergingFolder;
 
         private readonly HashSet<string> ValidItemDBs = ["color", "sticker", "rim", "carinteriorpattern", "licenseplate", "driverhelmet", "driversuit", "item"];
+        private readonly HashSet<ulong> ValidPhysSlotIds = [3626666, 3626667, 3626668, 3628994, 3628997, 3628999, 3629007, 3629009, 3629010, 3629011, 3629012];
 
         private BinaryObjectFile PhysDB;
         private BinaryObjectFile RenderDB;
@@ -156,7 +157,10 @@ namespace PitCrewCompiler.DataInserters
                 ulong id = BitConverter.ToUInt64(bdb.Rows[i].data[0]);
 
                 DBType type = DBType.RENDER;
-                if (bdb.Columns.Where(column => column.Name.Equals("SlotID")).Any())
+                
+                //not all items are render, the performance parts of vehicles are phys, so we compare if the slot id is a phys or not.
+                int slotColumnIndex = bdb.GrabColumnIndex("SlotID");
+                if (slotColumnIndex != -1 && ValidPhysSlotIds.Contains(BitConverter.ToUInt64(bdb.Rows[i].data[slotColumnIndex])))
                     type = DBType.PHYS;
 
                 //If the modded id is already cached, do not do anything to the db's and just add

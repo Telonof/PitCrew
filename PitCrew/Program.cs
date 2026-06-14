@@ -33,7 +33,11 @@ namespace PitCrew
                 Logger.Error(0, $"{ex.Message}");
                 Logger.Print($"Trace: {ex.StackTrace}");
                 Logger.Print("====================");
+                Logger.WriteAndFlush();
+                return;
             }
+
+            Logger.WriteAndFlush();
         }
 
         private static bool CreateNamedClient(string[] args)

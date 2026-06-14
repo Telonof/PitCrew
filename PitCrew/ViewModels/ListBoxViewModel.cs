@@ -1,4 +1,5 @@
 ﻿using Avalonia.Platform.Storage;
+using CommunityToolkit.Mvvm.ComponentModel;
 using PitCrew.Models;
 using PitCrew.Systems;
 using PitCrewCommon;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace PitCrew.ViewModels
 {
@@ -23,14 +25,14 @@ namespace PitCrew.ViewModels
 
         public async void PackageMod()
         {
-            if (MainWindow.LoadedMod == null)
+            if (MainWindow.SelectedItem is not ModGUI mod)
                 return;
 
-            MainWindow.Save();
+            mod.SaveToBase();
 
             string baseDirectory = MainWindow.LoadedInstance.BaseModel.GetDirectory();
-            string modId = MainWindow.LoadedMod.BaseModel.Id;
-            Metadata metadata = MainWindow.LoadedMod.BaseModel.Metadata;
+            string modId = mod.BaseModel.Id;
+            Metadata metadata = mod.BaseModel.Metadata;
 
             //We do this to check if the mod that's trying to be packaged isn't the default metadata assigned.
             if (!File.Exists(metadata.Location))
@@ -39,7 +41,7 @@ namespace PitCrew.ViewModels
                 return;
             }
 
-            if (MainWindow.LoadedMod.ModFilesGUI.Count == 0)
+            if (mod.ModFilesGUI.Count == 0)
             {
                 await Service.WindowManager.ShowDialog(MainWindow, new MessageBoxViewModel(Translatable.Get("modlist.packagemod.empty-mod")));
                 return;
@@ -56,7 +58,7 @@ namespace PitCrew.ViewModels
 
             var zip = new ZipArchive(File.Open($"{modId}.zip", FileMode.Create), ZipArchiveMode.Create);
 
-            foreach (ModFile modFile in MainWindow.LoadedMod.BaseModel.ModFiles)
+            foreach (ModFile modFile in mod.BaseModel.ModFiles)
             {
                 string baseName = Path.GetFileName(modFile.Location);
                 metadata.FoundModInfo.Add([modFile.Priority.ToString(), baseName]);
@@ -74,7 +76,6 @@ namespace PitCrew.ViewModels
             //Add metadata to zip
             metadata.Save(false);
             zip.CreateEntryFromFile(Path.Combine(baseDirectory, Constants.METADATA_FOLDER, $"{modId}.mdata"), $"{modId}.mdata");
-            metadata.Save();
 
             zip.Dispose();
 
@@ -92,25 +93,68 @@ namespace PitCrew.ViewModels
 
         public async void EditMetadata()
         {
-            if (MainWindow.LoadedMod == null)
+            if (MainWindow.SelectedItem is not ModGUI mod)
                 return;
 
-            ModWindowViewModel viewModel = new ModWindowViewModel(MainWindow.LoadedMod, MainWindow.LoadedInstance.BaseModel.GetDirectory());
+            ModWindowViewModel viewModel = new ModWindowViewModel(mod, MainWindow.LoadedInstance.BaseModel);
             await Service.WindowManager.ShowDialog(MainWindow, viewModel);
 
             if (!viewModel.SubmitClose)
                 return;
 
-            MainWindow.LoadedMod.Name = viewModel.Name;
-            MainWindow.LoadedMod.Author = viewModel.Author;
-            MainWindow.LoadedMod.Description = viewModel.Description;
+            mod.Name = viewModel.Name;
+            mod.Author = viewModel.Author;
+            mod.Description = viewModel.Description;
+        }
+
+        public async void NewGroup()
+        {
+            var window = new GroupsWindowViewModel(MainWindow);
+            window.Create();
+        }
+
+        public async void ChangeGroup()
+        {
+            var window = new GroupsWindowViewModel(MainWindow);
+            await Service.WindowManager.ShowDialog(MainWindow, window);
+
+            if (!window.Confirmed)
+                return;
+
+            int count = 0;
+            foreach (ObservableObject obj in MainWindow.SelectedItems.ToList())
+            {
+                if (obj is not ModGUI mod)
+                    continue;
+
+                if (mod.Enabled)
+                    window.SelectedGroup.ForceState(true);
+
+                GroupGUI? group = MainWindow.LoadedInstance.GetGroup(mod);
+                group?.ModsGUI.Remove(mod);
+                window.SelectedGroup.ModsGUI.Insert(count, mod);
+                count++;
+            }
+        }
+
+        public async void RenameGroup()
+        {
+            if (MainWindow.SelectedItem is not GroupGUI group)
+                return;
+
+            var textInput = new TextInputWindowViewModel();
+            textInput.TextBox = group.Name;
+            await Service.WindowManager.ShowDialog(MainWindow, textInput);
+
+            if (!textInput.SubmitClose)
+                return;
+
+            group.Name = textInput.TextBox;
+            group.BaseModel.IsDefault = false;
         }
 
         public async void DeleteMod()
         {
-            if (MainWindow.LoadedMod == null)
-                return;
-
             string baseDirectory = MainWindow.LoadedInstance.BaseModel.GetDirectory();
 
             if (FileUtil.ProcessRunning(baseDirectory, MainWindow.LoadedInstance.BaseModel.PackageVersion))
@@ -125,8 +169,11 @@ namespace PitCrew.ViewModels
             if (result.Result != MessageBoxViewModel.ResultType.OK)
                 return;
 
-            foreach (ModGUI mod in MainWindow.SelectedMods.ToList())
+            foreach (ObservableObject item in MainWindow.SelectedItems.ToList())
             {
+                if (item is not ModGUI mod)
+                    continue;
+
                 File.Delete(Path.Combine(baseDirectory, Constants.METADATA_FOLDER, $"{mod.BaseModel.Id}.mdata"));
 
                 foreach (ModFileGUI file in mod.ModFilesGUI)
@@ -147,17 +194,27 @@ namespace PitCrew.ViewModels
 
                     //Clear generated directory if no more files are associated in it.
                     string modDirectory = Path.Combine(baseDirectory, Path.GetDirectoryName(file.Location));
-                    if (Directory.GetFiles(modDirectory).Length == 0)
-                        FileUtil.CheckAndDeleteFolder(modDirectory);
 
+                    if (Directory.GetFiles(modDirectory).Length == 0 && !FileUtil.CheckAndDeleteFolder(modDirectory))
+                    {
+                        await Service.WindowManager.ShowDialog(MainWindow, new MessageBoxViewModel(Translatable.Get("modlist.deletemod-folder-in-use")));
+                        return;
+                    }
                 }
 
-                MainWindow.LoadedInstance.ModsGUI.Remove(mod);
+                GroupGUI? group = MainWindow.LoadedInstance.GetGroup(mod);
+                group?.ModsGUI.Remove(mod);
             }
 
-            MainWindow.LoadedMod = null;
-            MainWindow.SelectedMods.Clear();
+            MainWindow.SelectedItems.Clear();
+            MainWindow.SelectedItem = null;
             MainWindow.Save();
+        }
+
+        public void DeleteGroup()
+        {
+            var window = new GroupsWindowViewModel(MainWindow);
+            window.DeleteFromListBox();
         }
 
         public async void ImportModDragDrop(IEnumerable<IStorageItem> items)
@@ -174,60 +231,87 @@ namespace PitCrew.ViewModels
             }
         }
 
-        public void MoveModUp()
+        public void MoveItemUp()
         {
-            if (MainWindow.LoadedMod == null)
+            if (MainWindow.SelectedItems == null || MainWindow.SelectedItems.Count == 0)
                 return;
 
             SortedDictionary<int, ModGUI> mods = [];
+            SortedDictionary<int, GroupGUI> groups = [];
 
             //only move mods that aren't at the top or bottom of the list.
-            foreach (ModGUI mod in MainWindow.SelectedMods)
+            foreach (ObservableObject item in MainWindow.SelectedItems)
             {
-                int modIndex = MainWindow.LoadedInstance.ModsGUI.IndexOf(mod);
-                if (modIndex == 0)
-                    continue;
+                if (item is GroupGUI group)
+                {
+                    int modIndex = MainWindow.LoadedInstance.GroupsGUI.IndexOf(group);
+                    if (modIndex == 0)
+                        continue;
 
-                mods.Add(modIndex, mod);
+                    groups.Add(modIndex, group);
+                }
+
+                if (item is ModGUI mod)
+                {
+                    int modIndex = MainWindow.LoadedInstance.GetGroup(mod).ModsGUI.IndexOf(mod);
+                    if (modIndex == 0)
+                        continue;
+
+                    mods.Add(modIndex, mod);
+                }
             }
 
             //ensure everything moves from top to bottom.
             foreach (int modIndex in mods.Keys)
             {
-                MainWindow.LoadedInstance.ModsGUI.Move(modIndex, modIndex - 1);
+                MainWindow.LoadedInstance.GetGroup(mods[modIndex])?.ModsGUI.Move(modIndex, modIndex - 1);
             }
 
-            //Observable collection doesn't have AddRange?
-            foreach (ModGUI mod in mods.Values)
+            foreach (int groupIndex in groups.Keys)
             {
-                MainWindow.SelectedMods.Add(mod);
+                MainWindow.LoadedInstance.GroupsGUI.Move(groupIndex, groupIndex - 1);
             }
         }
 
-        public void MoveModDown()
+        public void MoveItemDown()
         {
-            if (MainWindow.LoadedMod == null)
+            if (MainWindow.SelectedItems == null || MainWindow.SelectedItems.Count == 0)
                 return;
 
             SortedDictionary<int, ModGUI> mods = [];
+            SortedDictionary<int, GroupGUI> groups = [];
 
-            foreach (ModGUI mod in MainWindow.SelectedMods)
+            //only move mods that aren't at the top or bottom of the list.
+            foreach (ObservableObject item in MainWindow.SelectedItems)
             {
-                int modIndex = MainWindow.LoadedInstance.ModsGUI.IndexOf(mod);
-                if (modIndex >= MainWindow.LoadedInstance.ModsGUI.Count - 1)
-                    continue;
+                if (item is GroupGUI group)
+                {
+                    int modIndex = MainWindow.LoadedInstance.GroupsGUI.IndexOf(group);
+                    if (modIndex == MainWindow.LoadedInstance.GroupsGUI.Count - 1)
+                        continue;
 
-                mods.Add(modIndex, mod);
+                    groups.Add(modIndex, group);
+                }
+
+                if (item is ModGUI mod)
+                {
+                    int modIndex = MainWindow.LoadedInstance.GetGroup(mod).ModsGUI.IndexOf(mod);
+                    if (modIndex == MainWindow.LoadedInstance.GetGroup(mod).ModsGUI.Count - 1)
+                        continue;
+
+                    mods.Add(modIndex, mod);
+                }
             }
 
+            //ensure everything moves from bottom to top.
             foreach (int modIndex in mods.Keys.Reverse())
             {
-                MainWindow.LoadedInstance.ModsGUI.Move(modIndex, modIndex + 1);
+                MainWindow.LoadedInstance.GetGroup(mods[modIndex])?.ModsGUI.Move(modIndex, modIndex + 1);
             }
 
-            foreach (ModGUI mod in mods.Values)
+            foreach (int groupIndex in groups.Keys.Reverse())
             {
-                MainWindow.SelectedMods.Add(mod);
+                MainWindow.LoadedInstance.GroupsGUI.Move(groupIndex, groupIndex + 1);
             }
         }
     }

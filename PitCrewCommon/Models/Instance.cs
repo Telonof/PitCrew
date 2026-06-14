@@ -1,4 +1,5 @@
-﻿using PitCrewCommon.Utilities;
+﻿using System.Xml;
+using PitCrewCommon.Utilities;
 using System.Xml.Linq;
 
 namespace PitCrewCommon.Models
@@ -7,7 +8,7 @@ namespace PitCrewCommon.Models
     {
         public string Location { get; set; }
         public int PackageVersion { get; set; }
-        public List<Mod> Mods { get; set; } = [];
+        public List<Group> Groups { get; set; } = [];
         public bool IsCLI { get; set; }
 
         public Instance(string path)
@@ -15,14 +16,25 @@ namespace PitCrewCommon.Models
             Location = path;
         }
 
-        public void LoadFromXML(bool cli = false)
+        public bool LoadFromXML(bool cli = false)
         {
             string root = FileUtil.GetParentDir(GetDirectory());
 
             if (!File.Exists(Location) || new FileInfo(Location).Length < 1)
                 GenerateDummy();
 
-            XDocument document = XDocument.Load(Location);
+            XDocument document;
+            try
+            {
+                document = XDocument.Load(Location);
+            }
+            catch (XmlException e)
+            {
+                Logger.Error(209, Translatable.Get("instances.corrupted"));
+                Logger.Error(209, e.Message);
+                return false;
+            }
+            
             IsCLI = cli;
 
             if (document.Root.Attribute("packageversion") == null || !int.TryParse(document.Root.Attribute("packageversion").Value, out int packageVersion))
@@ -33,12 +45,75 @@ namespace PitCrewCommon.Models
 
             PackageVersion = packageVersion;
 
-            foreach (XElement element in document.Root.Elements("mod"))
+            foreach (XElement groupElement in document.Root.Elements("group"))
             {
-                Mod mod = new Mod(this);
-                mod.LoadFromElement(element);
-                Mods.Add(mod);
+                Group group = new Group();
+                group.LoadFromElement(this, groupElement);
+
+                if (group.Mods.Count > 0)
+                    Groups.Add(group);
             }
+
+            //Default group if no group found for some mods
+            Group defaultGroup = new Group(true);
+            defaultGroup.LoadFromElement(this, document.Root);
+
+            if (defaultGroup.Mods.Count > 0)
+                Groups.Add(defaultGroup);
+
+            return true;
+        }
+
+        public void SaveToXML()
+        {
+            //Root instance with server attribute
+            XElement rootElement =  new XElement("instance");
+            rootElement.SetAttributeValue("packageversion", PackageVersion);
+
+            foreach (Group group in Groups)
+            {
+                XElement groupElement = new XElement("group");
+                groupElement.SetAttributeValue("name", group.Name);
+                groupElement.SetAttributeValue("gui-opened", group.Opened);
+
+                foreach (Mod mod in group.Mods)
+                {
+                    XElement modElement = new XElement("mod");
+                    modElement.SetAttributeValue("id", mod.Id);
+                    modElement.SetAttributeValue("enabled", mod.Enabled);
+                    foreach (ModFile file in mod.ModFiles)
+                    {
+                        XElement fileElement = new XElement("file");
+                        fileElement.SetAttributeValue("priority", file.Priority);
+                        fileElement.SetAttributeValue("loc", file.Location);
+                        modElement.Add(fileElement);
+                    }
+                    groupElement.Add(modElement);
+                }
+
+                rootElement.Add(groupElement);
+            }
+
+            XDocument document = new XDocument();
+            document.Add(rootElement);
+            document.Save(Location);
+        }
+
+        public List<Mod> GetAllMods()
+        {
+            List<Mod> mods = [];
+
+            foreach (Group group in Groups)
+            {
+                mods.AddRange(group.Mods);
+            }
+
+            return mods;
+        }
+
+        public string GetDirectory()
+        {
+            return Path.GetDirectoryName(Location);
         }
 
         private void GenerateDummy()
@@ -49,37 +124,6 @@ namespace PitCrewCommon.Models
             XDocument document = new XDocument();
             document.Add(rootElement);
             document.Save(Location);
-        }
-
-        public void SaveToXML()
-        {
-            //Root instance with server attribute
-            XElement rootElement =  new XElement("instance");
-            rootElement.SetAttributeValue("packageversion", PackageVersion);
-            
-            foreach (Mod mod in Mods)
-            {
-                XElement modElement = new XElement("mod");
-                modElement.SetAttributeValue("id", mod.Id);
-                modElement.SetAttributeValue("enabled", mod.Enabled);
-                foreach (ModFile file in mod.ModFiles)
-                {
-                    XElement fileElement = new XElement("file");
-                    fileElement.SetAttributeValue("priority", file.Priority);
-                    fileElement.SetAttributeValue("loc", file.Location);
-                    modElement.Add(fileElement);
-                }
-                rootElement.Add(modElement);
-            }
-
-            XDocument document = new XDocument();
-            document.Add(rootElement);
-            document.Save(Location);
-        }
-
-        public string GetDirectory()
-        {
-            return Path.GetDirectoryName(Location);
         }
     }
 }

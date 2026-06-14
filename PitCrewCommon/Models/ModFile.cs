@@ -4,6 +4,7 @@
     {
         public string Location { get; set; }
         public int Priority { get; set; }
+        public float ShaderPriority { get; set; }
         public Mod ParentMod { get; set; }
 
         public ModFile(Mod parentMod, string location, int priority)
@@ -11,6 +12,7 @@
             this.ParentMod = parentMod;
             this.Location = location;
             this.Priority = priority;
+            ShaderPriority = 0f;
         }
 
         public ModFile(ModFile modFile)
@@ -18,6 +20,7 @@
             this.ParentMod = modFile.ParentMod;
             this.Location = modFile.Location;
             this.Priority = modFile.Priority;
+            this.ShaderPriority = modFile.ShaderPriority;
         }
     }
 }

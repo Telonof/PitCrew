@@ -3,8 +3,6 @@ using PitCrew.Models;
 using PitCrew.Systems;
 using PitCrewCommon;
 using PitCrewCommon.Models;
-using PitCrewCommon.Utilities;
-using System.IO;
 using System.Linq;
 
 namespace PitCrew.ViewModels
@@ -22,8 +20,13 @@ namespace PitCrew.ViewModels
 
         public bool SubmitClose { get; set; } = false;
 
-        public ModWindowViewModel(ModGUI? modGUI, string baseDirectory)
+        private readonly Instance Instance;
+
+
+        public ModWindowViewModel(ModGUI? modGUI, Instance instance)
         {
+            Instance = instance;
+
             if (modGUI == null)
                 return;
 
@@ -59,6 +62,12 @@ namespace PitCrew.ViewModels
             if (Id.Any(char.IsWhiteSpace))
             {
                 Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("modedit.no-whitespace-allowed")));
+                return false;
+            }
+
+            if (IdTextBoxEnabled && Instance.GetAllMods().Any(mod => mod.Id.Equals(Id)))
+            {
+                Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("modedit.mod-exists")));
                 return false;
             }
 

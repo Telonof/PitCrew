@@ -19,7 +19,7 @@ namespace PitCrewCompiler.DataInserters
         private bool ServerDataUsed { get; set; } = false;
         private int PackageVersion { get; }
 
-        public FileMerger(string gameDirectory, List<ModFile> xmlFiles)
+        public FileMerger(string gameDirectory, List<ModFile> xmlFiles, HashSet<string> modIds)
         {
             GameDirectory = gameDirectory;
             string gameRootPath = FileUtil.GetParentDir(gameDirectory);
@@ -30,7 +30,7 @@ namespace PitCrewCompiler.DataInserters
             Dictionary<string, Dictionary<XmlFile, bool>> mergingFcbs = [];
             Dictionary<string, HashSet<XmlFile>> mergingBdbs = [];
 
-            FileUtil.CheckAndCreateFolder(Constants.MERGING_FOLDER);
+            FileUtil.CheckAndCreateFolder(FileUtil.GetTempFolder(Constants.MERGING_FOLDER));
             string[] files = UnpackAll();
 
             if (files.Length == 0)
@@ -39,7 +39,7 @@ namespace PitCrewCompiler.DataInserters
             if (files.Length == 0 || xmlFiles.Count == 0)
             {
                 FileUtil.CheckAndDeleteFile(ServerBinaryLocation);
-                FileUtil.CheckAndDeleteFolder(Constants.MERGING_FOLDER);
+                FileUtil.CheckAndDeleteFolder(FileUtil.GetTempFolder(Constants.MERGING_FOLDER));
                 return;
             }
 
@@ -49,21 +49,21 @@ namespace PitCrewCompiler.DataInserters
                 ParsePath(modFile, mergingFcbs, mergingBdbs);
             }
 
-            MergeFCBs(mergingFcbs);
+            MergeFCBs(mergingFcbs, modIds);
             MergeBDBs(mergingBdbs);
 
             //Now delete every file we did not modify to save space, and pack it up.
             var modifiedFiles = mergingBdbs.Keys.Union(mergingFcbs.Keys);
             foreach (string item in files)
             {
-                if (modifiedFiles.Contains(item))
+                if (modifiedFiles.Contains(item, StringComparer.InvariantCultureIgnoreCase))
                     continue;
 
                 FileUtil.CheckAndDeleteFile(item);
             }
 
-            BigFileUtil.RepackBigFile(Constants.MERGING_FOLDER, Path.Combine(gameDirectory, OutputFile), "PitCrew", PackageVersion);
-            FileUtil.CheckAndDeleteFolder(Constants.MERGING_FOLDER);
+            BigFileUtil.RepackBigFile(FileUtil.GetTempFolder(Constants.MERGING_FOLDER), Path.Combine(gameDirectory, OutputFile), "PitCrew", PackageVersion);
+            FileUtil.CheckAndDeleteFolder(FileUtil.GetTempFolder(Constants.MERGING_FOLDER));
         }
 
         private string[] UnpackAll()
@@ -80,7 +80,7 @@ namespace PitCrewCompiler.DataInserters
                 Unpack(Path.Combine(pcFolder, $"localization{patch}.fat"));
             }
 
-            return Directory.GetFiles(Constants.MERGING_FOLDER, "*", SearchOption.AllDirectories);
+            return Directory.GetFiles(FileUtil.GetTempFolder(Constants.MERGING_FOLDER), "*", SearchOption.AllDirectories);
         }
 
         private void Unpack(string file)
@@ -89,7 +89,7 @@ namespace PitCrewCompiler.DataInserters
             if (!File.Exists(file))
                 return;
 
-            BigFileUtil.UnpackBigFile(file, Constants.MERGING_FOLDER, PackageVersion);
+            BigFileUtil.UnpackBigFile(file, FileUtil.GetTempFolder(Constants.MERGING_FOLDER), PackageVersion);
         }
 
         private void ParsePath(ModFile modFile, Dictionary<string, Dictionary<XmlFile, bool>> mergingFcb, Dictionary<string, HashSet<XmlFile>> mergingBdb)
@@ -119,7 +119,7 @@ namespace PitCrewCompiler.DataInserters
             //Handle localization. The goal is adding strings to every language in the game if modder does not care about specifying languages.
             if (mergingPath.Equals("localization"))
             {
-                string[] directories = Directory.GetDirectories(Path.Combine(Constants.MERGING_FOLDER, "localization"));
+                string[] directories = Directory.GetDirectories(Path.Combine(FileUtil.GetTempFolder(Constants.MERGING_FOLDER), "localization"));
 
                 foreach (string locDirectory in directories)
                 {
@@ -159,7 +159,7 @@ namespace PitCrewCompiler.DataInserters
                 return;
             }
 
-            mergingPath = Path.Combine(Constants.MERGING_FOLDER, mergingPath);
+            mergingPath = Path.Combine(FileUtil.GetTempFolder(Constants.MERGING_FOLDER), mergingPath);
 
             if (!File.Exists(mergingPath))
             {
@@ -179,9 +179,9 @@ namespace PitCrewCompiler.DataInserters
             }
         }
 
-        private void MergeFCBs(Dictionary<string, Dictionary<XmlFile, bool>> mergingFcbs)
+        private void MergeFCBs(Dictionary<string, Dictionary<XmlFile, bool>> mergingFcbs, HashSet<string> modIds)
         {
-            BinaryObjectMerger merger = new BinaryObjectMerger();
+            BinaryObjectMerger merger = new BinaryObjectMerger(modIds);
 
             //First we need to see if we are using the server binary and clone the file from the assets folder if yes.
             if (ServerDataUsed)
@@ -189,7 +189,7 @@ namespace PitCrewCompiler.DataInserters
             else
                 FileUtil.CheckAndDeleteFile(ServerBinaryLocation);
 
-            foreach (string key in mergingFcbs.Keys)
+            Parallel.ForEach(mergingFcbs.Keys, key =>
             {
                 BinaryObjectFile bof = new BinaryObjectFile();
                 FileStream stream = File.OpenRead(key);
@@ -213,20 +213,22 @@ namespace PitCrewCompiler.DataInserters
                 stream = File.OpenWrite(key);
                 bof.Serialize(stream);
                 stream.Close();
-            }
+            });
+
+            Task.WaitAll();
         }
 
         private void MergeBDBs(Dictionary<string, HashSet<XmlFile>> mergingBdbs)
         {
-            DatabaseInserter dbInserter = new DatabaseInserter(mergingBdbs, Constants.MERGING_FOLDER, GameDirectory, PackageVersion);
+            DatabaseInserter dbInserter = new DatabaseInserter(mergingBdbs, FileUtil.GetTempFolder(Constants.MERGING_FOLDER), GameDirectory, PackageVersion);
 
             //TC2 doesn't use the addon system as that's strictly for hooking into the TCU emulator
             //which only exists for TC1.
             if (PackageVersion == Constants.THE_CREW_2)
                 return;
 
-            mergingBdbs.Add(Path.Combine(Constants.MERGING_FOLDER, "road66database", "physcarpartdb.bin"), []);
-            mergingBdbs.Add(Path.Combine(Constants.MERGING_FOLDER, "road66database", "rendercarpartdb.bin"), []);
+            mergingBdbs.Add(Path.Combine(FileUtil.GetTempFolder(Constants.MERGING_FOLDER), "road66database", "physcarpartdb.bin"), []);
+            mergingBdbs.Add(Path.Combine(FileUtil.GetTempFolder(Constants.MERGING_FOLDER), "road66database", "rendercarpartdb.bin"), []);
         }
 
         public record XmlFile

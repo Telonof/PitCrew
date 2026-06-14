@@ -1,11 +1,10 @@
-﻿
-# Usage (For Modders)
+﻿# Usage (For Modders)
 
 This section is an addition of Usage (For Users) going over points not covered there specifically for modders and testers.
 
 ## Creating Mod Metadata
 
-Once a manifest is open, head to `Mods -> New` and write everything needed accordingly.
+Once a manifest is open, head to `Mods -> New` and write everything needed accordingly. Alternatively you can right click on a group to make a new mod directly in there.
 
 All metadata get stored in data_win32\pitcrewmetadata so if you close the application before applying any files to the mod, head to `Mods -> Import` and select the .mdata generated inside that folder.
 
@@ -26,10 +25,13 @@ Priorities are when a mod should be loaded in comparison to the rest of the file
 Keeping them at 998 will automatically set their priorities based on it's position inside the mod list. 997 will sort your files based on the mod list as well but is designed for files that need to load earlier than your other ones (example being localization).
 
 To add your .fat/.dat file, place them in an appropriate folder inside your game (preferably in a folder called mods inside data_win32), then write in the file path the location without the extension. An example would be `mods/modfile1`. Once you finish editing, the priority should auto populate with 998. This guarantees your mod will load before any game files, to ensure it loads before other mods, set it lower.
+> An alternate method is by dragging and dropping any files inside the list on the right after placing the files inside the data_win32 folder.
 
 To add your .xml file, do the same as above but instead add the extension alongside it. An example would be `mods/mergingfile.xml`
 
 If you set a .fat/.dat with a priority of 10, you are labelling it as a startup mod. Doing so will take any file inside of it and insert/replace them in startup.dat. 
+
+If you set a .fat/.dat with a priority of 9, you are labelling it as a shader archive. Doing so will tell the compiler that archive has files it needs to scan to properly insert the shaders into the game. 
 
 > Tip: Try to name your modded .fat/.dat's something unique to avoid naming conflicts. Rather than gui_file, consider prepending the author name then the modId like AuthorModId_gui_file.
 
@@ -41,7 +43,7 @@ Be sure to save by clicking `Save`.
 Packaging a mod will get all the files needed and zipped up for sharing. Simply right click on the mod then choose `Package Mod`.
 
 ## Un/Packing Archives
-Head to the menu bar, then Utilities -> Unpack Archive.
+Head to the menu bar, then `Utilities -> Unpack Archive` or `Utilities -> Pack Archive`.
 
 For unpacking, select your output folder and the .fat file of the archive you wish to unpack, then hit the button.
 
