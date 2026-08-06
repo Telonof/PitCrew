@@ -114,6 +114,8 @@
 	"download.not-a-zip": "The download requested is not a valid ZIP file, cancelling download.",
     
     "server.no-instance": "Instance not loaded.",
+	
+	"config.failed-saved": "Failed to save preferences.",
     
     "modedit.title": "Metadata Window",
     "modedit.header": "Edit Metadata",

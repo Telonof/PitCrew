@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using PitCrewCommon.Utilities;
+using System.Xml.Linq;
 
 namespace PitCrewCommon
 {
@@ -59,6 +60,12 @@ namespace PitCrewCommon
             }
 
             setting?.SetAttributeValue("Value", value);
+
+            if (FileUtil.FileInUse(fileName))
+            {
+                Logger.Error(210, Translatable.Get("config.failed-saved"));
+                return;
+            }
 
             Properties.Save(fileName);
         }
