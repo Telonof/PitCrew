@@ -157,7 +157,8 @@ namespace PitCrewCommon.Utilities
                     {
                         NameHash = pendingEntry.NameHash,
                         Offset = output.Position,
-                        author = 0
+                        author = 0,
+                        Flag = 0
                     };
 
                     //Ingrain author into dummy values.

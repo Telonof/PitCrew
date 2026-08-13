@@ -1,6 +1,5 @@
 ﻿using Gibbed.Dunia2.FileFormats;
 using Gibbed.Dunia2.FileFormats.Big;
-using Gibbed.IO;
 using PitCrewCommon;
 using PitCrewCommon.Models;
 using PitCrewCommon.Utilities;
@@ -19,7 +18,6 @@ namespace PitCrewCompiler.DataInserters
 
             HashSet<ulong> entries = [];
             BigFile shadersFat = new BigFile();
-            byte[] empty = new byte[24];
 
             //We copy the backup back to the original just to work with a fully clean file and not ontop of existing modded files.
             //PitCrew is designed to work from vanilla files recompiling.
@@ -50,18 +48,18 @@ namespace PitCrewCompiler.DataInserters
                 }
             }
 
-            //zero out the shader inside the dat.
-            //Game doesn't seem to care and treats it as an unloaded file, unpackers won't be kind with empty files however.
             for (int i = 0;  i < shadersFat.Entries.Count; i++)
             {
                 Entry entry = shadersFat.Entries[i];
                 if (!entries.Contains(entry.NameHash))
                     continue;
 
-                fatFile.Position = (24 * i) + 16;
-                fatFile.WriteBytes(empty);
+                shadersFat.Entries.Remove(entry);
             }
 
+            fatFile.Dispose();
+            fatFile = new FileStream(fatFilePath, FileMode.Create, FileAccess.Write);
+            shadersFat.Serialize(fatFile);
             fatFile.Dispose();
         }
 
