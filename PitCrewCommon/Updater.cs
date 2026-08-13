@@ -51,7 +51,7 @@ namespace PitCrewCommon
             if (file == null)
                 return "";
 
-            ZipFile.ExtractToDirectory(file, FileUtil.GetProcessDir(), true);
+            ZipFile.ExtractToDirectory(file, FileUtil.GetTempFolder("pitcrew_new_version"), true);
             return filename;
         }
 

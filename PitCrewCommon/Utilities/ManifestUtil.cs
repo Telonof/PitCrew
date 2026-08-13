@@ -85,7 +85,7 @@ namespace PitCrewCommon.Utilities
             Version currentVersion = Version.Parse(FormatVersion());
             Version test = Version.Parse(FormatVersion(inputVersion));
 
-            return test.CompareTo(currentVersion);
+            return currentVersion.CompareTo(test);
         }
     }
 }

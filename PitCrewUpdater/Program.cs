@@ -67,7 +67,7 @@ namespace PitCrewUpdater
         private static void ExtractAndClose(string updateFolder, string githubVer)
         {
             //Move every file but the updater itself since it's in use.
-            string extractedFolder = Path.Combine(FileUtil.GetProcessDir(), updateFolder);
+            string extractedFolder = Path.Combine(FileUtil.GetTempFolder("pitcrew_new_version"), updateFolder);
 
             foreach (string extractedFile in Directory.GetFiles(extractedFolder, "*", SearchOption.AllDirectories))
             {
@@ -97,7 +97,7 @@ namespace PitCrewUpdater
                     Process.Start(new ProcessStartInfo
                     {
                         FileName = "cmd.exe",
-                        Arguments = "/c timeout /t 1 && move /Y PitCrew-Windows\\PitCrewUpdater.exe . & rmdir /S /Q PitCrew-Windows & PitCrew.exe",
+                        Arguments = $"/c timeout /t 1 && move /Y {FileUtil.GetTempFolder("pitcrew_new_version")}\\PitCrew-Windows\\PitCrewUpdater.exe . & rmdir /S /Q {FileUtil.GetTempFolder("pitcrew_new_version")} & PitCrew.exe",
                         WorkingDirectory = FileUtil.GetProcessDir(),
                         CreateNoWindow = true
                     });
@@ -107,7 +107,7 @@ namespace PitCrewUpdater
                     Process.Start(new ProcessStartInfo
                     {
                         FileName = "/bin/bash",
-                        Arguments = "-c \"mv PitCrew-Linux/PitCrewUpdater ./PitCrewUpdater ; rm -r PitCrew-Linux; ./PitCrew\"",
+                        Arguments = $"-c \"mv {FileUtil.GetTempFolder("pitcrew_new_version")}/PitCrew-Linux/PitCrewUpdater ./PitCrewUpdater ; rm -r {FileUtil.GetTempFolder("pitcrew_new_version")}; ./PitCrew\"",
                         WorkingDirectory = FileUtil.GetProcessDir(),
                         CreateNoWindow = true,
                         UseShellExecute = false
