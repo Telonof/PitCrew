@@ -37,6 +37,13 @@
     "button.yes": "Oui",
     "button.no": "Non",
     "button.cancel": "Annuler",
+	
+    "modlist.deletemod-warning": "Are you sure you want to delete this?\nThe metadata and all mod files will be gone.",
+    "modlist.deletemod-folder-in-use": "Le dossier du mod est en cours d'utilisation.\nVeuillez fermer tout programme qui l'utilise.",
+    "modlist.deletegroup-warning": "Etes-vous sûr de vouloir supprimer ceci?\nTous les mods seront déplacés vers le groupe par défaut.",
+    "modlist.deletegroup-error": "Impossible de modifier le groupe par défaut.",
+	
+	"modlist.exportlist.success": "Liste des mods exportée vers {0}\nAfficher dans l'explorateur?",
     
     "modlist.packagemod.no-metadata": "Impossible de trouver des métadonnées appropriées.\nVeuillez modifier ce mod.",
     "modlist.packagemod.empty-mod": "Pas de fichiers dans le paquer.",
@@ -46,14 +53,23 @@
     "modlist.rightclick.package": "Paquer le mod",
     "modlist.rightclick.edit": "Modifier les métadonnées",
     "modlist.rightclick.delete": "Supprimer le mod",
-    
+	"modlist.filter-mods": "Barre de Recherche",
+    "modlist.rightclick.new-mod": "Nouveau mods",
+    "modlist.rightclick.new-group": "Nouveau groupe",
+    "modlist.rightclick.change-group": "Changer de groupe",
+    "modlist.rightclick.rename-group": "Renommer le groupe",
+    "modlist.rightclick.delete-group": "Supprimer le groupe",
+	
     "importmod.filechooser.title": "Veuillez sélectionner un.mdata ou fichier zip",
-    "importmod.filechooser.filefilter": "Métadonnées du module",
+    "importmod.filechooser.filefilter": "Métadonnées du mods",
     "importmod.invalid-extension": "Mauvaise extension de fichier.",
     "importmod.invalid-zip": "Fichier zip invalide, impossible de trouver .mdata.",
     "importmod.overwrite-old-mod": "Un mod avec cet identifiant existe déjà.\nÉcraser?",
     "importmod.file-in-use": "Un autre mod utilise actuellement un fichier portant le nom {0}. Veuillez renommer le fichier de ce mod dans les métadonnées.",
     
+	"changegroup.message": "Double-cliquez sur le groupe ou cliquez sur le bouton Changer pour modifier le groupe pour les mods sélectionnés.",
+	"changegroup.button": "Changer",
+	
     "bigfile.unpacktitle": "Décompresser les gros fichiers",
     "bigfile.packtitle": "Emballer les gros fichiers",
     "bigfile.inputfile": "Fichier .fat d'entrée*:",
@@ -63,7 +79,7 @@
     "bigfile.author": "Auteur :",
     "bigfile.compressed": "Compression",
     "bigfile.unpack": "Décompresser",
-    "bigfile.pack": "Pack",
+    "bigfile.pack": "Compresser",
     "bigfile.selectfile.title": "Veuillez sélectionner votre fichier .fat",
     "bigfile.selectfile.filter": "Fichier .fat",
     "bigfile.set-output-file": "Veuillez définir votre fichier .fat de sortie",
@@ -91,7 +107,7 @@
     "modedit.author": "Auteur ",
     "modedit.desc": "Description",
     "modedit.desc-text": "Gardez-le court s'il vous plaît.",
-    "modedit.create": "Crée",
+    "modedit.create": "Créer un nouveau groupe",
     "modedit.edit": "Editer",
     "modedit.mod-exists": "L'ID du Mod existe déjà.",
     "modedit.no-whitespace-allowed": "L'ID ne peut pas avoir des espaces blanc.",
@@ -111,7 +127,8 @@
 	"menubar.update-check": "Vérifiez les mises à jour",
     "menubar.lighttheme": "Clair",
     "menubar.darktheme": "Sombre",
-    
+    "menubar.export-list": "Exporter la liste des mods",
+	
     "parser.duplicate-file": "{0} est un fichier dupliqué.",
     "parser.empty-string": "La priorité ou le chemin est vide.",
     "parser.issue-found": "Mod {0} a un problème avec le fichier {1}.",
