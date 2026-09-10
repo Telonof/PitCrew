@@ -254,9 +254,13 @@ namespace PitCrew.ViewModels
 
         public async void NewMod()
         {
-            if (SelectedItem is not GroupGUI group)
-                group = LoadedInstance.GetDefaultGroup();
-
+            GroupGUI group = SelectedItem switch
+            {
+                GroupGUI g => g,
+                ModGUI m   => LoadedInstance.GetGroup(m),
+                _          => LoadedInstance.GetDefaultGroup()
+            };
+            
             group.ForceState(true);
 
             ModWindowViewModel viewModel = new ModWindowViewModel(null, LoadedInstance.BaseModel);
@@ -362,7 +366,7 @@ namespace PitCrew.ViewModels
                 Mod mod = new Mod(LoadedInstance.BaseModel);
                 mod.LoadFromMData(file);
 
-                if (ManifestUtil.CompareVersion(mod.Metadata.CompiledVersion) == 1)
+                if (ManifestUtil.CompareVersion(mod.Metadata.CompiledVersion) < 0)
                 {
                     var result = new MessageBoxViewModel(string.Format(Translatable.Get("importmod.higher-version"), mod.Metadata.CompiledVersion, Constants.VERSION), MessageBoxViewModel.ButtonType.YesNo);
                     await Service.WindowManager.ShowDialog(this, result);
