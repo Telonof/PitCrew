@@ -207,7 +207,14 @@ namespace PitCrewCompiler.DataInserters
                         Logger.Print(string.Format(Translatable.Get("compiler.merging-file"), Path.GetFileName(subKey.Location), Path.GetFileName(key)));
                     }
 
-                    bof.Root = merger.Merge(bof.Root, subKey.XmlData);
+                    try
+                    {
+                        bof.Root = merger.Merge(bof.Root, subKey.XmlData);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(112, string.Format(Translatable.Get("parser.bad-file"), Path.GetFileName(subKey.Location)));
+                    }
                 }
 
                 stream = File.OpenWrite(key);
