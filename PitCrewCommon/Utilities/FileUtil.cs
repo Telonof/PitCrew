@@ -70,9 +70,7 @@ namespace PitCrewCommon.Utilities
             path = Path.Combine(path, "write_test");
             try
             {
-                FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write);
-                fs.WriteByte(0xff);
-                fs.Close();
+                File.WriteAllBytes(path, [0xff]);
 
                 if (!File.Exists(path))
                     return false;
