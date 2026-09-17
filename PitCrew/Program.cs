@@ -2,7 +2,6 @@
 using PitCrewCommon;
 using System;
 using System.IO.Pipes;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace PitCrew
@@ -26,13 +25,8 @@ namespace PitCrew
             }
             catch (Exception ex)
             {
-                Logger.Print("====================");
-                Logger.Print("CRASHDUMP");
-                Logger.Print($"Version: {Constants.VERSION}");
-                Logger.Print($"OS: {RuntimeInformation.OSDescription}");
-                Logger.Error(0, $"{ex.Message}");
-                Logger.Print($"Trace: {ex.StackTrace}");
-                Logger.Print("====================");
+                CrashLogger.Init();
+                Logger.Error(0,$"CRASH: {CrashLogger.DumpCrash(ex.Message, ex.StackTrace)}");
                 Logger.WriteAndFlush();
                 return;
             }

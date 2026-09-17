@@ -114,8 +114,9 @@
 	"download.not-a-zip": "The download requested is not a valid ZIP file, cancelling download.",
     
     "server.no-instance": "Instance not loaded.",
-	
-	"config.failed-saved": "Failed to save preferences.",
+
+    "config.failed-saved": "Failed to save preferences.",
+    "config.no-permission": "Permission denied to access PitCrew folder. Consider running PitCrew as admin.",
     
     "modedit.title": "Metadata Window",
     "modedit.header": "Edit Metadata",
@@ -152,7 +153,8 @@
     "parser.issue-found": "Mod {0} has an issue with file {1}.",
     "parser.not-integer": "Priority is not an integer.",
     "parser.too-low-priority": "Priority cannot be lower than {0}.",
-    "parser.bad-metadata": "The metadata file {0} is invalid.",    
+    "parser.bad-metadata": "The metadata file {0} is invalid.",
+    "parser.bad-file": "File {0} is invalid, skipping.",
     
     "compiler.usage": "Usage",
     "compiler.file": "file",

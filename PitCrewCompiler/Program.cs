@@ -38,9 +38,20 @@ namespace PitCrewCompiler
                 return;
             }
 
+            
             Compile compile = new Compile(instance);
-            compile.Run().Wait();
-            Logger.WriteAndFlush();
+
+            try
+            {
+                compile.Run().Wait();
+                Logger.WriteAndFlush();
+            }
+            catch (Exception ex)
+            {
+                CrashLogger.Init();
+                Logger.Error(0,$"CRASH: {CrashLogger.DumpCrash(ex.Message, ex.StackTrace)}");
+                Logger.WriteAndFlush();
+            }
         }
     }
 }
