@@ -366,7 +366,7 @@ namespace PitCrew.ViewModels
                 Mod mod = new Mod(LoadedInstance.BaseModel);
                 mod.LoadFromMData(file);
 
-                if (ManifestUtil.CompareVersion(mod.Metadata.CompiledVersion) < 0)
+                if (!string.IsNullOrWhiteSpace(mod.Metadata.CompiledVersion) && ManifestUtil.CompareVersion(mod.Metadata.CompiledVersion) < 0)
                 {
                     var result = new MessageBoxViewModel(string.Format(Translatable.Get("importmod.higher-version"), mod.Metadata.CompiledVersion, Constants.VERSION), MessageBoxViewModel.ButtonType.YesNo);
                     await Service.WindowManager.ShowDialog(this, result);
