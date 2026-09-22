@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using PitCrew.Models;
 using PitCrew.Systems;
 using PitCrewCommon;
@@ -16,7 +17,7 @@ namespace PitCrew.ViewModels
         public string buttonText = Translatable.Get("modedit.create");
 
         [ObservableProperty]
-        public string id, name, author, description = Translatable.Get("modedit.desc-text");
+        public string id, name, author, majorRev, minorRev, buildRev, description = Translatable.Get("modedit.desc-text");
 
         public bool SubmitClose { get; set; } = false;
 
@@ -38,6 +39,11 @@ namespace PitCrew.ViewModels
             Name = modGUI.Name;
             Author = modGUI.Author;
             Description = modGUI.Description;
+            
+            Version version = modGUI.Version;
+            MajorRev = version.Major.ToString();
+            MinorRev = version.Minor.ToString();
+            BuildRev = version.Build.ToString();
         }
 
         public void Submit()
@@ -68,6 +74,12 @@ namespace PitCrew.ViewModels
             if (IdTextBoxEnabled && Instance.GetAllMods().Any(mod => mod.Id.Equals(Id)))
             {
                 Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("modedit.mod-exists")));
+                return false;
+            }
+
+            if (!int.TryParse(MajorRev, out _) || !int.TryParse(MinorRev, out _) || !int.TryParse(BuildRev, out _))
+            {
+                Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("modedit.numbers-only")));
                 return false;
             }
 

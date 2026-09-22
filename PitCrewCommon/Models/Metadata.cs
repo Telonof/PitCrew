@@ -17,6 +17,8 @@ namespace PitCrewCommon.Models
 
         public string CompiledVersion { get; set; }
 
+        public Version Version { get; set; } = Version.Parse("0.0.0");
+
         public long InstallTime { get; set; }
 
         public List<string[]> FoundModInfo { get; set; } = [];
@@ -54,6 +56,10 @@ namespace PitCrewCommon.Models
 
             Author = doc.Root.Element("author").Value;
             CompiledVersion = doc.Root.Element("compiledVersion")?.Value;
+
+            string version = doc.Root.Element("version")?.Value;
+            if (version != null && Version.TryParse(version, out Version parsedVersion))
+                Version = parsedVersion;
 
             var filesElement = doc.Root.Element("files");
             if (filesElement == null)
@@ -132,6 +138,7 @@ namespace PitCrewCommon.Models
                 root.Add(new XElement("installTime", InstallTime));
 
             root.Add(new XElement("compiledVersion", ManifestUtil.FormatVersion()));
+            root.Add(new XElement("version", Version));
 
             //Get Files
             XElement files = new XElement("files");

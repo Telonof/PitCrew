@@ -29,6 +29,12 @@ namespace PitCrewCommon.Models
             get => Metadata.Author;
             set => Metadata.Author = value;
         }
+        
+        public Version Version
+        {
+            get => Metadata.Version;
+            set => Metadata.Version = value;
+        }
 
         public Mod(Instance parentInstance)
         {

@@ -283,6 +283,7 @@ namespace PitCrew.ViewModels
             metadata.LocalizedNames[Translatable.GetCurrentLanguage()] = viewModel.Name;
             metadata.LocalizedDescriptions[Translatable.GetCurrentLanguage()] = viewModel.Description;
             metadata.Author = viewModel.Author;
+            metadata.Version = Version.Parse($"{viewModel.MajorRev}.{viewModel.MinorRev}.{viewModel.BuildRev}");
             mod.Metadata = metadata;
 
             ModGUI modGui = new ModGUI(mod);

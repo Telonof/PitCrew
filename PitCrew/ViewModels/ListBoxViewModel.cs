@@ -105,6 +105,7 @@ namespace PitCrew.ViewModels
             mod.Name = viewModel.Name;
             mod.Author = viewModel.Author;
             mod.Description = viewModel.Description;
+            mod.Version = Version.Parse($"{viewModel.MajorRev}.{viewModel.MinorRev}.{viewModel.BuildRev}");
         }
 
         public async void NewGroup()

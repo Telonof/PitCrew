@@ -26,6 +26,9 @@ namespace PitCrew.Models
 
         [ObservableProperty]
         public string description;
+        
+        [ObservableProperty]
+        public Version version;
 
         [ObservableProperty]
         public bool visible = true;
@@ -43,6 +46,7 @@ namespace PitCrew.Models
             description = mod.Metadata.GrabDescriptionOrDefault(Translatable.GetCurrentLanguage());
 
             author = mod.Metadata.Author;
+            version = mod.Metadata.Version;
             Enabled = mod.Enabled;
 
             ModFilesGUI = new ObservableCollection<ModFileGUI>(BaseModel.ModFiles.Select(modFile => {
@@ -108,6 +112,9 @@ namespace PitCrew.Models
             }
 
             if (e.PropertyName == nameof(Author))
+                BaseModel.Metadata.Save();
+            
+            if (e.PropertyName == nameof(Version))
                 BaseModel.Metadata.Save();
         }
 
