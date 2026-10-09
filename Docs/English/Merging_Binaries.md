@@ -81,8 +81,8 @@ The modded tag can be applied to any command but is not required.
 ### Required Mods Tag
 In the editall command example, there is a required_mods tag. When applied, the command will only work if all mod id's are being loaded on compile. Each mod is separated by a space, so in the example above ExampleMod1 and ExampleMod2 both have to be enabled on compile for that command to function.
 
->[!INFO]
->To find mod id's, right click any mod in the GUI and select "Edit Metadata" to see the grayed out mod id at the top.<br>For CLI, head into the manifest file and look for the id attribute associated with each mod.
+> [!INFO]
+> To find mod id's, right click any mod in the GUI and select "Edit Metadata" to see the grayed out mod id at the top.<br>For CLI, head into the manifest file and look for the id attribute associated with each mod.
 
 ### Blacklisted Mods Tag
 Additionally, mods can also be blacklisted. In the editall command example there is a blacklisted_mods tag. When applied, if any mod id's are to be compiled that is on the list, the command will refuse to execute. Using the example above, if a user has ExampleMod3 enabled and ready to compile that specific command will not execute.
