@@ -21,8 +21,11 @@ namespace PitCrewCommon.Models
 
         public long InstallTime { get; set; }
 
+        public int MwsId { get; set; } = -1;
+
         public List<string[]> FoundModInfo { get; set; } = [];
 
+        
         public Metadata(string location)
         {
             this.Location = location;
@@ -56,6 +59,10 @@ namespace PitCrewCommon.Models
 
             Author = doc.Root.Element("author").Value;
             CompiledVersion = doc.Root.Element("compiledVersion")?.Value;
+            
+            string mwsIdString = doc.Root.Element("mws-id")?.Value;
+            if (!string.IsNullOrWhiteSpace(mwsIdString) && int.TryParse(mwsIdString, out int mwsId))
+                MwsId = mwsId;
 
             string version = doc.Root.Element("version")?.Value;
             if (version != null && Version.TryParse(version, out Version parsedVersion))
@@ -136,6 +143,9 @@ namespace PitCrewCommon.Models
 
             if (installed)
                 root.Add(new XElement("installTime", InstallTime));
+            
+            if (installed && MwsId != -1)
+                root.Add(new XElement("mws-id", MwsId));
 
             root.Add(new XElement("compiledVersion", ManifestUtil.FormatVersion()));
             root.Add(new XElement("version", Version));

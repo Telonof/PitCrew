@@ -73,19 +73,29 @@ namespace PitCrewCommon.Utilities
         }
 
         /// <summary>
-        /// Returns 0 if input is equal.<br></br>
-        /// Returns 1 if input is higher.<br></br>
-        /// Returns -1 is input is lower.
+        /// Returns 0 if program version is equal to input.<br></br>
+        /// Returns 1 if program version is higher than input.<br></br>
+        /// Returns -1 if program version is lower than input.
         /// </summary>
         public static int CompareVersion(string inputVersion)
         {
-            if (string.IsNullOrWhiteSpace(inputVersion))
-                return -1;
+            return CompareVersion(FormatVersion(), FormatVersion(inputVersion));
+        }
 
-            Version currentVersion = Version.Parse(FormatVersion());
-            Version test = Version.Parse(FormatVersion(inputVersion));
+        /// <summary>
+        /// Returns 0 if a is equal to b.<br></br>
+        /// Returns 1 if a is higher than b.<br></br>
+        /// Returns -1 if a is lower than b.
+        /// </summary>
+        public static int CompareVersion(string a, string b)
+        {
+            if (string.IsNullOrWhiteSpace(a) || string.IsNullOrWhiteSpace(b))
+                return 0;
+            
+            Version vA = Version.Parse(a);
+            Version vB = Version.Parse(b);
 
-            return currentVersion.CompareTo(test);
+            return vA.CompareTo(vB);
         }
     }
 }

@@ -170,7 +170,7 @@ namespace PitCrew.ViewModels
                 return;
             }
 
-            ImportMod("", mdatas, waitDialog, zipTempFolder);
+            ImportMod("", mdatas, waitDialog, zipTempFolder, id);
         }
 
         public async void InstanceWindow()
@@ -316,7 +316,7 @@ namespace PitCrew.ViewModels
             }
         }
 
-        public async void ImportMod(string path, string[]? files = null, MessageBoxViewModel? waitDialog = null, string zipTempFolder = "")
+        public async void ImportMod(string path, string[]? files = null, MessageBoxViewModel? waitDialog = null, string zipTempFolder = "", int modId = -1)
         {
             if (LoadedInstance == null)
             {
@@ -377,6 +377,9 @@ namespace PitCrew.ViewModels
                 }
 
                 mod.LoadFromMData(file, true);
+                if (modId != -1)
+                    mod.Metadata.MwsId = modId;
+                
                 ModGUI modGUI = new ModGUI(mod);
 
                 if (existingMod != null)
@@ -385,19 +388,18 @@ namespace PitCrew.ViewModels
                     existingMod.Name = modGUI.Name;
                     existingMod.Author = modGUI.Author;
                     existingMod.Description = modGUI.Description;
+                    
+                    if (modGUI.BaseModel.Metadata.MwsId != -1)
+                        existingMod.BaseModel.Metadata.MwsId = modGUI.BaseModel.Metadata.MwsId;
                 }
                 else
                 {
-                    GroupGUI? group;
-
-                    if (SelectedItem is GroupGUI selectedGroup)
-                        group = selectedGroup;
-
-                    else if (SelectedItem is ModGUI selectedMod)
-                        group = LoadedInstance.GetGroup(selectedMod);
-
-                    else
-                        group = LoadedInstance.GetDefaultGroup();
+                    GroupGUI? group = SelectedItem switch
+                    {
+                        GroupGUI selectedGroup => selectedGroup,
+                        ModGUI selectedMod => LoadedInstance.GetGroup(selectedMod),
+                        _ => LoadedInstance.GetDefaultGroup()
+                    };
 
                     group?.ModsGUI.Insert(0, modGUI);
                 }
