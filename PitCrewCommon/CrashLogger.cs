@@ -29,7 +29,7 @@ public class CrashLogger
         
         string[] crashLog = new string[6];
         DateTime currentTime = DateTime.Now;
-        string fileName = $"pitcrew-crash-{currentTime.ToString("yyyyMMddHH-mm-ss")}.txt";
+        string fileName = $"pitcrew-crash-{currentTime.ToString("yyyyMMdd-HH-mm-ss")}.txt";
 
         crashLog[0] = "CRASHDUMP";
         crashLog[1] = $"Version: {Constants.VERSION}";

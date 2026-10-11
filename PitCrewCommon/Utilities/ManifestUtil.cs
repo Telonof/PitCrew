@@ -66,10 +66,13 @@ namespace PitCrewCommon.Utilities
 
         public static string FormatVersion(string version = Constants.VERSION)
         {
-            int extraInfoIndex = version.IndexOf('-') + 1;
+            int extraInfoIndex = Math.Max(0, version.IndexOf('-'));
             int start = version.StartsWith('v') ? 1 : 0;
+            
+            if (extraInfoIndex == 0 && start == 1)
+                extraInfoIndex = start;
 
-            return version[start..^extraInfoIndex];
+            return version.Substring(start, version.Length - extraInfoIndex);
         }
 
         /// <summary>
