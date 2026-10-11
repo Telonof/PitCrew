@@ -17,7 +17,7 @@ namespace PitCrewCommon.Models
 
         public string CompiledVersion { get; set; }
 
-        public Version Version { get; set; } = Version.Parse("0.0.0");
+        public Version? Version { get; set; }
 
         public long InstallTime { get; set; }
 
@@ -148,7 +148,8 @@ namespace PitCrewCommon.Models
                 root.Add(new XElement("mws-id", MwsId));
 
             root.Add(new XElement("compiledVersion", ManifestUtil.FormatVersion()));
-            root.Add(new XElement("version", Version));
+            if (Version != null && !Version.Equals(new Version(0, 0, 0)))
+                root.Add(new XElement("version", Version));
 
             //Get Files
             XElement files = new XElement("files");

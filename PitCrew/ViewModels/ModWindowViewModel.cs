@@ -40,10 +40,10 @@ namespace PitCrew.ViewModels
             Author = modGUI.Author;
             Description = modGUI.Description;
             
-            Version version = modGUI.Version;
-            MajorRev = version.Major.ToString();
-            MinorRev = version.Minor.ToString();
-            BuildRev = version.Build.ToString();
+            Version? version = modGUI.Version;
+            MajorRev = version != null ? version.Major.ToString() : "0";
+            MinorRev = version != null ? version.Minor.ToString() : "0";
+            BuildRev = version != null ? version.Build.ToString() : "0";
         }
 
         public void Submit()
