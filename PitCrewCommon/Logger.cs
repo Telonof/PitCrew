@@ -6,6 +6,7 @@ namespace PitCrewCommon
     {
         public static ObservableCollection<string> Logs { get; set; } = [];
 
+        
         public static void WriteAndFlush()
         {
             Write();
@@ -22,7 +23,7 @@ namespace PitCrewCommon
             DateTime time = DateTime.Now;
             string customTime = time.ToString("HH:mm:ss");
             message = $"[{customTime}] {message}";
-
+            
             Logs.Add(message);
             Console.WriteLine(message);
             Console.ResetColor();
@@ -38,7 +39,6 @@ namespace PitCrewCommon
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Print($"ERR{errorNumber}: {message}");
-            Write();
         }
 
         public static void EraseLog()
