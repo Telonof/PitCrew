@@ -41,14 +41,18 @@ namespace PitCrewCompiler
                 for (int i = 0; i < mod.ModFiles.Count; i++)
                 {
                     ModFile file = new ModFile(mod.ModFiles[i]);
-                    if (file.Priority == 998)
-                        file.Priority = Math.Max(11, priority);
-
-                    if (file.Priority == 997)
-                        file.Priority = Math.Max(11, priority - 1);
-
-                    if (file.Priority == 9)
-                        file.ShaderPriority = Math.Min(9, shaderPriority);
+                    switch (file.Priority)
+                    {
+                        case 998:
+                            file.Priority = Math.Max(11, priority);
+                            break;
+                        case 997:
+                            file.Priority = Math.Max(11, priority - 1);
+                            break;
+                        case 9:
+                            file.ShaderPriority = Math.Min(9, shaderPriority);
+                            break;
+                    }
 
                     modFiles.Add(file);
                 }
@@ -97,7 +101,7 @@ namespace PitCrewCompiler
         {
             _ = new StartupInserter(Instance.GetDirectory(), StartupMods);
             XmlMods = XmlMods.OrderByDescending(mod => mod.Priority).ToList();
-            FileMerger inserter = new FileMerger(Instance.GetDirectory(), XmlMods, modIds);
+            _ = new FileMerger(Instance.GetDirectory(), XmlMods, modIds);
             if (XmlMods.Count > 0)
                 FilesinfosMods.Add(new ModFile(XmlMods[0].ParentMod, "mods/PitCrewBase", 9));
 
