@@ -44,10 +44,18 @@
 			</ListBox.Styles>
 		</ListBox>
 
-		<Button HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Bottom" Height="50" Content="{Binding Source='modedit.create', Converter={StaticResource Translatable}}" Margin="20,10" Command="{Binding Create}" />
+		<Button HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Bottom" Height="50" Margin="20,10" Command="{Binding Create}">
+			<Viewbox Stretch="Uniform">
+				<TextBlock Text="{Binding Source='modedit.create', Converter={StaticResource Translatable}}" />
+			</Viewbox>
+		</Button>
 
 
-		<Button HorizontalAlignment="Center" Grid.Row="2" Content="{Binding Source='changegroup.button', Converter={StaticResource Translatable}}" Margin="10" Command="{Binding Confirm}" />
+		<Button HorizontalAlignment="Center" Grid.Row="2" Margin="10" Command="{Binding Confirm}">
+			<Viewbox Stretch="Uniform">
+				<TextBlock Text="{Binding Source='changegroup.button', Converter={StaticResource Translatable}}" />
+			</Viewbox>
+		</Button>
 
 	</Grid>
 </Window>

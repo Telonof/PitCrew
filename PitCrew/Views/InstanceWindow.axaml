@@ -27,7 +27,11 @@
 
         <TextBlock Grid.Row="0" FontSize="20" Text="{Binding Source='instances.header', Converter={StaticResource Translatable}}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10" />
 
-        <Button Name="AddInstanceButton" Width="150" Height="50" Grid.Row="0" Content="{Binding Source='button.add', Converter={StaticResource Translatable}}" HorizontalAlignment="Right" Margin="10" Command="{Binding AddInstanceButton}" />
+        <Button Name="AddInstanceButton" Width="150" Height="50" Grid.Row="0" HorizontalAlignment="Right" Margin="10" Command="{Binding AddInstanceButton}">
+            <Viewbox Stretch="Uniform">
+                <TextBlock Text="{Binding Source='button.add', Converter={StaticResource Translatable}}" />
+            </Viewbox>
+        </Button>
         
         <ListBox Name="InstanceList" Grid.Row="1" Margin="10" BorderBrush="Gray" BorderThickness="1" DragDrop.AllowDrop="True" ItemsSource="{Binding Instances}" SelectedItem="{Binding HighlightedInstance, Mode=TwoWay}">
             <ListBox.ContextMenu>

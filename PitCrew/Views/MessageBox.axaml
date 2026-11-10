@@ -17,8 +17,16 @@
         <TextBlock Name="InfoText" Text="{Binding Message}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30,10,30,10" />
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10">
-            <Button Name="ConfirmButton" Content="{Binding OkButtonText}" IsDefault="True" MinWidth="90" MinHeight="50" Margin="10" Command="{Binding Confirm}" IsVisible="{Binding OkVisible}" />
-            <Button Name="CancelButton" Content="{Binding CancelButtonText}" IsCancel="True" MinWidth="90" MinHeight="50" Margin="10" Command="{Binding Cancel}" IsVisible="{Binding CancelVisible}" />
+            <Button Name="ConfirmButton" IsDefault="True" MinWidth="90" MinHeight="50" Margin="10" Command="{Binding Confirm}" IsVisible="{Binding OkVisible}">
+	            <Viewbox Stretch="Uniform">
+		            <TextBlock Text="{Binding OkButtonText}" />
+	            </Viewbox>
+            </Button>
+            <Button Name="CancelButton" IsCancel="True" MinWidth="90" MinHeight="50" Margin="10" Command="{Binding Cancel}" IsVisible="{Binding CancelVisible}">
+	            <Viewbox Stretch="Uniform">
+		            <TextBlock Text="{Binding CancelButtonText}" />
+	            </Viewbox>
+            </Button>
         </StackPanel>
     </StackPanel>
 

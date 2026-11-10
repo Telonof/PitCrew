@@ -24,6 +24,8 @@ namespace PitCrewCommon.Models
         public int MwsId { get; set; } = -1;
 
         public List<string[]> FoundModInfo { get; set; } = [];
+        
+        private static readonly Version ZeroVersion = new Version(0, 0, 0);
 
         
         public Metadata(string location)
@@ -148,7 +150,7 @@ namespace PitCrewCommon.Models
                 root.Add(new XElement("mws-id", MwsId));
 
             root.Add(new XElement("compiledVersion", ManifestUtil.FormatVersion()));
-            if (Version != null && !Version.Equals(new Version(0, 0, 0)))
+            if (Version != null && !Version.Equals(ZeroVersion))
                 root.Add(new XElement("version", Version));
 
             //Get Files

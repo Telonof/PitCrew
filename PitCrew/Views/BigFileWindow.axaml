@@ -37,7 +37,11 @@
             </StackPanel>
         </Grid>
 
-        <Button Name="SubmitButton" Content="{Binding UI.SubmitButtonText}" Margin="0,20,0,0" Width="110" Height="50" HorizontalAlignment="Center" Command="{Binding Submit}" />
+        <Button Name="SubmitButton" Margin="0,20,0,0" Width="110" Height="50" HorizontalAlignment="Center" Command="{Binding Submit}">
+            <Viewbox Stretch="Uniform">
+                <TextBlock Text="{Binding UI.SubmitButtonText}" />
+            </Viewbox>
+        </Button>
     </StackPanel>
     
 </Window>

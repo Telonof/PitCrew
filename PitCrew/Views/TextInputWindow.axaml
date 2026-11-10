@@ -22,7 +22,11 @@
 				<FocusControlBehavior FocusFlag="true" />
 			</Interaction.Behaviors>
 		</TextBox>
-        <Button Name="SubmitButton" Content="{Binding Source='button.ok', Converter={StaticResource Translatable}}" Width="110" Height="50" IsDefault="True" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding Submit}" />
+        <Button Name="SubmitButton" Width="110" Height="50" IsDefault="True" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding Submit}">
+	        <Viewbox Stretch="Uniform">
+		        <TextBlock Text="{Binding Source='button.ok', Converter={StaticResource Translatable}}" />
+	        </Viewbox>
+        </Button>
     </StackPanel>
 
 </Window>
