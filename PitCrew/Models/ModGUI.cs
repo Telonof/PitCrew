@@ -28,7 +28,7 @@ namespace PitCrew.Models
         public string description;
         
         [ObservableProperty]
-        public Version version;
+        public Version? version;
 
         [ObservableProperty]
         public bool visible = true;
@@ -87,7 +87,7 @@ namespace PitCrew.Models
             {
                 if (file.Priority == 0)
                     continue;
-
+                
                 BaseModel.ModFiles.Add(new ModFile(this.BaseModel, file.Location, file.Priority));
             }
         }

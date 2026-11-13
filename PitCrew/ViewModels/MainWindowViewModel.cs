@@ -230,12 +230,14 @@ namespace PitCrew.ViewModels
                 if (id.Length > longestId)
                     longestId = id.Length;
 
-                modList[i] = $"{(m.Enabled ? "O" : "X")}  {m.BaseModel.Id}";
+                modList[i] = $"{(m.Enabled ? "O" : "-")}  {m.BaseModel.Id}";
             }
 
             for (int i = 0; i < mods.Count; i++)
             {
                 modList[i] = $"{modList[i]}  {mods[i].Name.PadLeft(mods[i].Name.Length + longestId - mods[i].BaseModel.Id.Length)}";
+                if (mods[i].Version != null)
+                    modList[i] += $" v{mods[i].Version}";
             }
 
             File.WriteAllLines("pitcrew-modlist.txt", modList);
