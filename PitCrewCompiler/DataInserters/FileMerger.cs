@@ -10,7 +10,7 @@ namespace PitCrewCompiler.DataInserters
 {
     internal class FileMerger
     {
-        private readonly string[] LocalizationFolders = ["pc_steam_ww", "pc_ww", "pc_steam_rus", "pc_rus"];
+        private readonly string[] LocalizationFolders = ["pc_steam_ww", "pc_ww", "pc_steam_rus", "pc_rus", "orbis_scee", "orbis_scea", "X360_WW"];
         private readonly string[] Patches = ["", "_patch", "_patch_1"];
 
         private readonly string OutputFile = "mods/PitCrewBase.fat";
@@ -98,7 +98,7 @@ namespace PitCrewCompiler.DataInserters
             bool isCrew1 = PackageVersion == 5;
             try
             {
-                doc = XDocument.Load(Path.Combine(GameDirectory, modFile.Location));
+                doc = XDocument.Load(Path.Combine(GameDirectory, modFile.Location), LoadOptions.SetLineInfo);
             }
             catch (XmlException e)
             {
@@ -182,6 +182,7 @@ namespace PitCrewCompiler.DataInserters
         private void MergeFCBs(Dictionary<string, Dictionary<XmlFile, bool>> mergingFcbs, HashSet<string> modIds)
         {
             BinaryObjectMerger merger = new BinaryObjectMerger(modIds);
+            int logId = 0;
 
             //First we need to see if we are using the server binary and clone the file from the assets folder if yes.
             if (ServerDataUsed)
@@ -200,11 +201,12 @@ namespace PitCrewCompiler.DataInserters
 
                 foreach (XmlFile subKey in mergingFcbs[key].Keys)
                 {
+                    logId++;
                     //Only allow files that were added by the user to count as progress, not the localization files added automatically.
                     if (mergingFcbs[key][subKey])
                     {
                         PercentageCalculator.IncrementProgress();
-                        Logger.Print(string.Format(Translatable.Get("compiler.merging-file"), Path.GetFileName(subKey.Location), Path.GetFileName(key)));
+                        Logger.Print(string.Format($"[{logId}]: {Translatable.Get("compiler.merging-file")}", Path.GetFileName(subKey.Location), Path.GetFileName(key)));
                     }
 
                     try
@@ -213,7 +215,9 @@ namespace PitCrewCompiler.DataInserters
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error(112, string.Format(Translatable.Get("parser.bad-file"), Path.GetFileName(subKey.Location)));
+                        Logger.Error(112, string.Format(Translatable.Get("parser.bad-file"), Path.GetFileName(subKey.Location))
+                        + Environment.NewLine
+                        + $"{ex.Message}: {ex.StackTrace}");
                     }
                 }
 

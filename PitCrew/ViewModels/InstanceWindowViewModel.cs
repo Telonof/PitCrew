@@ -15,6 +15,9 @@ namespace PitCrew.ViewModels
     internal partial class InstanceWindowViewModel : ViewModelBase
     {
         private MainWindowViewModel MainWindow;
+        
+        private static readonly string[] DataFolders = ["win32", "durango", "xenon", "orbis"];
+
 
         [ObservableProperty]
         public ObservableCollection<InstanceGUI> instances;
@@ -36,7 +39,7 @@ namespace PitCrew.ViewModels
             var files = await Service.WindowManager.OpenFileDialogAsync(this,
                                                                         Translatable.Get("instances.selectexe.title"),
                                                                         Translatable.Get("instances.selectexe.filter"),
-                                                                        ["*.exe"]);
+                                                                        ["*.exe", "*.bin", "*.xex"]);
 
             if (files.Count == 0)
                 return;
@@ -52,9 +55,10 @@ namespace PitCrew.ViewModels
                 return;
 
             string path = Path.GetDirectoryName(item.Path.LocalPath);
-            string combinedpath = Path.Combine(path, "data_win32");
 
-            if (!Directory.Exists(combinedpath))
+            string dataFolder = DataFolders.FirstOrDefault(dir => Directory.Exists(Path.Combine(path, $"data_{dir}")));
+            string combinedpath = Path.Combine(path, $"data_{dataFolder}");
+            if (string.IsNullOrWhiteSpace(dataFolder) || !Directory.Exists(combinedpath))
             {
                 await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("instances.invalid-exe")));
                 return;
