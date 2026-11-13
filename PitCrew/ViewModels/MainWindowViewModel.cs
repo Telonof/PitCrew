@@ -176,21 +176,29 @@ namespace PitCrew.ViewModels
         public async void InstanceWindow()
         {
             var model = new InstanceWindowViewModel(this);
+            string errorReason = "instances.corrupted";
+            
             await Service.WindowManager.ShowDialog(this, model);
             if (!model.LoadingInstance)
                 return;
 
             LoadedInstance = model.HighlightedInstance;
-            if (!LoadInstance())
-                await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get("instances.corrupted")));
+            int errorCode = LoadInstance();
+
+            if (errorCode == 212)
+                errorReason = "instances.invalid-manifest";
+            
+            if (errorCode != 0)
+                await Service.WindowManager.ShowDialog(this, new MessageBoxViewModel(Translatable.Get(errorReason)));
         }
 
-        private bool LoadInstance()
+        private int LoadInstance()
         {
-            if (!LoadedInstance.LoadFromXML())
+            int errCode = LoadedInstance.LoadFromXML();
+            if (errCode != 0)
             {
                 LoadedInstance = null;
-                return false;
+                return errCode;
             }
 
             if (LoadedInstance.GroupsGUI.Count == 0)
@@ -207,7 +215,7 @@ namespace PitCrew.ViewModels
                 UI.ModListBorderColor = "Red";
             }
 
-            return true;
+            return 0;
         }
 
         /*Specifically makes it easier to share with others your mod list without having to take 300 screenshots.*/

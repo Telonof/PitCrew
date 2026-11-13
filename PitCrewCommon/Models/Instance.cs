@@ -16,10 +16,16 @@ namespace PitCrewCommon.Models
             Location = path;
         }
 
-        public bool LoadFromXML(bool cli = false)
+        public int LoadFromXML(bool cli = false)
         {
             string root = FileUtil.GetParentDir(GetDirectory());
 
+            if (!Directory.Exists(GetDirectory()))
+            {
+                Logger.Error(212, Translatable.Get("instances.invalid-manifest"));
+                return 212;
+            }
+            
             if (!File.Exists(Location) || new FileInfo(Location).Length < 1)
                 GenerateDummy();
 
@@ -32,7 +38,7 @@ namespace PitCrewCommon.Models
             {
                 Logger.Error(209, Translatable.Get("instances.corrupted"));
                 Logger.Error(209, e.Message);
-                return false;
+                return 209;
             }
             
             IsCLI = cli;
@@ -61,7 +67,7 @@ namespace PitCrewCommon.Models
             if (defaultGroup.Mods.Count > 0)
                 Groups.Add(defaultGroup);
 
-            return true;
+            return 0;
         }
 
         public void SaveToXML()

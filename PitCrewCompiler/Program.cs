@@ -29,7 +29,7 @@ namespace PitCrewCompiler
 
             //Load instance first to grab package version.
             Instance instance = new Instance(args[0]);
-            if (!instance.LoadFromXML(true))
+            if (instance.LoadFromXML(true) != 0)
                 return;
 
             if (FileUtil.ProcessRunning(Path.GetDirectoryName(args[0]), instance.PackageVersion))

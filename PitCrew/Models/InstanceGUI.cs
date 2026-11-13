@@ -27,11 +27,11 @@ namespace PitCrew.Models
             Location = instance.Location;
         }
 
-        public bool LoadFromXML()
+        public int LoadFromXML()
         {
-            bool successfulLoad = BaseModel.LoadFromXML();
+            int errorCode = BaseModel.LoadFromXML();
             GroupsGUI = new ObservableCollection<GroupGUI>(BaseModel.Groups.Select(group => new GroupGUI(group)));
-            return successfulLoad;
+            return errorCode;
         }
 
         public void SaveToXML()
