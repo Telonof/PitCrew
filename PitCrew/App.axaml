@@ -22,14 +22,6 @@
             <Setter Property="MinHeight" Value="20" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
-			<!--This is to let text scale with the button, useful for multiple languages-->
-			<Setter Property="ContentTemplate">
-				<DataTemplate>
-					<Viewbox Stretch="Uniform">
-						<TextBlock Text="{Binding}" />
-					</Viewbox>
-				</DataTemplate>
-			</Setter>
         </Style>
     </Application.Styles>
 

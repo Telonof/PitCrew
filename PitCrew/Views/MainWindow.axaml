@@ -179,8 +179,16 @@
 						<RepeatButton Name="MoveModDown" Content="∨" Height="30" MinWidth="40" BorderThickness="1" Padding="0,0,0,2" Background="Transparent" Delay="200" Interval="200" Command="{Binding ListBox.MoveItemDown}"/>
 					</StackPanel>
 					
-					<Button Grid.Column="1" Name="SaveButton" HorizontalAlignment="Center" Content="{Binding Source='button.save', Converter={StaticResource Translatable}}" Command="{Binding Save}"/>
-					<Button Grid.Column="2" Name="CompileButton" HorizontalAlignment="Center" Margin="0,0,50,0" Content="{Binding Source='button.compile', Converter={StaticResource Translatable}}" Command="{Binding Compile}"/>
+					<Button Grid.Column="1" Name="SaveButton" HorizontalAlignment="Center" Command="{Binding Save}">
+						<Viewbox Stretch="Uniform">
+							<TextBlock Text="{Binding Source='button.save', Converter={StaticResource Translatable}}" />
+						</Viewbox>
+					</Button>
+					<Button Grid.Column="2" Name="CompileButton" HorizontalAlignment="Center" Margin="0,0,50,0" Command="{Binding Compile}">
+						<Viewbox Stretch="Uniform">
+							<TextBlock Text="{Binding Source='button.compile', Converter={StaticResource Translatable}}" />
+						</Viewbox>
+					</Button>
 				</Grid>
 			</Grid>
 		</Grid>
