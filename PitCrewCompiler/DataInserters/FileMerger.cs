@@ -199,6 +199,8 @@ namespace PitCrewCompiler.DataInserters
                 bof.Deserialize(stream);
                 stream.Close();
 
+                merger.InsertAllIds(key, bof.Root);
+
                 foreach (XmlFile subKey in mergingFcbs[key].Keys)
                 {
                     logId++;
@@ -211,7 +213,7 @@ namespace PitCrewCompiler.DataInserters
 
                     try
                     {
-                        bof.Root = merger.Merge(bof.Root, subKey.XmlData);
+                        bof.Root = merger.Merge(bof.Root, subKey.XmlData, key, logId);
                     }
                     catch (Exception ex)
                     {
