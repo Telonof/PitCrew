@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<instance packageversion="5">
+    <mod id="fcbntest" enabled="true">
+        <file priority="997" loc="mods/lowpritest.xml" />
+        <file priority="998" loc="mods/binarytest.xml" />
+    </mod>
+</instance>

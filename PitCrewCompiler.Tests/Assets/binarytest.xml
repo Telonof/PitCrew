@@ -1,0 +1,113 @@
+<root file="entity/generated/archetypes.entities.bin">
+    <variables>
+        <mi type="BinHex">00</mi>
+        <check type="Boolean">true</check>
+    </variables>
+    
+    <add depth="root">
+        <object name="Entity">
+            <field name="ID" type="Int64">99999999999</field>
+            <field name="FatherArchetypeID" type="Int64">-1</field>
+        </object>
+        <object name="Entity">
+            <field name="ID" type="Int64">99999999991</field>
+            <field name="FatherArchetypeID" type="Int64">-1</field>
+            <object name="Fun">
+                <field name="Mi" type="BinHex">0000803F</field>
+            </object>
+        </object>
+        <!--Auto merging with above-->
+        <object name="Entity">
+            <field name="ID" type="Int64">99999999991</field>
+            <object name="Fun2">
+                <field name="Mi" type="BinHex">0000803F</field>
+            </object>
+        </object>
+
+        <object name="Entity">
+            <field name="ID" type="Int64">99999999992</field>
+            <object name="Fun2">
+                <field name="Mi" type="BinHex">0000803F</field>
+            </object>
+        </object>
+    </add>
+
+    <add modded="1" id="99999999999">
+        <object name="Fun3">
+            <field name="Mi" type="BinHex">0000803F</field>
+        </object>
+    </add>
+
+    <add modded="1" id="99999999999" depth="0">
+        <object name="Subfun3">
+            <field name="Mi" type="BinHex">0000803F</field>
+        </object>
+    </add>
+    
+    <edit depth="82498:0:0:0:0:0">
+        <!--Editing existing value-->
+        <field name="Value" type="Float32">0.315</field>
+        <!--Making new value-->
+        <field name="Value2" type="Float32">0.315</field>
+        <!--Deleting existing field-->
+        <field name="Coeff" type="BinHex" />
+    </edit>
+    
+    <!--Testing id + depth combo-->
+    <edit id="0xD6C4850700000000" depth="0:0:1:0:0">
+        <field name="ContainedItemsListValue" type="BinHex">FFFFFFFFFFFFFFFF</field>
+    </edit>
+
+    <!--Testing nested objects-->
+    <edit id="0xD6C4850700000000">
+        <object depth="0">
+            <field name="PhysParamDistribution" type="BinHex" />
+        </object>
+        <!--Should fail-->
+        <object depth="4">
+            <field name="NewVar" type="Int32">1</field>
+        </object>
+        <!--Should add a new obj-->
+        <object name="NewPuzzle">
+            <field name="PhysParamDistribution" type="BinHex">FFFFFFFFFFFFFFFF</field>
+        </object>
+        <object depth="0">
+            <object name="UserDatasSection">
+                <object name="UserDatasCoreSlot" depth="0">
+                    <field name="CheckIds" type="Variable">check</field>
+                </object>
+            </object>
+        </object>
+    </edit>
+    
+    <!--Edit modded obj-->
+    <edit modded="1" id="99999999991">
+        <object name="Fun2">
+            <field name="Mi" type="Variable">mi</field>
+        </object>
+        <object name="Fun4">
+            <field name="Mi" type="BinHex">00000000</field>
+        </object>
+    </edit>
+    
+    <editall id="0x0C0E870700000000">
+        <field name="ContainedItemsListValue" type="BinHex">FFFFFFFFFFFFFFFF</field>
+        <!--Should not add-->
+        <object name="Fun2">
+            <field name="Mi" type="BinHex">00000000</field>
+        </object>
+    </editall>
+    
+    <delete depth="2557" />
+    <delete depth="2558:0" />
+    <delete id="0x18BB940700000000" />
+    <delete modded="1" id="99999999992" />
+    <delete id="0x1CBB940700000000" depth="0:1" />
+
+    <delete id="0xE326840700000000">
+        <object name="Emitter" />
+        <object name="Generic">
+            <object depth="1" />
+        </object>
+    </delete>
+</root>

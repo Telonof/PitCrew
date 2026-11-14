@@ -1,0 +1,21 @@
+<root file="entity/generated/archetypes.entities.bin">
+    <add depth="root">
+        <!--Should merge-->
+        <object name="Entity">
+            <field name="ID" type="Int64">99999999991</field>
+            <object name="Fun3">
+                <field name="Mi2" type="BinHex">0000803F</field>
+            </object>
+        </object>
+        <object name="Entity">
+            <field name="ID" type="Int64">99999999993</field>
+            <object name="Fun3">
+                <field name="Mi2" type="BinHex">0000803F</field>
+            </object>
+        </object>
+    </add>
+
+    <edit depth="82498:0:0:0:0:0">
+        <field name="Value2" type="Float32">0.5</field>
+    </edit>
+</root>
