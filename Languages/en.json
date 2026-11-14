@@ -27,6 +27,9 @@
     "filelist.filepath": "File Path",
     "filelist.priority": "Priority",
 
+    "variables.name": "Variable Name",
+    "variables.value": "Value",
+
     "files.unpack": "Unpacking, please wait...",
     "files.pack": "Packing files, please wait...",
     "files.not-in-game-folder": "File was not inside data_win32 folder.",

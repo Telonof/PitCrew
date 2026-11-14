@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Avalonia.Threading;
 
 namespace PitCrew.ViewModels
 {
@@ -35,6 +36,9 @@ namespace PitCrew.ViewModels
 
         [ObservableProperty]
         public ObservableObject? selectedItem;
+
+        [ObservableProperty]
+        public ObservableCollection<ModVariableGUI> selectedUserVariables = [];
 
         [ObservableProperty]
         public ObservableCollection<ModFileGUI>? modFileList;
@@ -568,6 +572,26 @@ namespace PitCrew.ViewModels
 
             UI.ConflictBoxText = specialFiles + conflictBoxMessage;
             ModFileList = mod.ModFilesGUI;
+            
+            SelectedUserVariables.Clear();
+            foreach (ModVariableGUI variable in ModFileList.SelectMany(fileList => fileList.UserVariables))
+                SelectedUserVariables.Add(variable);
+        }
+
+        public void RefreshModVariables()
+        {
+            if (SelectedItem is not ModGUI mod)
+                return;
+            
+            SelectedUserVariables.Clear();
+
+            Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                mod.RefreshModVariables();
+            
+                foreach (ModVariableGUI variable in ModFileList.SelectMany(fileList => fileList.UserVariables))
+                    SelectedUserVariables.Add(variable);
+            });
         }
 
         public void LogWindow()

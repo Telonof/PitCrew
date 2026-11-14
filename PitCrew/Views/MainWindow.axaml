@@ -149,13 +149,16 @@
 			
 			<Grid Grid.RowSpan="3" Grid.Column="2">
 				<Grid.RowDefinitions>
-					<RowDefinition Height="0.6*"/>
+					<RowDefinition Height="0.7*"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
 					<RowDefinition Height="Auto"/>
 					<RowDefinition Height="0.2*"/>
 					<RowDefinition Height="0.2*" MaxHeight="100" MinHeight="100"/>
 				</Grid.RowDefinitions>
 				
-				<DataGrid Name="FileList" VerticalAlignment="Stretch" Grid.Row="0" Margin="0,50,20,0" Classes="rtl" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding ModFileList}" AutoGenerateColumns="False" DragDrop.AllowDrop="True">
+				<DataGrid Name="FileList" VerticalAlignment="Stretch" Grid.Row="0" Margin="0,50,20,0" Classes="rtl" BorderBrush="Gray" BorderThickness="1" ItemsSource="{Binding ModFileList}"
+				          AutoGenerateColumns="False" DragDrop.AllowDrop="True" GridLinesVisibility="All">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="{Binding Source='filelist.filepath', Converter={StaticResource Translatable}}" Binding="{Binding Location, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="8*"/>
 						<DataGridTextColumn Header="{Binding Source='filelist.priority', Converter={StaticResource Translatable}}" Binding="{Binding Priority, Mode=TwoWay, UpdateSourceTrigger=Explicit}"/>
@@ -168,12 +171,31 @@
 				
 				<GridSplitter Grid.Row="1" Height="20" Margin="0,0,20,0" Background="Transparent" ResizeDirection="Rows" ResizeBehavior="BasedOnAlignment" VerticalAlignment="Stretch"/>
 				
+				<Grid Grid.Row="2" Margin="0,0,20,0">
+					
+					<DataGrid BorderBrush="Gray" BorderThickness="1" GridLinesVisibility="All"
+					          ItemsSource="{Binding SelectedUserVariables}" AutoGenerateColumns="false"
+					          CanUserResizeColumns="true">
+						<DataGrid.Columns>
+								<DataGridTextColumn Header="{Binding Source='variables.name', Converter={StaticResource Translatable}}" Binding="{Binding Name}" Width="1*" IsReadOnly="True" />
+								<DataGridTextColumn Header="{Binding Source='variables.value', Converter={StaticResource Translatable}}" Binding="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=Explicit}" Width="*" />
+						</DataGrid.Columns>
+					</DataGrid>
+					
+					<Button HorizontalAlignment="Right" VerticalAlignment="Bottom" MaxWidth="35" MinWidth="0" MinHeight="0" MaxHeight="35"
+					        Command="{Binding RefreshModVariables}">
+						<Image Source="avares://PitCrew/Assets/refresh_icon.png" Stretch="UniformToFill"/>
+					</Button>
+				</Grid>
+				
+				<GridSplitter Grid.Row="3" Height="20" Margin="0,0,20,0" Background="Transparent" ResizeDirection="Rows" ResizeBehavior="BasedOnAlignment" VerticalAlignment="Stretch"/>
+
 				<!--Why does text block not have the same border controls is beyond me.-->
-				<Border Grid.Row="2" BorderBrush="Gray" VerticalAlignment="Stretch" BorderThickness="2" Margin="0,0,20,0">
+				<Border Grid.Row="4" BorderBrush="Gray" VerticalAlignment="Stretch" BorderThickness="2" Margin="0,0,20,0">
 					<TextBlock Name="ConflictBox" Text="{Binding UI.ConflictBoxText}" TextWrapping="Wrap" Classes="rtl"/>
 				</Border>
 				
-				<Grid Grid.Row="3" ColumnSpacing="20" ColumnDefinitions="0.03*,0.05*,0.1*" Margin="0,10,0,30" VerticalAlignment="Stretch">
+				<Grid Grid.Row="5" ColumnSpacing="20" ColumnDefinitions="0.03*,0.05*,0.1*" Margin="0,10,0,30" VerticalAlignment="Stretch">
 					<StackPanel Grid.Column="0" Orientation="Vertical" Spacing="5" HorizontalAlignment="Left" VerticalAlignment="Center">
 						<RepeatButton Name="MoveModUp" Content="∧" Height="30" MinWidth="40" BorderThickness="1" Padding="0,0,0,2" Background="Transparent" Delay="200" Interval="200" Command="{Binding ListBox.MoveItemUp}"/>
 						<RepeatButton Name="MoveModDown" Content="∨" Height="30" MinWidth="40" BorderThickness="1" Padding="0,0,0,2" Background="Transparent" Delay="200" Interval="200" Command="{Binding ListBox.MoveItemDown}"/>

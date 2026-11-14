@@ -66,6 +66,14 @@ namespace PitCrew.Models
             ModFilesGUI.Add(modFile);
         }
 
+        public void RefreshModVariables()
+        {
+            foreach (ModFileGUI file in ModFilesGUI)
+            {
+                file.RefreshVariables();
+            }
+        }
+
         public Metadata? InsertFile(ModFileGUI insertedModFile)
         {
             insertedModFile.PropertyChanged += ModFileChanged;

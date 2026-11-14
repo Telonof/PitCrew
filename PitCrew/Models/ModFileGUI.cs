@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using PitCrew.Systems;
 using PitCrew.ViewModels;
 using PitCrewCommon;
@@ -7,6 +8,7 @@ using PitCrewCommon.Utilities;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace PitCrew.Models
 {
@@ -14,14 +16,19 @@ namespace PitCrew.Models
     {
         [ObservableProperty]
         public string location;
+        
         [ObservableProperty]
         public int priority;
+
+        [ObservableProperty]
+        public ObservableCollection<ModVariableGUI> userVariables = [];
 
         private int PreviousPriority;
 
         public string PreviousLocation { get; set; }
 
         public bool ToDelete { get; set; } = false;
+        
 
         public ModFileGUI(ModFile file) : base(file)
         {
@@ -29,6 +36,25 @@ namespace PitCrew.Models
             priority = file.Priority;
             PreviousLocation = file.Location;
             PreviousPriority = file.Priority;
+            RefreshVariables();
+        }
+
+        public void RefreshVariables()
+        {
+            if (!Location.EndsWith(".xml"))
+                return;
+            
+            string fullLocationPath = Path.Combine(BaseModel.ParentMod.ParentInstance.GetDirectory(), Location);
+            UserVariables.Clear();
+
+            XDocument doc = XDocument.Load(fullLocationPath);
+            if (doc.Root.Element("variables") == null)
+                return;
+
+            foreach (XElement userVariable in doc.Root.Element("variables").Elements())
+            {
+                UserVariables.Add(new ModVariableGUI(userVariable.Name.LocalName, userVariable.Value, fullLocationPath));
+            }
         }
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)
