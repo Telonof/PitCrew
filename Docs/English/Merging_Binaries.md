@@ -124,7 +124,7 @@ The modded tag can be applied to any command but is not required.
 ### Required Mods Tag
 In the editall command example, there is a required_mods tag. When applied, the command will only work if all mod id's are being loaded on compile. Each mod is separated by a space, so in the example above ExampleMod1 and ExampleMod2 both have to be enabled on compile for that command to function.
 
-> [!INFO]
+> [!NOTE]
 > To find mod id's, right click any mod in the GUI and select "Edit Metadata" to see the grayed out mod id at the top.<br>For CLI, head into the manifest file and look for the id attribute associated with each mod.
 
 ### Blacklisted Mods Tag
@@ -166,6 +166,8 @@ For any sub-object set within the edit command, the following rules will apply:
 - If the object has a `depth` attribute but no name/hash, the compiler will go to the child found at the specified depth in the edit command. An example is if `depth="1"` is set and the depth of the edit command is set to `4159:0`, then the edit command will go to `4159:0:1`. 
 
 - If the object has a name/hash attribute but no depth attribute, the compiler will silently add a depth of 0 to the object.
+
+- If the object has a name/hash attribute, no depth attribute, and is not found, the compiler will add that object to the bottom of the object it is inside of.
 
 - If the object has a name/hash attribute and a depth attribute, the compiler will go to the occurrence specified by the depth and name. An example is if name is set to `Test` and depth is set to `0`, the compiler will go to the first occurrence of `Test` if found.
 
